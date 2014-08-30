@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/photos', users);
 app.use('/slideshows', slideshows);
-app.use('/settings' settings);
+app.use('/settings', settings);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
