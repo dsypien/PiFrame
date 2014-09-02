@@ -1,17 +1,7 @@
-extends layout
+extends commonLayout
 
 block content
   form(method='post',enctype='multipart/form-data')
     label(for='file') Please choose an image to upload:
     input(type='file',name='fileImg',id='fileImg',value='')
     input(type='submit' value='Upload')
-
-  footer(data-role='footer', data-position='fixed')
-    div(data-role='navbar')
-      ul 
-        li
-          a(href='/photos', data-icon='camera', class='ui-btn-active') Photos
-        li
-          a(href='/slideshows', data-icon='grid') Slide-shows
-        li
-          a(href='/settings', data-icon='gear') Configure
