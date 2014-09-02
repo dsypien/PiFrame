@@ -2,8 +2,14 @@ doctype html
 html
   head
     title= title
+    meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css')
   body
-    block content
+    div(data-role="page", data-theme='a')
+      header(data-role='header', data-theme='b')
+        h1= title
+
+      block content
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
     script(src='//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js')

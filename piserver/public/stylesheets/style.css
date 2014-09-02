@@ -6,3 +6,26 @@ body {
 a {
   color: #00B7FF;
 }
+
+#button-group{
+	width: 60%;
+	max-width: 350px;
+	margin: 0 auto;
+}
+
+#logo{
+	display: block;
+	width: 60%;
+	max-width: 1000px;
+	margin: 0 auto;
+}
+
+form{
+	width:60%;
+	margin: 0 auto;
+}
+
+body{
+	background-image: url('../images/whitediamond.png');
+	background-repeat: repeat;
+}

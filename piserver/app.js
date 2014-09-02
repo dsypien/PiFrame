@@ -9,6 +9,7 @@ var monk = require('monk');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var photos = require('./routes/photos');
 var slideshows = require('./routes/slideshows');
 var settings = require('./routes/settings');
 
@@ -26,7 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/photos', users);
+app.use('/photos', photos);
 app.use('/slideshows', slideshows);
 app.use('/settings', settings);
 
