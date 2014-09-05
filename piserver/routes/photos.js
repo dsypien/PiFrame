@@ -1,44 +1,33 @@
 var express = require('express'),
- 	router = express.Router(),
- 	fs = require('fs');
+	router = express.Router();
+var busboy = require('connect-busboy');
+var fs = require('fs');
+var path = require("path");
 
 router.get('/', function(req, res){
 	res.render('photos', {title: 'Photos'});
 });
 
-router.post('/', function(req, res, next){
-	console.log(req.body);
-	console.log(req.files);
-
+router.post('/', function(req, res) {
 	try{
-    console.log(req);
-	var tmp_path = req.files.fileImg.path;
-	var target_path = './pics/' + req.files.fileImg.name;
+		var fstream;
+		console.log(req);
+        req.pipe(req.busboy);
+        req.busboy.on('file', function (fieldname, file, filename) {
+            console.log("Uploading: " + filename);
 
-	console.log('tmp:' + tmp_path);
-	console.log('target:' + target_path);
-
-	fs.rename(tmp_path, target_path, function(err){
-		if(err){
-			console.log(err);
-			throw err;
-		}
-
-		//delete temp file
-		fs.unlink(tmp_path, function(){
-			if(err){
-				console.log(err);
-				throw err;
-			}
-			res.send('File uploaded to' + target_path + '/nFile Size: +' + req.files.fileImg.size + ' bytes' );
-		});
-
-	});
+            //Path where image will be uploaded
+            fstream = fs.createWriteStream(path.join(__dirname, '../../pics/', filename));
+            file.pipe(fstream);
+            fstream.on('close', function () {    
+                console.log("Upload Finished of " + filename);              
+                res.redirect('back');           //where to go next
+            });
+        });
 	}
 	catch(err){
 		console.log(err);
 	}
-
 });
 
 module.exports = router;

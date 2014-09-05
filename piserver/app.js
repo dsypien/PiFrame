@@ -3,9 +3,11 @@ var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var mongo = require('mongodb');
-var monk = require('monk');
+// var bodyParser = require('body-parser');
+var fs = require('fs');
+var busboy = require('connect-busboy');
+var formidable = require('formidable');
+var http = require('http');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -21,12 +23,12 @@ app.set('view engine', 'jade');
 
 app.use(favicon());
 app.use(logger('dev'));
-app.use(bodyParser({uploadDir:'./pics'}));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+// app.use(bodyParser({uploadDir:'./pics'}));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(express.bodyParser({uploadDir: './pics'}))
+app.use(busboy());
 
 app.use('/', routes);
 app.use('/photos', photos);
