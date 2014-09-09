@@ -24,6 +24,7 @@
     "formidable": "^1.0.15",
     "bson": "^0.2.14",
     "path": "^0.4.9",
-    "thumbnail": "^0.1.9"
+    "thumbnail": "^0.1.9",
+    "node-thumbnail": "^0.6.5"
   }
 }

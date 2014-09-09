@@ -13,11 +13,29 @@ a {
 	margin: 0 auto;
 }
 
-#logo{
+#logo, #photos_list_container{
 	display: block;
 	width: 60%;
 	max-width: 1000px;
 	margin: 0 auto;
+}
+
+.photo_container{
+	margin: 2%;
+	max-width:250px;
+	width: 46%;
+	float:left;
+	position: relative;
+}
+
+.photo_container img{
+	width: 100%;
+}
+
+.photo_container a{
+	position: absolute;
+	right:0;
+	top:0;
 }
 
 form{
