@@ -3,11 +3,14 @@ var path = require('path');
 var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
-// var bodyParser = require('body-parser');
 var fs = require('fs');
 var busboy = require('connect-busboy');
 var formidable = require('formidable');
 var http = require('http');
+var mongo = require('mongodb');
+var monk = require('monk');
+var db= monk('localhost:27017/piFrameDB');
+
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -23,12 +26,15 @@ app.set('view engine', 'jade');
 
 app.use(favicon());
 app.use(logger('dev'));
-// app.use(bodyParser({uploadDir:'./pics'}));
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(busboy());
+
+//Make db available to our router
+app.use(function(req,res,next){
+    req.db = db;
+    next()
+});
 
 app.use('/', routes);
 app.use('/photos', photos);
