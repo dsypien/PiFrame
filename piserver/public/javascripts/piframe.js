@@ -9,13 +9,12 @@ window.onload=function(){
 		});
 
 	 	$.ajax({
-	        // url: 'http://localhost:3000/photos',
 	        type: 'POST',
 	        data: data,
 	        cache: false,
 	        dataType: 'json',
 	        processData: false, // Don't process the files
-	        contentType: 'multipart/form-data; boundary=leboundary',
+	        contentType: false,
 	        success: function(data, textStatus, jqXHR)
 	        {
 	        	if(typeof data.error === 'undefined'){
