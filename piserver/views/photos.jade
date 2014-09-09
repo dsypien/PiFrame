@@ -1,8 +1,7 @@
 extends commonLayout
 
 block content
-  form(id='sendfileform', method='post',enctype='multipart/form-data', action="http://localhost:3000/photos")
-    input(type='text', name='filename', id="filename")
+  form(id='sendfileform', method='post',enctype='multipart/form-data')
     input(type='file',name='file',id='file', max-size=999999)
     input(type='submit', name='mysubmit',value='Add Photo', id='submit')
   footer(data-role='footer', data-position='fixed')
