@@ -9,14 +9,14 @@ a {
 
 #button-group{
 	width: 60%;
-	max-width: 350px;
+	max-width: 400px;
 	margin: 0 auto;
 }
 
 #logo, #photos_list_container{
 	display: block;
 	width: 60%;
-	max-width: 1000px;
+	max-width: 400px;
 	margin: 0 auto;
 }
 
@@ -43,7 +43,7 @@ form{
 	margin: 0 auto;
 }
 
-body{
+.ui-page{
 	background-image: url('../images/whitediamond.png');
 	background-repeat: repeat;
 }
