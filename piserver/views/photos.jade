@@ -14,12 +14,15 @@ block content
           if i === 0
             div(class="ui-block-a photo_container")
               img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
+              a(class='deletebtn', data-role="button", data-icon='delete') Delete
           else if i === 1
             div(class="ui-block-b photo_container")
               img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
+              a(class='deletebtn', data-role="button", data-icon='delete') Delete
           else if i === 2
             div(class="ui-block-c photo_container")
               img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
+              a(class='deletebtn', data-role="button", data-icon='delete') Delete
 
   br
   footer(data-role='footer', data-position='fixed')

@@ -13,18 +13,22 @@ a {
 	margin: 0 auto;
 }
 
-#logo, #photos_list_container{
-	display: block;
-	width: 60%;
+#logo{
+	width:60%;
 	max-width: 400px;
+	margin: 0 auto;
+	display:block;
+}
+
+#photos_list_container{
+	display: block;
+	width: 90%;
+	max-width: 800px;
 	margin: 0 auto;
 }
 
 .photo_container{
-	margin: 2%;
 	max-width:250px;
-	width: 46%;
-	float:left;
 	position: relative;
 }
 
@@ -34,8 +38,12 @@ a {
 
 .photo_container a{
 	position: absolute;
-	right:0;
-	top:0;
+	width: 93%;
+	bottom: 0;
+	height:20px;
+	padding: 5px 0 !important;
+	margin: 0 !important;
+	display: none;
 }
 
 form{
@@ -46,4 +54,19 @@ form{
 .ui-page{
 	background-image: url('../images/whitediamond.png');
 	background-repeat: repeat;
+}
+
+.selected{
+	opacity: .8;
+}
+
+.visible{
+	display: block !important;
+}
+
+.ui-grid-b .ui-block-a,
+.ui-grid-b .ui-block-b,
+.ui-grid-b .ui-block-c{
+	width:31% !important;
+	padding:1% !important;
 }
