@@ -20,7 +20,7 @@ router.get('/', function(req, res){
 
 router.delete("/:id", function(req, res){
 	//Remove from db
-
+	console.log("Deleteing pic with id " + req.params.id);
 	//Remove file
 
 	//Remove thumbnail
