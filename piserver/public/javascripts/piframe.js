@@ -42,20 +42,15 @@ window.onload=function(){
 
 	$('.deletebtn').click(function(){
 		var photoid= $(this).prev().attr('id');
-		alert('delete photo with id ' + photoid);
+		var url = "/photos:" +photoid;
 
 		$.ajax({
-	        type: 'DELETE',
-	        cache: false,
+	        type: 'post',
 	        dataType: 'json',
-	        processData: false, // Don't process the files
-	        contentType: false,
+	        data: {_method: 'delete', id : photoid},
 	        success: function(data, textStatus, jqXHR)
 	        {
-	        	if(typeof data.error === 'undefined'){
-	        		submitForm(event, data);
-	        	}
-	        	else{
+	        	if(typeof data.error) {
 	        		console.log('ERRORS: ' + data.error);
 	        	}
 	        },
@@ -64,14 +59,4 @@ window.onload=function(){
 	        }
     	});
 	});
-
-
-	// $('.ui-icon-delete').mouseenter(function(){
-	// 	$('ui-icon-delete').removeClass('ui-btn-active');
-	// 	$(this).addClass('ui-btn-active');
-	// });
-
-	// $('.ui-icon-delete').mouseleave(function(){
-	// 	$(this).removeClass('ui-btn-active');
-	// });
 };
