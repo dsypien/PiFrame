@@ -10,7 +10,6 @@ router.get('/', function(req, res){
 	var collection = db.get('photo_collection');
 
 	collection.find({},{}, function(e, docs){
-		console.log(docs);
 		res.render('photos', {
 			title: 'Photos',
 			photolist: docs
@@ -18,20 +17,36 @@ router.get('/', function(req, res){
 	});
 });
 
-router.delete("/:id", function(req, res){
-	//Remove from db
-	console.log("Deleteing pic with id " + req.params.id);
-	//Remove file
-
-	//Remove thumbnail
-});
-
 router.post('/', function(req, res) {
-	try{
-		var fstream,
-			db = req.db,
-			collection = db.get('photo_collection');
+	var fstream,
+		db = req.db,
+		collection = db.get('photo_collection');
 
+	if(req.body._method === 'delete'){
+		console.log("Deleteing pic with id " + req.body.id);
+		
+		//extract file data
+		collection.find({_id: req.body.id}, function(err, doc){
+			if(err){
+				res.json(500, error);
+			}
+			else{
+				console.log(doc);
+				// //Remove from db
+				// collection.remove({_id: req.body.id}, function(error){
+				// 	if(err){
+				// 		res.json(500, error);
+				// 	}
+				// 	else{
+				// 		//Remove file
+				// 		fs.unlink()
+				// 		//Remove thumbnail
+				// 	}
+				// });
+			}
+		})
+	}
+	else{
         req.pipe(req.busboy);
         req.busboy.on('file', function (fieldname, file, filename) {
             console.log("Uploading: " + filename);
@@ -65,9 +80,6 @@ router.post('/', function(req, res) {
                 res.redirect('back');           //where to go next
             });
         });
-	}
-	catch(err){
-		console.log(err);
 	}
 });
 

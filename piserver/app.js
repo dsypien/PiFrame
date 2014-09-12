@@ -9,6 +9,7 @@ var formidable = require('formidable');
 var http = require('http');
 var mongo = require('mongodb');
 var monk = require('monk');
+var bodyParser = require('body-parser');
 var db= monk('localhost:27017/piFrameDB');
 
 
@@ -27,13 +28,16 @@ app.set('view engine', 'jade');
 app.use(favicon());
 app.use(logger('dev'));
 app.use(cookieParser());
+app.use(bodyParser({uploadDir:'./pics'}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(busboy());
 
 //Make db available to our router
 app.use(function(req,res,next){
     req.db = db;
-    next()
+    next();
 });
 
 app.use('/', routes);
