@@ -4,6 +4,7 @@ var busboy = require('connect-busboy');
 var fs = require('fs');
 var path = require("path");
 var thumbnail = require('node-thumbnail').thumb;
+var checksum = require('checksum');
 
 router.get('/', function(req, res){
 	var db = req.db;
@@ -67,34 +68,77 @@ router.post('/', function(req, res) {
 	else{
         req.pipe(req.busboy);
         req.busboy.on('file', function (fieldname, file, filename) {
-            console.log("Uploading: " + filename);
+        	if(filename === undefined || filename === ''){
+        		console.log("Trying to upload empty file");
+        		res.redirect(req.get('referer'));
+        		return;
+        	}
 
-            //Path where image will be uploaded
-            var destPath = path.join(__dirname, '../../pics/');
-            var destFile = path.join(__dirname, '../../pics/', filename);
-            var thumb_name = filename.replace('.', '_thumb.');
-
+        	var destFile = path.join(__dirname, '../../pics/', filename);
             fstream = fs.createWriteStream(destFile);
             file.pipe(fstream);
-            fstream.on('close', function () {    
-            	// Create thumbnail;
-            	thumbnail({
-            		source: destPath,
-            		destination: path.join(__dirname, '../public/thumbnails/'),
-            		width: 250,
-            		overwrite: true
-            	});
 
-            	// Store data in db
-            	collection.insert({name: filename, thumb_name: thumb_name}, function(err, doc){
+            // On upload complete
+            fstream.on('close', function () {  
+            	//Create a checksum of the file
+            	var checksumName, checkSumDestFile;
+
+            	checksum.file(destFile, function(err, sum){
             		if(err){
             			console.log(err);
+            			res.json({message: err});
             		}
             		else{
-            			// Added a little time so that thumbnail is accessible
-            			setTimeout(function(){
-            				res.json({message: "Photo Sucessfuly Added"});
-            			}, 500);
+            			checksumName = sum + path.extname(filename);
+            			checkSumDestFile = path.join(__dirname, '../../pics/', checksumName) ;
+
+            			console.log(sum);
+
+            			//Ensure there are no duplicates
+            			if(fs.existsSync(checkSumDestFile)){
+		        			console.log("This file aleady exists on the server");
+
+		        			//remove the file that was just uploaded
+		        			fs.unlink(destFile, function(err){
+		        				if(err){
+		        					console.log("ERROR deleting duplicate uploaded file: " + err);
+		        				}
+		        				res.redirect(req.get('referer'));
+		        			});
+		        			return;
+		        		}
+
+						//Rename file to checksum name
+						fs.rename(destFile, checkSumDestFile, function(err){
+							if(err){
+								console.log(err);
+							}
+						});
+
+		            	//Path where image will be uploaded
+			            var destPath = path.join(__dirname, '../../pics/');
+			            var thumb_name = checksumName.replace('.', '_thumb.');
+
+		            	// Create thumbnail;
+		            	thumbnail({
+		            		source: destPath,
+		            		destination: path.join(__dirname, '../public/thumbnails/'),
+		            		width: 250,
+		            		overwrite: true
+		            	});
+
+		            	// Store data in db
+		            	collection.insert({name: checksumName, thumb_name: thumb_name}, function(err, doc){
+		            		if(err){
+		            			console.log(err);
+		            		}
+		            		else{
+		            			// Added a little time so that thumbnail is accessible
+		            			setTimeout(function(){
+		            				res.redirect(req.get('referer'));
+		            			}, 500);
+		            		}
+		            	});
             		}
             	});
             });
