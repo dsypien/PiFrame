@@ -20,6 +20,17 @@ a {
 	display:block;
 }
 
+.icons{
+	margin: 0 auto;
+	display: block;
+	padding:40px;
+}
+
+.ui-controlgroup-controls{
+	padding-top: 20px !important;
+}
+}
+
 #photos_list_container{
 	display: block;
 	width: 90%;
@@ -44,6 +55,10 @@ a {
 	padding: 5px 0 !important;
 	margin: 0 !important;
 	display: none;
+	background-color: red !important;
+	color: #fff !important;
+	text-shadow: none !important;
+	border: 1px solid #111 !important;
 }
 
 form{

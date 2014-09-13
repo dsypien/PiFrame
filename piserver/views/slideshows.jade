@@ -5,12 +5,13 @@ extends layout
 block content
   div(data-role='content')
      img(src='images/Slideshow-icon.png',alt="Slideshow",class="icons")
-  div(data-role='controlgroup', id='button-group')
+
+  div(data-role='controlgroup', id='button-group',data-theme='b')
     a(href='/slideshows/new', class='ui-btn ui-btn-icon-left ui-icon-plus') New
     a(href='/slideshows/edit', class='ui-btn ui-btn-icon-left ui-icon-grid') Edit
     a(href='/slideshows/delete', class='ui-btn ui-btn-icon-left ui-icon-delete') Delete
 
-  footer(data-role='footer', data-position='fixed')
+  footer(data-role='footer', data-position='fixed', data-theme='b')
       div(data-role='navbar')
         ul 
           li
@@ -18,6 +19,6 @@ block content
           li
             a(id='photosNav',href='/photos', data-icon='camera') Photos
           li
-            a(id='slideshowNav',href='/slideshows', data-icon='grid', class="ui-btn-active") Slideshows
+            a(id='slideshowNav',href='/slideshows', data-icon='grid', class="ui-btn-active") Slides
            li
             a(id='configureNav',href='/settings', data-icon='gear') Settings

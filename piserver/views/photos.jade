@@ -1,10 +1,9 @@
 extends commonLayout
 
 block content
-  form(id='sendfileform', method='post',enctype='multipart/form-data')
-    input(type='file',name='file',id='file', max-size=999999)
-    input(type='submit', name='mysubmit',value='Add Photo', id='submit')
-  br
+  div(data-role='content')
+     img(src='images/Image-icon.png',alt="Pictures",class="icons")
+
   div(id="photos_list_container")
     - var index = 0;
     - while(index < photolist.length )
@@ -14,25 +13,31 @@ block content
           if i === 0
             div(class="ui-block-a photo_container")
               img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
-              a(class='deletebtn', data-role="button", data-icon='delete') Delete
+              a(class='deletebtn', data-role="button") Delete
           else if i === 1
             div(class="ui-block-b photo_container")
               img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
-              a(class='deletebtn', data-role="button", data-icon='delete') Delete
+              a(class='deletebtn', data-role="button") Delete
           else if i === 2
             div(class="ui-block-c photo_container")
               img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
-              a(class='deletebtn', data-role="button", data-icon='delete') Delete
+              a(class='deletebtn', data-role="button") Delete
+  br  
+
+  form(id='sendfileform', method='post',enctype='multipart/form-data', data-ajax="false")
+    input(type='file',name='file',id='file', max-size=999999)
+    input(type='submit', name='mysubmit',value='Add Photo', id='submit')
+
 
   br
-  footer(data-role='footer', data-position='fixed')
-    div(data-role='navbar')
+  footer(data-role='footer', data-position='fixed', data-theme='b')
+    div(data-role='navbar'ß)
       ul 
         li
           a(id='photosNav',href='/', data-icon='home') Home 
         li
           a(id='photosNav',href='/photos', data-icon='camera',  class="ui-btn-active") Photos
         li
-          a(id='slideshowNav',href='/slideshows', data-icon='grid') Slideshows
+          a(id='slideshowNav',href='/slideshows', data-icon='grid') Slides
          li
           a(id='configureNav',href='/settings', data-icon='gear') Settings
