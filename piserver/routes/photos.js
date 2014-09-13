@@ -18,6 +18,7 @@ router.get('/', function(req, res){
 });
 
 router.post('/', function(req, res) {
+	console.log(req.headers);
 	var fstream,
 		db = req.db,
 		collection = db.get('photo_collection');
@@ -32,19 +33,36 @@ router.post('/', function(req, res) {
 			}
 			else{
 				console.log(doc);
-				// //Remove from db
-				// collection.remove({_id: req.body.id}, function(error){
-				// 	if(err){
-				// 		res.json(500, error);
-				// 	}
-				// 	else{
-				// 		//Remove file
-				// 		fs.unlink()
-				// 		//Remove thumbnail
-				// 	}
-				// });
+				//Remove from db
+				collection.remove({_id: req.body.id}, function(err){
+					if(err){
+						res.json(500, error);
+					}
+					else{
+						//Remove file
+						fs.unlink(path.join(__dirname, '../../pics/', doc[0].name), function(delErr){
+							if(delErr){
+								console.log(delErr);
+							}
+							else{
+								console.log("succesfully deleted " + doc[0].name );
+							}
+						});
+						//Remove thumbnail
+						fs.unlink(path.join(__dirname, '../public/thumbnails/', doc[0].thumb_name), function(delErr){
+							if(delErr){
+								console.log(delErr);
+								res.send(delErr);
+							}
+							else{
+								console.log("succesfully deleted" +  doc[0].thumb_name );
+								res.json({message: "Delete Successful"});
+							}
+						});
+					}
+				});
 			}
-		})
+		});
 	}
 	else{
         req.pipe(req.busboy);
@@ -73,11 +91,12 @@ router.post('/', function(req, res) {
             			console.log(err);
             		}
             		else{
+            			// Added a little time so that thumbnail is accessible
+            			setTimeout(function(){
+            				res.json({message: "Photo Sucessfuly Added"});
+            			}, 500);
             		}
             	});
-
-                console.log("Upload Finished of " + filename);              
-                res.redirect('back');           //where to go next
             });
         });
 	}
