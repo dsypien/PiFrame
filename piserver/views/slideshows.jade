@@ -1,6 +1,15 @@
 extends commonLayout
 
+extends layout
+
 block content
+  div(data-role='content')
+     img(src='images/Slideshow-icon.png',alt="Slideshow",class="icons")
+  div(data-role='controlgroup', id='button-group')
+    a(href='/slideshows/new', class='ui-btn ui-btn-icon-left ui-icon-plus') New
+    a(href='/slideshows/edit', class='ui-btn ui-btn-icon-left ui-icon-grid') Edit
+    a(href='/slideshows/delete', class='ui-btn ui-btn-icon-left ui-icon-delete') Delete
+
   footer(data-role='footer', data-position='fixed')
       div(data-role='navbar')
         ul 
