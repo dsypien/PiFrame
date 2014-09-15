@@ -29,6 +29,9 @@ a {
 .ui-controlgroup-controls{
 	padding-top: 20px !important;
 }
+
+.ui-icon-back{
+	padding: 2px !important;
 }
 
 #photos_list_container{

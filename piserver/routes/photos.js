@@ -18,6 +18,16 @@ router.get('/', function(req, res){
 	});
 });
 
+router.get('/json', function(req,res){
+	var db = req.db;
+	var collection = db.get('photo_collection');
+
+	collection.find({}, {}, function(e, docs){
+		res.json(docs);
+	});
+
+});
+
 router.post('/', function(req, res) {
 	console.log(req.headers);
 	var fstream,
