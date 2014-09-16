@@ -13,22 +13,23 @@ a {
 	margin: 0 auto;
 }
 
-#logo{
-	width:60%;
-	max-width: 400px;
-	margin: 0 auto;
+#logo, .ui-input-text, .ui-controlgroup-controls {
+	width:60% !important;
+	max-width: 350px !important;
+	min-width:250px !important;
+	margin: 20px auto !important;
 	display:block;
 }
 
 .icons{
 	margin: 0 auto;
 	display: block;
-	padding:40px;
+	padding:20px;
 }
 
-.ui-controlgroup-controls{
+/*.ui-controlgroup-controls{
 	padding-top: 20px !important;
-}
+}*/
 
 .ui-icon-back{
 	padding: 2px !important;
@@ -36,23 +37,23 @@ a {
 
 #photos_list_container{
 	display: block;
-	width: 90%;
+	width: 100%;
 	max-width: 800px;
 	margin: 0 auto;
 }
 
-.photo_container{
+.photo_container, .photo_container_newslide{
 	max-width:250px;
 	position: relative;
 }
 
-.photo_container img{
+.photo_container img, .photo_container_newslide img{
 	width: 100%;
 }
 
 .photo_container a{
 	position: absolute;
-	width: 93%;
+	width: 98%;
 	bottom: 0;
 	height:20px;
 	padding: 5px 0 !important;
@@ -62,6 +63,10 @@ a {
 	color: #fff !important;
 	text-shadow: none !important;
 	border: 1px solid #111 !important;
+}
+
+.photo_container_newslide a{
+
 }
 
 form{
@@ -78,6 +83,22 @@ form{
 	opacity: .8;
 }
 
+.selected_photo{
+	background-color: #98ff98;
+}
+
+.selected_photo .selected_check_img{
+	display: block !important;
+}
+
+.selected_check_img{
+	width:36px !important;
+	position: absolute;
+	top:0;
+	right:0;
+	display: none;
+}
+
 .visible{
 	display: block !important;
 }
@@ -85,6 +106,6 @@ form{
 .ui-grid-b .ui-block-a,
 .ui-grid-b .ui-block-b,
 .ui-grid-b .ui-block-c{
-	width:31% !important;
+	width:32.3% !important;
 	padding:1% !important;
 }
