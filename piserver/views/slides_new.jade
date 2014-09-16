@@ -1,6 +1,27 @@
 extends commonLayout
 
 block content
-  div(data-role='content')
-    p New Slide
-     //- img(src='images/Gears-icon.png',alt="Settings",class="icons")
+  input(id="slide-name", type="text", placeholder="Slide Name")
+
+  div(id="photos_list_container_newslide")
+    - var index = 0;
+    - while(index < photolist.length )
+      div(class="ui-grid-b my-breakpoint")
+        - for (var i=0; i < 3 && index < photolist.length; i++, index++)
+          -var photo = photolist[index]
+          if i === 0
+            div(class="ui-block-a photo_container_newslide")
+              img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
+              img(class='selected_check_img', src="/images/Check-icon.png") 
+          else if i === 1
+            div(class="ui-block-b photo_container_newslide")
+              img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
+              img(class='selected_check_img', src="/images/Check-icon.png") 
+          else if i === 2
+            div(class="ui-block-c photo_container_newslide")
+              img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
+              img(class='selected_check_img', src="/images/Check-icon.png") 
+  
+  div(data-role="controlgroup", data-theme='b')
+    a(id="new-slide-save", class='ui-btn ui-btn-icon-left ui-icon-action input_60P') Save
+
