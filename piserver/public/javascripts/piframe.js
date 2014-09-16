@@ -46,6 +46,40 @@ window.onload=function(){
 		return false;
 	});
 
+	$('.photo_container_newslide').on('click touchstart', function(){
+		var $elem = $(this);
+
+		if($elem.hasClass('selected_photo')){
+			$elem.removeClass('selected_photo');
+		}
+		else{
+			$elem.addClass('selected_photo');
+		}
+	});
+
+	$('#new-slide-save').on('click touchstart', function(){
+		var selectedElements = $('#photos_list_container_newslide .selected_photo');
+		var photosAry = [];
+		var slideName = $('#slide-name').val();
+		var slideObj = {};
+
+		//validate
+		if( !slideName || !(/^\w+$/).test(slideName) ){
+			alert("Please enter a name");
+		}
+
+		for(var i = 0; i < selectedElements.length; i++){
+			var imgElement = $(selectedElements[i]).children()[0];
+			var id = $(imgElement).attr('id');
+			photosAry.push(id);
+		}
+
+		slideObj.name = slideName;
+		slideObj.pictures = photosAry;
+
+		console.log(slideObj);
+	});
+
 	$('.deletebtn').click(deletePhoto);
 
 	function deletePhoto(event){

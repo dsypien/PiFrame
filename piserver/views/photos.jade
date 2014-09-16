@@ -22,14 +22,11 @@ block content
             div(class="ui-block-c photo_container")
               img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
               a(class='deletebtn', data-role="button") Delete
-  br  
 
   form(id='sendfileform', method='post',enctype='multipart/form-data', data-ajax="false")
     input(type='file',name='file',id='file', max-size=999999)
     input(type='submit', name='mysubmit',value='Add Photo', id='submit')
 
-
-  br
   footer(data-role='footer', data-position='fixed', data-theme='b')
     div(data-role='navbar',data-theme='b')
       ul 
