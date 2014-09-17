@@ -15,6 +15,8 @@ router.get('/', function(req, res){
 			title: 'Photos',
 			photolist: docs
 		});
+
+		console.log(docs);
 	});
 });
 
