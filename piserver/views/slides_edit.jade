@@ -1,6 +1,10 @@
 extends commonLayout
 
 block content
-  div(data-role='content')
-    p Edit Slide
-     //- img(src='images/Gears-icon.png',alt="Settings",class="icons")
+
+  div(data-role="controlgroup", data-theme='b')
+    select
+      -for (var i=0; i < slides.length; i++)
+        -var slide = slides[i];
+        option(value="#{slide._id}", label="#{slide.name}")=slide.name
+

@@ -1,6 +1,10 @@
 extends commonLayout
 
 block content
-  div(data-role='content')
-    p Delete Slides
-     //- img(src='images/Gears-icon.png',alt="Settings",class="icons")
+  div(data-role="controlgroup", data-theme='b')
+    select
+      -for (var i=0; i < slides.length; i++)
+        -var slide = slides[i];
+        option(value="#{slide._id}", label="#{slide.name}")=slide.name
+  div(data-role="controlgroup", data-theme='b')
+    a(id="slide-delete-btn", class='ui-btn ui-btn-icon-left ui-icon-trash input_60P') Delete
