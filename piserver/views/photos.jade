@@ -24,8 +24,8 @@ block content
               a(class='deletebtn', data-role="button") Delete
 
   form(id='sendfileform', method='post',enctype='multipart/form-data', data-ajax="false")
-    input(type='file',name='file',id='file', max-size=999999)
-    input(type='submit', name='mysubmit',value='Add Photo', id='submit')
+   input(type='file',name='file',id='file', max-size=999999)
+   input(type='submit', name='mysubmit',value='Add Photo', id='submit')
 
   footer(data-role='footer', data-position='fixed', data-theme='b')
     div(data-role='navbar',data-theme='b')
@@ -38,3 +38,7 @@ block content
           a(id='slideshowNav',href='/slideshows', data-icon='grid') Slides
          li
           a(id='configureNav',href='/settings', data-icon='gear') Settings
+
+  script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+  script(src='//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js')
+  script(src="/javascripts/piframe.js")
