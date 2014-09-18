@@ -6,17 +6,41 @@ router.get('/', function(req, res){
 	res.render('slideshows', {title: 'Slideshows'});
 });
 
-router.get('/json', function(req, res){
+router.get('/edit/slide:id', function(req, res){
 	var db = req.db;
-	var photos_col = db.get('photo_collection');
-	var slides_col = db.get('slides_collection');
+	var photos = db.get('photo_collection');
+	var slides = db.get('slides_collection');
 
-	slides_col.find({_id: req.body.id}, function(err, docs){
+	console.log(req.params);
+
+	slides.find({_id: req.params.id}, function(err, slidedocs){
 		if(err){
 			console.log(err);
 		}
-		res.json(docs);
-		console.log(docs);
+
+		var photoIdAry = slidedocs[0].pictures;
+		
+		// Convert id's in photoIdAry to Object id's
+		for(var i=0; i< photoIdAry.length; i++){
+			var curid = photoIdAry[i];
+			var curObjID = ObjectID.createFromHexString(curid);
+
+			photoIdAry[i]= curObjID;
+		}
+
+		// Retrieve all the photo information for the slide
+		photos.find( { _id: { $in : photoIdAry } }, function(e, photodocs){
+			if(e){
+				console.log(e);
+			}
+
+			slidedocs[0].pictures = photodocs;
+
+			res.render('slides_edit', {
+				title: 'Edit Slide',
+				photolist: photodocs[0]
+			});
+		});
 	});
 });
 

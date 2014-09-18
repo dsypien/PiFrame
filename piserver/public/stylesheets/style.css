@@ -27,10 +27,6 @@ a {
 	padding:20px;
 }
 
-/*.ui-controlgroup-controls{
-	padding-top: 20px !important;
-}*/
-
 .ui-icon-back{
 	padding: 2px !important;
 }
@@ -53,10 +49,12 @@ a {
 
 .photo_container a{
 	position: absolute;
-	width: 98%;
+	width: 100%;
 	bottom: 0;
 	height:20px;
-	padding: 5px 0 !important;
+	/*padding: 5px 0 !important;*/
+	padding-top:5px !important;
+	padding-bottom: 5px !important;
 	margin: 0 !important;
 	display: none;
 	background-color: red !important;
