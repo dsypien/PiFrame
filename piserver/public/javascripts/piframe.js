@@ -4,6 +4,7 @@
 	function init(){
 		initPhotos();
 		initSlideNew();
+		initSlideEdit();
 	}
 
 	function initPhotos(){
@@ -48,6 +49,26 @@
 		        }
 	    	});
 		}
+	}
+
+	function initSlideEdit(){
+		function init(){
+			getSlide();
+		}
+
+		$('#slide-edit-btn').on('click touchstart', getSlide);
+
+		function getSlide(){
+			var id = $('#select-slide-edit').val();
+
+			$.ajax({
+				url: '/slideshows/edit/slide' + id,
+				type: 'get',
+				dataType: 'json'
+			});
+		}
+
+		init();
 	}
 
 	function initSlideNew(){
