@@ -1,6 +1,8 @@
 (function(){
 	"use strict";
 
+	var scope = angular.element($('body')).scope();
+
 	function init(){
 		initPhotos();
 		initSlideNew();
@@ -27,9 +29,13 @@
 		$('.deletebtn').click(deletePhoto);
 
 		function deletePhoto(event){
+			scope.$apply(function () {
+				scope.hello();
+			});
+			
 			event.stopPropagation();
 			var photoid= $(this).prev().attr('id');
-			var url = "/photos:" +photoid;
+			var url = "/photos:" + photoid;
 
 			$.ajax({
 		        type: 'post',
@@ -119,7 +125,6 @@
 			});
 		}
 	}
-
 	return init();
 })();
 

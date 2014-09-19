@@ -6,11 +6,9 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css')
   body
-    div(data-role="page", data-theme='a')
-      header(data-role='header', data-theme='b')
-        h1= title
-
-      block content
+    block content
+      
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
     script(src='//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js')
     script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js")
+    script(src="/javascripts/piframe-ng.js")

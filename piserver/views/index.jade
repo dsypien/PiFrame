@@ -1,11 +1,171 @@
 extends layout
 
 block content
-  div(data-role='content')
+
+  //- HOME PAGE
+  div(data-role="page", data-theme='a' id="home")
+    header(data-role='header', data-theme='b')
+      h1= title
+    div(data-role='content')
     img(src='images/jslogo.png',alt="J <3 D",id="logo")
-  div(data-role='controlgroup', id='button-group', data-theme='b')
-    a(href='/photos', class='ui-btn ui-btn-icon-left ui-icon-camera') Photos
-    a(href='/slideshows', class='ui-btn ui-btn-icon-left ui-icon-grid') Slides
-    a(href='/settings', class='ui-btn ui-btn-icon-left ui-icon-gear') Settings
+    div(data-role='controlgroup', id='button-group', data-theme='b')
+      a(href='#photos', class='ui-btn ui-btn-icon-left ui-icon-camera') Photos
+      a(href='#slideshows', class='ui-btn ui-btn-icon-left ui-icon-grid') Slides
+      a(href='#settings', class='ui-btn ui-btn-icon-left ui-icon-gear') Settings
   
-  div(data-theme='b',data-role='footer',data-position='fixed')
+    div(data-theme='b',data-role='footer',data-position='fixed')
+
+    div(data-role='content')
+       img(src='images/Image-icon.png',alt="Pictures",class="icons")
+
+  //- END HOME PAGE
+
+  //--------------------------------------------------------------------------------------------
+
+  //- PHOTOS PAGE
+  div(data-role="page", data-theme='a', id="photos")
+    div(id="photos_list_container")
+      //- - var index = 0;
+      //- - while(index < photolist.length )
+      //-   div(class="ui-grid-b my-breakpoint")
+      //-     - for (var i=0; i < 3 && index < photolist.length; i++, index++)
+      //-       -var photo = photolist[index]
+      //-       if i === 0
+      //-         div(class="ui-block-a photo_container")
+      //-           img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
+      //-           a(class='deletebtn', data-role="button") Delete
+      //-       else if i === 1
+      //-         div(class="ui-block-b photo_container")
+      //-           img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
+      //-           a(class='deletebtn', data-role="button") Delete
+      //-       else if i === 2
+      //-         div(class="ui-block-c photo_container")
+      //-           img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
+      //-           a(class='deletebtn', data-role="button") Delete
+
+    form(id='sendfileform', method='post',enctype='multipart/form-data', data-ajax="false")
+    input(type='file',name='file',id='file', max-size=999999)
+    input(type='submit', name='mysubmit',value='Add Photo', id='submit')
+
+    footer(data-role='footer', data-position='fixed', data-theme='b')
+      div(data-role='navbar',data-theme='b')
+        ul 
+          li
+            a(id='photosNav',href='#home', data-icon='home') Home 
+          li
+            a(id='photosNav',href='#photos', data-icon='camera', class="ui-btn-active") Photos
+          li
+            a(id='slideshowNav',href='#slideshows', data-icon='grid') Slides
+          li
+            a(id='configureNav',href='#settings', data-icon='gear') Settings
+
+  //- END PHOTOS PAGE
+
+  //--------------------------------------------------------------------------------------------
+
+  //- SLIDESHOW PAGE
+  div(data-role="page", data-theme='a', id="slideshows")
+    div(data-role='content')
+     img(src='images/Slideshow-icon.png',alt="Slideshow",class="icons")
+
+    div(data-role='controlgroup', id='button-group',data-theme='b')
+      a(href='#slidenew', class='ui-btn ui-btn-icon-left ui-icon-plus') New
+      a(href='#slideedit', class='ui-btn ui-btn-icon-left ui-icon-grid') Edit
+      a(href='#slidedelete', class='ui-btn ui-btn-icon-left ui-icon-delete') Delete
+
+    footer(data-role='footer', data-position='fixed', data-theme='b')
+      div(data-role='navbar')
+        ul 
+          li
+            a(id='photosNav',href='#home', data-icon='home') Home 
+          li
+            a(id='photosNav',href='#photos', data-icon='camera') Photos
+          li
+            a(id='slideshowNav',href='#slideshows', data-icon='grid', class="ui-btn-active") Slides
+          li
+            a(id='configureNav',href='#settings', data-icon='gear') Settings
+
+  //- END SLIDESHOW PAGE
+
+  //--------------------------------------------------------------------------------------------
+  
+  //- NEW SLIDE PAGE
+  div(data-role="page", data-theme='a', id="slidenew")
+    input(id="slide-name", type="text", placeholder="Slide Name")
+
+    div(id="photos_list_container_newslide")
+      //- - var index = 0;
+      //- - while(index < photolist.length )
+      //-   div(class="ui-grid-b my-breakpoint")
+      //-     - for (var i=0; i < 3 && index < photolist.length; i++, index++)
+      //-       -var photo = photolist[index]
+      //-       if i === 0
+      //-         div(class="ui-block-a photo_container_newslide")
+      //-           img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
+      //-           img(class='selected_check_img', src="/images/Check-icon.png") 
+      //-       else if i === 1
+      //-         div(class="ui-block-b photo_container_newslide")
+      //-           img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
+      //-           img(class='selected_check_img', src="/images/Check-icon.png") 
+      //-       else if i === 2
+      //-         div(class="ui-block-c photo_container_newslide")
+      //-           img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
+      //-           img(class='selected_check_img', src="/images/Check-icon.png") 
+  
+    div(data-role="controlgroup", data-theme='b')
+    a(id="new-slide-save", class='ui-btn ui-btn-icon-left ui-icon-action input_60P') Save
+
+  //- END NEW SLIDE PAGE
+
+  //--------------------------------------------------------------------------------------------
+  
+  //- EDIT SLIDE PAGE
+  div(data-role="page", data-theme='a', id="slideedit")
+    div(data-role="controlgroup", data-theme='b')
+      select(id='select-slide-edit')
+        //- -for (var i=0; i < slides.length; i++)
+        //-   -var slide = slides[i];
+        //-   option(value="#{slide._id}", label="#{slide.name}")=slide.name
+    div(id='photos-container')
+
+    div(data-role="controlgroup", data-theme='b')
+      a(id="slide-edit-btn", class='ui-btn ui-btn-icon-left ui-icon- input_60P') Delete
+
+  //- END EDIT SLIDE PAGE
+
+  //--------------------------------------------------------------------------------------------
+
+  //- DELETE SLIDE PAGE
+  div(data-role="page", data-theme='a', id="slidedelete")
+    div(data-role="controlgroup", data-theme='b')
+      select
+        //- -for (var i=0; i < slides.length; i++)
+        //-   -var slide = slides[i];
+        //-   option(value="#{slide._id}", label="#{slide.name}")=slide.name
+    div(data-role="controlgroup", data-theme='b')
+      a(id="slide-delete-btn", class='ui-btn ui-btn-icon-left ui-icon-trash input_60P') Delete
+
+  //- END DELETE SLIDE PAGE
+
+  //--------------------------------------------------------------------------------------------
+
+  //- SETTINGS PAGE
+  div(data-role="page", data-theme='a', id="settings")
+    div(data-role='content')
+      img(src='images/Gears-icon.png',alt="Settings",class="icons")
+
+    footer(data-role='footer', data-position='fixed', data-theme='b')
+      div(data-role='navbar')
+        ul
+          li
+            a(id='photosNav',href='#home', data-icon='home') Home 
+          li
+            a(id='photosNav',href='#photos', data-icon='camera') Photos
+          li
+            a(id='slideshowNav',href='#slideshows', data-icon='grid') Slides
+          li
+            a(id='configureNav',href='#settings', data-icon='gear', class="ui-btn-active") Settings
+
+  //- END SETTINGS PAGE
+
+  //--------------------------------------------------------------------------------------------

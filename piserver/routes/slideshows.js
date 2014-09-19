@@ -6,6 +6,21 @@ router.get('/', function(req, res){
 	res.render('slideshows', {title: 'Slideshows'});
 });
 
+router.get('/json', function(req,res){
+	var db = req.db;
+	var slides = db.get('slides_collection');
+
+	slides.find({}, function(e, docs){
+		if(e){
+			console.log(e);
+			res.end();
+		}
+		else{
+			res.json(docs);
+		}
+	});
+});
+
 router.get('/edit/slide:id', function(req, res){
 	var db = req.db;
 	var photos = db.get('photo_collection');
@@ -19,6 +34,7 @@ router.get('/edit/slide:id', function(req, res){
 		}
 
 		var photoIdAry = slidedocs[0].pictures;
+		console.log("Slides: " + photoIdAry);
 		
 		// Convert id's in photoIdAry to Object id's
 		for(var i=0; i< photoIdAry.length; i++){
@@ -33,6 +49,8 @@ router.get('/edit/slide:id', function(req, res){
 			if(e){
 				console.log(e);
 			}
+
+			console.log("Pictures: " + photodocs[0]);
 
 			slidedocs[0].pictures = photodocs;
 
