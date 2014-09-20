@@ -31,45 +31,16 @@ a {
 	padding: 2px !important;
 }
 
-#photos_list_container{
+#photos_list_container, #photos_list_container_newslide{
 	display: block;
 	width: 100%;
 	max-width: 800px;
 	margin: 0 auto;
 }
 
-.photo_container, .photo_container_newslide{
-	max-width:250px;
-	position: relative;
-}
-
-.photo_container img, .photo_container_newslide img{
-	width: 100%;
-}
-
-.photo_container a{
-	position: absolute;
-	width: 100%;
-	bottom: 0;
-	height:20px;
-	/*padding: 5px 0 !important;*/
-	padding-top:5px !important;
-	padding-bottom: 5px !important;
-	margin: 0 !important;
-	display: none;
-	background-color: red !important;
-	color: #fff !important;
-	text-shadow: none !important;
-	border: 1px solid #111 !important;
-}
-
-.photo_container_newslide a{
-
-}
-
 form{
 	width:60%;
-	margin: 0 auto;
+	margin: 0 auto !important;
 }
 
 .ui-page{
@@ -99,6 +70,22 @@ form{
 
 .visible{
 	display: block !important;
+}
+
+.photoset-cell{
+	position: relative;
+}
+
+#deletebtn{
+	display:none;
+	position: absolute;
+	top:0;
+	left:0;
+	width:100%;
+	background-color: red;
+	color: #fff;
+	text-shadow:none !important;
+	margin: 0 !important;
 }
 
 .ui-grid-b .ui-block-a,
