@@ -69,7 +69,8 @@ router.post('/', function(req, res) {
 							}
 							else{
 								console.log("succesfully deleted" +  doc[0].thumb_name );
-								res.json({message: "Delete Successful"});
+								//res.redirect("/#photos");
+								res.redirect("/#photos");
 							}
 						});
 					}
@@ -146,9 +147,7 @@ router.post('/', function(req, res) {
 		            		}
 		            		else{
 		            			// Added a little time so that thumbnail is accessible
-		            			setTimeout(function(){
-		            				res.redirect(req.get('referer'));
-		            			}, 500);
+		            			res.redirect("/#photos");
 		            		}
 		            	});
             		}
