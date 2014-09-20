@@ -1,14 +1,17 @@
 doctype html
-html
+html(ng-app="piFrameApp")
   head
     title= title
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/photoset-grid/main.css')
     link(rel='stylesheet', href='//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css')
-  body
+  body(ng-controller="piController")
+
     block content
-      
+
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+    script(src='/javascripts/lib/jquery.photoset-grid.min.js')
     script(src='//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js')
     script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js")
     script(src="/javascripts/piframe-ng.js")

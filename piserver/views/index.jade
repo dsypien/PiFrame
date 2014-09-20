@@ -1,7 +1,6 @@
 extends layout
 
 block content
-
   //- HOME PAGE
   div(data-role="page", data-theme='a' id="home")
     header(data-role='header', data-theme='b')
@@ -15,37 +14,26 @@ block content
   
     div(data-theme='b',data-role='footer',data-position='fixed')
 
-    div(data-role='content')
-       img(src='images/Image-icon.png',alt="Pictures",class="icons")
-
   //- END HOME PAGE
 
   //--------------------------------------------------------------------------------------------
 
   //- PHOTOS PAGE
   div(data-role="page", data-theme='a', id="photos")
-    div(id="photos_list_container")
-      //- - var index = 0;
-      //- - while(index < photolist.length )
-      //-   div(class="ui-grid-b my-breakpoint")
-      //-     - for (var i=0; i < 3 && index < photolist.length; i++, index++)
-      //-       -var photo = photolist[index]
-      //-       if i === 0
-      //-         div(class="ui-block-a photo_container")
-      //-           img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
-      //-           a(class='deletebtn', data-role="button") Delete
-      //-       else if i === 1
-      //-         div(class="ui-block-b photo_container")
-      //-           img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
-      //-           a(class='deletebtn', data-role="button") Delete
-      //-       else if i === 2
-      //-         div(class="ui-block-c photo_container")
-      //-           img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
-      //-           a(class='deletebtn', data-role="button") Delete
+    header(data-role='header', data-theme='b')
+      h1= title
+    div(data-role='content')
+       //- img(src='images/Image-icon.png',alt="Pictures",class="icons")
 
-    form(id='sendfileform', method='post',enctype='multipart/form-data', data-ajax="false")
-    input(type='file',name='file',id='file', max-size=999999)
-    input(type='submit', name='mysubmit',value='Add Photo', id='submit')
+    //- PHOTOLIST
+    div(id="photos_list_container", data-layout="3333")
+      img(ng-repeat="photo in photos",src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}", class="photo_pg_img")
+    
+    a(id='deletebtn', data-role="button") Delete
+
+    form(id='sendfileform', method='post',enctype='multipart/form-data', data-ajax="false", action="/photos/")
+      input(type='file',name='file',id='file', accept="image/*", capture="camera", max-size=999999)
+      input(type='submit', name='mysubmit',value='Add Photo', id='submit')
 
     footer(data-role='footer', data-position='fixed', data-theme='b')
       div(data-role='navbar',data-theme='b')
@@ -65,6 +53,9 @@ block content
 
   //- SLIDESHOW PAGE
   div(data-role="page", data-theme='a', id="slideshows")
+    header(data-role='header', data-theme='b')
+      h1= title
+
     div(data-role='content')
      img(src='images/Slideshow-icon.png',alt="Slideshow",class="icons")
 
@@ -91,26 +82,15 @@ block content
   
   //- NEW SLIDE PAGE
   div(data-role="page", data-theme='a', id="slidenew")
+    header(data-role='header', data-theme='b')
+      h1= title
+
     input(id="slide-name", type="text", placeholder="Slide Name")
 
-    div(id="photos_list_container_newslide")
-      //- - var index = 0;
-      //- - while(index < photolist.length )
-      //-   div(class="ui-grid-b my-breakpoint")
-      //-     - for (var i=0; i < 3 && index < photolist.length; i++, index++)
-      //-       -var photo = photolist[index]
-      //-       if i === 0
-      //-         div(class="ui-block-a photo_container_newslide")
-      //-           img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
-      //-           img(class='selected_check_img', src="/images/Check-icon.png") 
-      //-       else if i === 1
-      //-         div(class="ui-block-b photo_container_newslide")
-      //-           img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
-      //-           img(class='selected_check_img', src="/images/Check-icon.png") 
-      //-       else if i === 2
-      //-         div(class="ui-block-c photo_container_newslide")
-      //-           img(src="/thumbnails/#{photo.thumb_name}", id="#{photo._id}")
-      //-           img(class='selected_check_img', src="/images/Check-icon.png") 
+    //- PHOTOLIST
+    div(id="photos_list_container_newslide", data-layout="3333")
+      img(ng-repeat="photo in photos", src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}", class="new_slide_pg_img")
+    //-img(class='selected_check_img', src="/images/Check-icon.png") 
   
     div(data-role="controlgroup", data-theme='b')
     a(id="new-slide-save", class='ui-btn ui-btn-icon-left ui-icon-action input_60P') Save
@@ -121,11 +101,12 @@ block content
   
   //- EDIT SLIDE PAGE
   div(data-role="page", data-theme='a', id="slideedit")
+    header(data-role='header', data-theme='b')
+      h1= title
+
     div(data-role="controlgroup", data-theme='b')
       select(id='select-slide-edit')
-        //- -for (var i=0; i < slides.length; i++)
-        //-   -var slide = slides[i];
-        //-   option(value="#{slide._id}", label="#{slide.name}")=slide.name
+        option(ng-repeat="slide in slides", value="{{slide._id}}", label="{{slide.name}}") {{slide.name}}
     div(id='photos-container')
 
     div(data-role="controlgroup", data-theme='b')
@@ -137,11 +118,13 @@ block content
 
   //- DELETE SLIDE PAGE
   div(data-role="page", data-theme='a', id="slidedelete")
+    header(data-role='header', data-theme='b')
+      h1= title
+
     div(data-role="controlgroup", data-theme='b')
       select
-        //- -for (var i=0; i < slides.length; i++)
-        //-   -var slide = slides[i];
-        //-   option(value="#{slide._id}", label="#{slide.name}")=slide.name
+        option(ng-repeat="slide in slides", value="{{slide._id}}", label="{{slide.name}}") {{slide.name}}
+
     div(data-role="controlgroup", data-theme='b')
       a(id="slide-delete-btn", class='ui-btn ui-btn-icon-left ui-icon-trash input_60P') Delete
 
@@ -151,6 +134,9 @@ block content
 
   //- SETTINGS PAGE
   div(data-role="page", data-theme='a', id="settings")
+    header(data-role='header', data-theme='b')
+      h1= title
+
     div(data-role='content')
       img(src='images/Gears-icon.png',alt="Settings",class="icons")
 
