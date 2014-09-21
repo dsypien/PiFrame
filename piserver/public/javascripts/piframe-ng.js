@@ -71,10 +71,11 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		        {
 		        	if(data.error !== undefined) {
 		        		console.log('ERRORS: ' + data.error);
+		        		return;
 		        	}
-		        	// else{
-		        	// 	location.reload(true);
-		        	// }
+		        	photos = data;
+		        	$scope.photos = photos;
+		        	$('#' + photoid).remove();
 		        },
 		        error: function(jqXHR, textStatus, errorThrown){
 		        	console.log('ERRORS: ' + textStatus);

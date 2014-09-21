@@ -70,7 +70,9 @@ router.post('/', function(req, res) {
 							else{
 								console.log("succesfully deleted" +  doc[0].thumb_name );
 								//res.redirect("/#photos");
-								res.redirect("/#photos");
+								collection.find({}, {}, function(e, docs){
+									res.json(docs);
+								});
 							}
 						});
 					}
