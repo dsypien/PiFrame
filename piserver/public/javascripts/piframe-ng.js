@@ -1,31 +1,63 @@
+// $("[data-role=header]").fixedtoolbar({ tapToggle: false });
+
+
 var PIFRAME_APP = angular.module("piFrameApp", []);
 
 PIFRAME_APP.controller('piController', function($scope, $http){
 	var slides,
 		photos;
 
-	 $http.get('/slideshows/json').success(function(data, status, headers, config){
-	 	slides = data;
-	 	$scope.slides = slides;
-	 	setTimeout(init, 100);
-	 	console.log(slides);
-	 });
-
 	 $http.get('/photos/json').success(function(data, status, headers, config){
 	 	photos = data;
 	 	$scope.photos = photos;
 	 	console.log(photos);
+	 	$scope.slideToEdit = $scope.photos[0];
+	 	
+	 	$http.get('/slideshows/json').success(function(data, status, headers, config){
+		 	slides = data;
+		 	$scope.slides = slides;
+		 	setTimeout(init, 100);
+		 	console.log(slides);
+
+		 	updatePhotosInSlidesAry();
+		});
 	 });
 
 	 function init(){
 		initPhotos();
 		initSlideNew();
 		initSlideEdit();
+		initSlideDelete();
+	}
+
+	function updatePhotosInSlidesAry(){
+		for(var i = 0; i < slides.length; i++){
+	 		var curSlide = slides[i];
+	 		var photos = [];
+
+	 		if(curSlide.pictures){
+		 		for(var j=0; j < curSlide.pictures.length; j++ ){
+		 			var picId = curSlide.pictures[j];
+		 			var curphoto = getPhotoById(picId)[0];
+
+		 			photos.push(curphoto);
+		 		}
+		 		curSlide.pictures = photos;
+		 	}
+	 	}
+	 	console.log("Populated slides with pictures");
+	 	console.log(slides); 
+	}
+
+	function getPhotoById(id){
+		return $.grep(photos, function(e){ return e._id === id;});
 	}
 
 	function initPhotos(){
 		$('#photos_list_container').photosetGrid({gutter: '5px'});
 		$('#photos_list_container_newslide').photosetGrid({gutter: '5px'});
+		$('#slides_edit_list_container').photosetGrid({gutter: '5px'});
+		$('#slides_delete_list_container').photosetGrid({gutter: '5px'});
 
 		$('#photos').on("pageshow", function(event){
 			$('.photoset-row').css('height', '');
@@ -61,27 +93,26 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		function deletePhoto(event){
 			event.stopPropagation();
 			var photoid= $(this).prev().attr('id');
+			var data = {_method: 'delete', id : photoid};
 
-			$.ajax({
-				url: "/photos/",
-		        type: 'post',
-		        dataType: 'json',
-		        data: {_method: 'delete', id : photoid},
-		        success: function(data, textStatus, jqXHR)
-		        {
-		        	if(data.error !== undefined) {
-		        		console.log('ERRORS: ' + data.error);
-		        		return;
-		        	}
-		        	photos = data;
-		        	$scope.photos = photos;
-		        	$('#' + photoid).remove();
-		        },
-		        error: function(jqXHR, textStatus, errorThrown){
-		        	console.log('ERRORS: ' + textStatus);
-		        }
-	    	});
+			$http.post('/photos', data).success(function(data, status, headers, config){
+				if(data.error !== undefined) {
+	        		console.log('ERRORS: ' + data.error);
+	        		return;
+	        	}
+	        	photos = data;
+	        	$scope.photos = photos;
+	         	//$('#' + photoid).remove();
+			}).error(function(data, status, headers, config){
+				console.log('ERRORS: ' + data);
+			});
 		}
+	}
+
+	function initSlideDelete(){
+		$('#select-slide-delete').change(function(){
+			$('#slides_delete_list_container').photosetGrid({gutter: '5px'});
+		});
 	}
 
 	function initSlideEdit(){
@@ -94,12 +125,24 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		function getSlide(){
 			var id = $('#select-slide-edit').val();
 
-			$.ajax({
-				url: '/slideshows/edit/slide' + id,
-				type: 'get',
-				dataType: 'json'
+			$http.get('/slideshows/edit/slide' + id, data).success(function(data, status, headers, config){
 			});
 		}
+
+		$('#select-slide-edit').change(function(){			
+			var curSlide = $scope.slideToEdit;
+			$('.selected_check_img').remove();
+
+			for(var i=0; i < curSlide.pictures.length; i++){
+				var curPic = curSlide.pictures[i];
+
+				var check_img = document.createElement('img');
+				check_img.src = "/images/Check-icon.png";
+				check_img.className = "selected_check_img";
+
+				$('#' + curPic._id + "edit").parent().append(check_img);
+			}
+		});
 
 		init();
 	}
@@ -116,8 +159,22 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			}
 		});
 
+		$('.new_slide_pg_img').on('click touchstart', function(){
+			var $elemParent = $(this).parent();
+
+			if( $elemParent.children('.selected_check_img').length !== 0 ){
+				$elemParent.children('.selected_check_img')[0].remove();
+			}
+			else{
+				var check_img = document.createElement('img');
+				check_img.src = "/images/Check-icon.png";
+				check_img.className = "selected_check_img";
+				$elemParent.append(check_img);
+			}
+		});
+
 		$('#new-slide-save').on('click touchstart', function(){
-			var selectedElements = $('#photos_list_container_newslide .selected_photo');
+			var selectedElements = $('.selected_check_img');
 			var photosAry = [];
 			var slideName = $('#slide-name').val();
 			var slideObj = {};
@@ -128,7 +185,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			}
 
 			for(var i = 0; i < selectedElements.length; i++){
-				var imgElement = $(selectedElements[i]).children()[0];
+				var imgElement = $(selectedElements[i]).prev();
 				var id = $(imgElement).attr('id');
 				photosAry.push(id);
 			}
@@ -140,15 +197,36 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			console.log(slideObj);
 		});
 
-		function saveNewSlide(slide){
-			$.ajax({
-				type: 'post',
-				data: slide,
-				dataType: 'json'
-			}).success(function(data, textStatus, jqXHR){
+		$('#slide-delete-btn').on('click touchstart', deleteSlide);
 
-			}).error(function(jqXHR, textStatus, errorThrwon){
-				console.log("Error uploading new slide");
+		function deleteSlide(){
+			var slideId = $('#selectDelete').val();
+			var data;
+
+			if(!slideId){
+				console.log('No slide selected');
+				return;
+			}
+
+			data = {id: slideId};
+
+			$http.post('/slideshows/delete', data).success(function(data, status, headers, config){
+				location.reload();
+			});
+			// $.ajax({
+			// 	url: '/slideshows/delete',
+			// 	type: 'post',
+			// 	data: {id: slideId},
+			// 	dataType: 'json'
+			// }).success(function(data, textStatus, jqXHR){
+				
+			// }).error(function(jqXHR, textStatus, error){
+			// 	console.log("Error deleting slide: " + error);
+			// });
+		}
+
+		function saveNewSlide(slide){
+			$http.post('/slideshows/new', slide).success(function(data, status, headers, config){
 			});
 		}
 	}
