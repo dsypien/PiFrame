@@ -99,7 +99,7 @@ router.post("/new", function(req, res){
 	});
 
 	//refresh page
-	res.redirect(req.get('referer'));
+	res.redirect(req.reidrect('/#slidenew'));
 });
 
 
@@ -114,6 +114,18 @@ router.get("/delete", function(req,res){
 			title: 'Delete Slide',
 			slides: docs
 		});
+	});
+});
+
+router.post("/delete", function(req,res){
+	var db = req.db;
+	var collection = db.get('slides_collection');
+
+	collection.remove({_id: req.body.id}, function(err,doc){
+		if(err){
+			console.log(err);
+		}
+		res.redirect('/#slidedelete');
 	});
 });
 
