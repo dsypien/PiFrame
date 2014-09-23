@@ -19,15 +19,16 @@ block content
   //--------------------------------------------------------------------------------------------
 
   //- PHOTOS PAGE
-  div(data-role="page", data-theme='a', id="photos")
+  div(data-role="page", data-theme='a', id="photos", data-add-back-btn="true")
     header(data-role='header', data-theme='b')
-      h1= title
+      a(href="/#home", data-role="button", data-icon="back", data-iconpos="notext")
+      h1 Photos
     div(data-role='content')
        //- img(src='images/Image-icon.png',alt="Pictures",class="icons")
 
     //- PHOTOLIST
     div(id="photos_list_container", data-layout="3333")
-      img(ng-repeat="photo in photos",src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}", class="photo_pg_img")
+      img(ng-repeat="photo in photos",src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}", class="photo_pg_img", ng-click='deletePhoto')
     
     a(id='deletebtn', data-role="button") Delete
 
@@ -52,9 +53,10 @@ block content
   //--------------------------------------------------------------------------------------------
 
   //- SLIDESHOW PAGE
-  div(data-role="page", data-theme='a', id="slideshows")
+  div(data-role="page", data-theme='a', id="slideshows", data-add-back-btn="true")
     header(data-role='header', data-theme='b')
-      h1= title
+      a(href="/#home", data-role="button", data-icon="back", data-iconpos="notext")
+      h1 Slides
 
     div(data-role='content')
      img(src='images/Slideshow-icon.png',alt="Slideshow",class="icons")
@@ -81,9 +83,10 @@ block content
   //--------------------------------------------------------------------------------------------
   
   //- NEW SLIDE PAGE
-  div(data-role="page", data-theme='a', id="slidenew")
+  div(data-role="page", data-theme='a', id="slidenew", data-add-back-btn="true")
     header(data-role='header', data-theme='b')
-      h1= title
+      a(href="/#slideshows", data-role="button", data-icon="back", data-iconpos="notext")
+      h1 New Slide
 
     input(id="slide-name", type="text", placeholder="Slide Name")
 
@@ -100,17 +103,22 @@ block content
   //--------------------------------------------------------------------------------------------
   
   //- EDIT SLIDE PAGE
-  div(data-role="page", data-theme='a', id="slideedit")
+  div(data-role="page", data-theme='a', id="slideedit", data-add-back-btn="true")
     header(data-role='header', data-theme='b')
-      h1= title
+      a(href="/#slideshows", data-role="button", data-icon="back", data-iconpos="notext")
+      h1 Edit Slide
 
     div(data-role="controlgroup", data-theme='b')
-      select(id='select-slide-edit')
-        option(ng-repeat="slide in slides", value="{{slide._id}}", label="{{slide.name}}") {{slide.name}}
+      select(id='select-slide-edit', ng-model="slideToEdit", ng-options="slide.name for slide in slides")
+      //- option(ng-repeat="slide in slides", value="{{slide._id}}", label="{{slide.name}}") {{slide.name}}
+
+    div(id="slides_edit_list_container", data-layout="3333")
+      img( ng-model="slideToEdit", ng-repeat="photo in photos",src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}" + "edit", class="photo_edit_img")
+
     div(id='photos-container')
 
     div(data-role="controlgroup", data-theme='b')
-      a(id="slide-edit-btn", class='ui-btn ui-btn-icon-left ui-icon- input_60P') Delete
+      a(id="slide-edit-btn", class='ui-btn ui-btn-icon-left ui-icon-cloud input_60P') Save
 
   //- END EDIT SLIDE PAGE
 
@@ -119,14 +127,18 @@ block content
   //- DELETE SLIDE PAGE
   div(data-role="page", data-theme='a', id="slidedelete")
     header(data-role='header', data-theme='b')
-      h1= title
+      a(href="/#slideshows", data-role="button", data-icon="back", data-iconpos="notext")
+      h1 Delete Slide
 
     div(data-role="controlgroup", data-theme='b')
-      select
-        option(ng-repeat="slide in slides", value="{{slide._id}}", label="{{slide.name}}") {{slide.name}}
+      select(id="selectDelete", ng-model="slideToDelete", ng-options="slide.name for slide in slides")
+      //-option(ng-repeat="slide in slides", value="{{slide._id}}", label="{{slide.name}}") {{slide.name}}
+
+    div(id="slides_delete_list_container", data-layout="3333")
+      img(ng-model="slideToDelete", ng-repeat="photo in slideToDelete.pictures",src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}", class="photo_delete_img")
 
     div(data-role="controlgroup", data-theme='b')
-      a(id="slide-delete-btn", class='ui-btn ui-btn-icon-left ui-icon-trash input_60P') Delete
+      a(id="slide-delete-btn", class='ui-btn ui-btn-icon-left ui-icon-delete input_60P') Delete
 
   //- END DELETE SLIDE PAGE
 
@@ -135,7 +147,8 @@ block content
   //- SETTINGS PAGE
   div(data-role="page", data-theme='a', id="settings")
     header(data-role='header', data-theme='b')
-      h1= title
+      a(href="/#home", data-role="button", data-icon="back", data-iconpos="notext")
+      h1 Settings
 
     div(data-role='content')
       img(src='images/Gears-icon.png',alt="Settings",class="icons")
