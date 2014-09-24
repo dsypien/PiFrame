@@ -92,16 +92,22 @@ router.post("/new", function(req, res){
 	console.log	("Adding " + req.body.name);
 	console.log(req.body.pictures);
 
-	collection.insert(req.body);
+	collection.insert(req.body, function(err, doc){
+		if(err){
+			console.log(err);
+		}
 
-	collection.find({}, {}, function(e, docs){
-		console.log(docs);
+		collection.find({}, {}, function(e, docs){
+			console.log(docs);
+		});
+
+		res.send("OK");
 	});
-
-	//refresh page
-	res.redirect(req.reidrect('/#slidenew'));
 });
 
+router.put("/edit", function(req,res){
+	console.log("updating" + req.body.pictures;)
+});
 
 router.get("/delete", function(req,res){
 	var db = req.db;
