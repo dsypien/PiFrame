@@ -1,27 +1,26 @@
-// $("[data-role=header]").fixedtoolbar({ tapToggle: false });
-
-
 var PIFRAME_APP = angular.module("piFrameApp", []);
 
 PIFRAME_APP.controller('piController', function($scope, $http){
 	var slides,
 		photos;
 
-	 $http.get('/photos/json').success(function(data, status, headers, config){
-	 	photos = data;
-	 	$scope.photos = photos;
-	 	console.log(photos);
-	 	$scope.slideToEdit = $scope.photos[0];
-	 	
-	 	$http.get('/slideshows/json').success(function(data, status, headers, config){
-		 	slides = data;
-		 	$scope.slides = slides;
-		 	setTimeout(init, 100);
-		 	console.log(slides);
+	var getPiData = function(){
+		 $http.get('/photos/json').success(function(data, status, headers, config){
+		 	photos = data;
+		 	$scope.photos = photos;
+		 	console.log(photos);
+		 	$scope.slideToEdit = $scope.photos[0];
+		 	
+		 	$http.get('/slideshows/json').success(function(data, status, headers, config){
+			 	slides = data;
+			 	$scope.slides = slides;
+			 	setTimeout(init, 100);
+			 	console.log(slides);
 
-		 	updatePhotosInSlidesAry();
-		});
-	 });
+			 	updatePhotosInSlidesAry();
+			});
+		 });
+	}();
 
 	 function init(){
 		initPhotos();
@@ -29,6 +28,10 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		initSlideEdit();
 		initSlideDelete();
 	}
+
+	$(window).resize(function(){
+		$('.photoset-row').css('height', '');
+	});
 
 	function updatePhotosInSlidesAry(){
 		for(var i = 0; i < slides.length; i++){
@@ -54,18 +57,23 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	}
 
 	function initPhotos(){
-		$('#photos_list_container').photosetGrid({gutter: '5px'});
-		$('#photos_list_container_newslide').photosetGrid({gutter: '5px'});
-		$('#slides_edit_list_container').photosetGrid({gutter: '5px'});
-		$('#slides_delete_list_container').photosetGrid({gutter: '5px'});
-
+		
 		$('#photos').on("pageshow", function(event){
-			$('.photoset-row').css('height', '');
+			$('#photos_list_container').photosetGrid({gutter: '5px'});
 		});
 
 		$('#slidenew').on("pageshow", function(event){
-			$('.photoset-row').css('height', '');
+			$('#photos_list_container_newslide').photosetGrid({gutter: '5px'});
 		});
+
+		$('#slideedit').on("pageshow", function(event){
+			$('#slides_edit_list_container').photosetGrid({gutter: '5px'});
+		});
+
+		$('#slidedelete').on("pageshow", function(event){
+			//$('#slides_delete_list_container').photosetGrid({gutter: '5px'});
+		});
+
 
 		$('.photo_pg_img').on('click touchstart',function(){
 			var parentElem = $(this).parent();
@@ -113,6 +121,27 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		$('#select-slide-delete').change(function(){
 			$('#slides_delete_list_container').photosetGrid({gutter: '5px'});
 		});
+
+		$('#slide-delete-btn').on('click touchstart', deleteSlide);
+
+		function deleteSlide(){
+			var index = $('#selectDelete').val();
+			var dataObj;
+			var slideId;
+
+			if(!index){
+				console.log('No slide selected');
+				return;
+			}
+			slideId = slides[index]._id;
+
+
+			dataObj = {id: slideId};
+
+			$http.post('/slideshows/delete', dataObj).success(function(data, status, headers, config){
+				location.reload();
+			});
+		}
 	}
 
 	function initSlideEdit(){
@@ -121,15 +150,30 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		}
 
 		$('#slide-edit-btn').on('click touchstart', getSlide);
+		$('.photo_edit_img').on('click touchstart', handlePhotoSelect);
 
 		function getSlide(){
 			var id = $('#select-slide-edit').val();
 
-			$http.get('/slideshows/edit/slide' + id, data).success(function(data, status, headers, config){
+			$http.get('/slideshows/edit/slide' + id).success(function(data, status, headers, config){
+			});
+		}
+
+		function saveSlideEdit(){
+			var name = $('#select-slide-edit').attr('label');
+			var pictures = getPhotosSelected('slideedit');
+			var objData;
+
+			$http.put('/slideshows/edit', data).success(function(data, status, headers, config){
+
 			});
 		}
 
 		$('#select-slide-edit').change(function(){			
+			if( $('#select-slide-delete').val() !== "?" ){
+				$('#slides_edit_list_container').removeClass('invisible');
+				$('#slide-edit-btn').closest('.ui-controlgroup').removeClass('invisible');
+			}
 			var curSlide = $scope.slideToEdit;
 			$('.selected_check_img').remove();
 
@@ -147,6 +191,31 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		init();
 	}
 
+	var handlePhotoSelect = function(elem){
+		var $elemParent = $(this).parent();
+
+		if( $elemParent.children('.selected_check_img').length !== 0 ){
+			$elemParent.children('.selected_check_img')[0].remove();
+		}
+		else{
+			var check_img = document.createElement('img');
+			check_img.src = "/images/Check-icon.png";
+			check_img.className = "selected_check_img";
+			$elemParent.append(check_img);
+		}
+	};
+
+	var getPhotosSelected = function(pageid){
+		var photosAry;
+		var selectedElements = $('#' + pageid + ' .selected_check_img');
+		for(var i = 0; i < selectedElements.length; i++){
+			var imgElement = $(selectedElements[i]).prev();
+			var id = $(imgElement).attr('id');
+			photosAry.push(id);
+		}
+		return photosAry;
+	};
+
 	function initSlideNew(){
 		$('.new_slide_pg_img').on('click touchstart', function(){
 			var $elem = $(this);
@@ -159,22 +228,9 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			}
 		});
 
-		$('.new_slide_pg_img').on('click touchstart', function(){
-			var $elemParent = $(this).parent();
-
-			if( $elemParent.children('.selected_check_img').length !== 0 ){
-				$elemParent.children('.selected_check_img')[0].remove();
-			}
-			else{
-				var check_img = document.createElement('img');
-				check_img.src = "/images/Check-icon.png";
-				check_img.className = "selected_check_img";
-				$elemParent.append(check_img);
-			}
-		});
+		$('.new_slide_pg_img').on('click touchstart', handlePhotoSelect);
 
 		$('#new-slide-save').on('click touchstart', function(){
-			var selectedElements = $('.selected_check_img');
 			var photosAry = [];
 			var slideName = $('#slide-name').val();
 			var slideObj = {};
@@ -184,11 +240,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 				alert("Please enter a name");
 			}
 
-			for(var i = 0; i < selectedElements.length; i++){
-				var imgElement = $(selectedElements[i]).prev();
-				var id = $(imgElement).attr('id');
-				photosAry.push(id);
-			}
+			photosAry = getPhotosSelected('slidenew');
 
 			slideObj.name = slideName;
 			slideObj.pictures = photosAry;
@@ -197,36 +249,9 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			console.log(slideObj);
 		});
 
-		$('#slide-delete-btn').on('click touchstart', deleteSlide);
-
-		function deleteSlide(){
-			var slideId = $('#selectDelete').val();
-			var data;
-
-			if(!slideId){
-				console.log('No slide selected');
-				return;
-			}
-
-			data = {id: slideId};
-
-			$http.post('/slideshows/delete', data).success(function(data, status, headers, config){
-				location.reload();
-			});
-			// $.ajax({
-			// 	url: '/slideshows/delete',
-			// 	type: 'post',
-			// 	data: {id: slideId},
-			// 	dataType: 'json'
-			// }).success(function(data, textStatus, jqXHR){
-				
-			// }).error(function(jqXHR, textStatus, error){
-			// 	console.log("Error deleting slide: " + error);
-			// });
-		}
-
 		function saveNewSlide(slide){
 			$http.post('/slideshows/new', slide).success(function(data, status, headers, config){
+				getPiData();
 			});
 		}
 	}
