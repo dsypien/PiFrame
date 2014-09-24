@@ -96,7 +96,7 @@ block content
     //-img(class='selected_check_img', src="/images/Check-icon.png") 
   
     div(data-role="controlgroup", data-theme='b')
-    a(id="new-slide-save", class='ui-btn ui-btn-icon-left ui-icon-action input_60P') Save
+      a(id="new-slide-save", class='ui-btn ui-btn-icon-left ui-icon-action input_60P') Save
 
   //- END NEW SLIDE PAGE
 
@@ -109,16 +109,16 @@ block content
       h1 Edit Slide
 
     div(data-role="controlgroup", data-theme='b')
-      select(id='select-slide-edit', ng-model="slideToEdit", ng-options="slide.name for slide in slides")
+      select(id='select-slide-edit', ng-model="slideToEdit", ng-options="slide.name for slide in slides") 
       //- option(ng-repeat="slide in slides", value="{{slide._id}}", label="{{slide.name}}") {{slide.name}}
 
-    div(id="slides_edit_list_container", data-layout="3333")
+    div(id="slides_edit_list_container", data-layout="3333", class="invisible")
       img( ng-model="slideToEdit", ng-repeat="photo in photos",src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}" + "edit", class="photo_edit_img")
 
     div(id='photos-container')
 
-    div(data-role="controlgroup", data-theme='b')
-      a(id="slide-edit-btn", class='ui-btn ui-btn-icon-left ui-icon-cloud input_60P') Save
+    div(data-role="controlgroup", data-theme='b', class="invisible")
+      a(id="slide-edit-btn", class='ui-btn ui-btn-icon-left ui-icon-action input_60P') Save
 
   //- END EDIT SLIDE PAGE
 
