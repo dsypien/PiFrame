@@ -106,7 +106,16 @@ router.post("/new", function(req, res){
 });
 
 router.put("/edit", function(req,res){
-	console.log("updating" + req.body.pictures;)
+	var db = req.db;
+	var collection = db.get('slides_collection');
+
+	collection.update({_id: req.body.id}, req.body, function(err,doc){
+		if(err){
+			console.log(err);
+			console.log("updating" + req.body.pictures);
+			res.send("OK");
+		}
+	});
 });
 
 router.get("/delete", function(req,res){
