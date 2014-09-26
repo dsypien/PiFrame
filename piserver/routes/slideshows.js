@@ -109,12 +109,19 @@ router.put("/edit", function(req,res){
 	var db = req.db;
 	var collection = db.get('slides_collection');
 
-	collection.update({_id: req.body.id}, req.body, function(err,doc){
+	var slide = {
+		_id: req.body.id,
+		name: req.body.name,
+		pictures: req.body.pictures
+	};
+
+	console.log(slide.pictures);
+	collection.update({_id: req.body.id}, slide, function(err,doc){
 		if(err){
 			console.log(err);
-			console.log("updating" + req.body.pictures);
-			res.send("OK");
 		}
+
+		res.send("OK");
 	});
 });
 
