@@ -96,7 +96,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			return false;
 		});		
 
-		$('#deletebtn').click(deletePhoto);
+		$('#deletebtn').click(deletePhoto);//jquery binding
 
 		function deletePhoto(event){
 			event.stopPropagation();
@@ -108,10 +108,10 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	        		console.log('ERRORS: ' + data.error);
 	        		return;
 	        	}
+	        	
 	        	location.reload();
 
 	        	photos = data;
-	        	$scope.photos = photos;
 	         	//$('#' + photoid).remove();
 			}).error(function(data, status, headers, config){
 				console.log('ERRORS: ' + data);
@@ -162,7 +162,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		}
 
 		function saveSlideEdit(){
-			var name = $('#select-slide-edit').attr('label');
+			var name = $('#select-slide-edit option:selected').text();
 			var index = $('#select-slide-edit').val();
 			var pictures = getPhotosSelected('slideedit');
 			var objData ={
@@ -172,7 +172,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			};
 
 			$http.put('/slideshows/edit', objData).success(function(data, status, headers, config){
-
+				getPiData();
 			});
 		}
 
@@ -218,6 +218,9 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		for(var i = 0; i < selectedElements.length; i++){
 			var imgElement = $(selectedElements[i]).prev();
 			var id = $(imgElement).attr('id');
+			if(pageid === 'slideedit'){
+				id = id.replace('edit', '');
+			}
 			photosAry.push(id);
 		}
 		return photosAry;
