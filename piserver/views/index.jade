@@ -2,17 +2,17 @@ extends layout
 
 block content
   //- HOME PAGE
-  div(data-role="page", data-theme='a' id="home")
+  div(data-role='page', data-theme='a' id='home')
     header(data-role='header', data-theme='b')
       h1= title
     div(data-role='content')
-    img(src='images/jslogo.png',alt="J <3 D",id="logo")
+    img(src='images/jslogo.png', alt='J <3 D', id='logo')
     div(data-role='controlgroup', id='button-group', data-theme='b')
       a(href='#photos', class='ui-btn ui-btn-icon-left ui-icon-camera') Photos
       a(href='#slideshows', class='ui-btn ui-btn-icon-left ui-icon-grid') Slides
       a(href='#settings', class='ui-btn ui-btn-icon-left ui-icon-gear') Settings
   
-    div(data-theme='b',data-role='footer',data-position='fixed')
+    div(data-theme='b',data-role='footer',data-position='fixed', data-tap-toggle="false")
 
   //- END HOME PAGE
 
@@ -30,13 +30,13 @@ block content
     div(id="photos_list_container", data-layout="3333")
       img(ng-repeat="photo in photos",src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}", class="photo_pg_img", ng-click='deletePhoto')
     
-    a(id='deletebtn', data-role="button") Delete
+    a(id='deletebtn', ng-click="deletePhoto()" data-role="button") Delete
 
     form(id='sendfileform', method='post',enctype='multipart/form-data', data-ajax="false", action="/photos/")
       input(type='file',name='file',id='file', accept="image/*", capture="camera", max-size=999999)
       input(type='submit', name='mysubmit',value='Add Photo', id='submit')
 
-    footer(data-role='footer', data-position='fixed', data-theme='b')
+    footer(data-role='footer', data-position='fixed', data-theme='b', data-tap-toggle="false")
       div(data-role='navbar',data-theme='b')
         ul 
           li
@@ -66,7 +66,7 @@ block content
       a(href='#slideedit', class='ui-btn ui-btn-icon-left ui-icon-grid') Edit
       a(href='#slidedelete', class='ui-btn ui-btn-icon-left ui-icon-delete') Delete
 
-    footer(data-role='footer', data-position='fixed', data-theme='b')
+    footer(data-role='footer', data-position='fixed', data-theme='b', data-tap-toggle="false")
       div(data-role='navbar')
         ul 
           li
@@ -153,7 +153,7 @@ block content
     div(data-role='content')
       img(src='images/Gears-icon.png',alt="Settings",class="icons")
 
-    footer(data-role='footer', data-position='fixed', data-theme='b')
+    footer(data-role='footer', data-position='fixed', data-theme='b', data-tap-toggle="false")
       div(data-role='navbar')
         ul
           li
