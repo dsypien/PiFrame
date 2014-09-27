@@ -91,7 +91,15 @@ router.post('/', function(req, res) {
 
         	var destFile = path.join(__dirname, '../../pics/', filename);
             fstream = fs.createWriteStream(destFile);
+            
+            fstream.on('error', function(e){
+            	if(e){
+            		console.log(e);
+            	}
+            });
+
             file.pipe(fstream);
+
 
             // On upload complete
             fstream.on('close', function () {  
