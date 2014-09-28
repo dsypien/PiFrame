@@ -43,7 +43,8 @@ header h1{
 }
 
 form{
-	width:60%;
+	width:100%;
+	max-width: 250px;
 	margin: 0 auto !important;
 }
 
