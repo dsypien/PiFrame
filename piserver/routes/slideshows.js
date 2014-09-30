@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var ObjectID = require('mongodb').ObjectID;
+var fs =  require('fs');
+var path = require('path');
 
 router.get('/', function(req, res){
 	res.render('slideshows', {title: 'Slideshows'});
@@ -85,23 +87,73 @@ router.get("/edit", function(req, res){
 	});
 });
 
+
 router.post("/new", function(req, res){
 	var db = req.db;
-	var collection = db.get('slides_collection');
+	var photosCollection = db.get('photo_collection');
+	var slideCollection = db.get('slides_collection');
+	var destSlideDir;
 	
 	console.log	("Adding " + req.body.name);
 	console.log(req.body.pictures);
 
-	collection.insert(req.body, function(err, doc){
-		if(err){
-			console.log(err);
+	photosCollection.find({},{},function(e1, photos){
+		if(e1){
+			console.log(e1);
 		}
 
-		collection.find({}, {}, function(e, docs){
-			console.log(docs);
-		});
+		slideCollection.find({name: req.body.name}, {}, function(e, docs){
+			//Bail if Slide with same name exists
+			if(docs.length > 0){
+				console.log("found doc with same name ... bailing");
+				return;
+			}
 
-		res.send("OK");
+			destSlideDir = path.join(__dirname, '../../slides/', req.body.name);
+			console.log("Making the directory : " +  destSlideDir);
+			fs.mkdir(destSlideDir, 0777, function(err){
+				if(err){
+					console.log(err);
+				}
+
+				for(var i = 0; i < req.body.pictures.length; i ++){
+					var curId = req.body.pictures[i];
+					var curphoto;
+					var photoSearch = photos.filter(function(element){
+						return element._id == curId;
+					});
+
+					if(photoSearch.length > 0){
+						curphoto = photoSearch[0];
+					}
+					else{
+						console.log("could not find this photo in db " + curId )
+						continue;
+					}
+
+					console.log(curphoto);
+
+					var photoPath = path.join(__dirname, '../../pics/', curphoto.name);
+					var symPath = path.join(destSlideDir, curphoto.name);
+					fs.symlink(photoPath, symPath, 'file', function(symerr){
+						if(symerr){
+							console.log(symerr);
+						}
+					})
+				}
+
+				// Save Slide to DB
+				slideCollection.insert(req.body, function(err, doc){
+					if(err){
+						console.log(err);
+					}
+
+					console.log(doc);
+
+					res.send("OK");
+				});
+			})
+		});
 	});
 });
 
