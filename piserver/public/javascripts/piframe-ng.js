@@ -130,15 +130,17 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			var index = $('#selectDelete').val();
 			var dataObj;
 			var slideId;
+			var name;
 
 			if(!index){
 				console.log('No slide selected');
 				return;
 			}
 			slideId = slides[index]._id;
+			name = slides[index].name;
 
 
-			dataObj = {id: slideId};
+			dataObj = {id: slideId, name: name};
 
 			$http.post('/slideshows/delete', dataObj).success(function(data, status, headers, config){
 				location.reload();
