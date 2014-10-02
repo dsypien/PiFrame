@@ -153,6 +153,12 @@ block content
     div(data-role='content')
       img(src='images/Gears-icon.png',alt="Settings",class="icons")
 
+    div(data-role="controlgroup", data-theme='b')
+      select(id="selectSlideToPlay", ng-model="slideToPlay", ng-options="slide.name for slide in slides")
+
+    div(data-role="controlgroup", data-theme='b')
+      a(id="slide-play-btn", class='ui-btn ui-btn-icon-left ui-icon-gear input_60P') Play Slide
+
     footer(data-role='footer', data-position='fixed', data-theme='b', data-tap-toggle="false")
       div(data-role='navbar')
         ul
