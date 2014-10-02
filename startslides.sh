@@ -1,2 +1,2 @@
 #!/bin/sh
-qiv -fsti PiFrame/pics/*.jpg
+qiv -fsti PiFrame/slides/"$1"/*.jpg
