@@ -27,6 +27,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		initSlideNew();
 		initSlideEdit();
 		initSlideDelete();
+		initSettings();
 	}
 
 	$(window).resize(function(){
@@ -176,6 +177,14 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			$http.put('/slideshows/edit', objData).success(function(data, status, headers, config){
 				getPiData();
 			});
+		}
+
+		function initSettings(){
+			$('#slide-play-btn').on('click touchstart', playSlide);
+
+			function playSlide(){
+				
+			}
 		}
 
 		$('#select-slide-edit').change(function(){			
