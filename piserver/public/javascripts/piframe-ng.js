@@ -179,14 +179,6 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			});
 		}
 
-		function initSettings(){
-			$('#slide-play-btn').on('click touchstart', playSlide);
-
-			function playSlide(){
-				
-			}
-		}
-
 		$('#select-slide-edit').change(function(){			
 			if( $('#select-slide-delete').val() !== "?" ){
 				$('#slides_edit_list_container').removeClass('invisible');
@@ -207,6 +199,19 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		});
 
 		init();
+	}
+
+	function initSettings(){
+		$('#slide-play-btn').on('click touchstart', playSlide);
+
+		function playSlide(){
+			var index = $('#selectSlideToPlay').val();
+			var slide = slides[index];
+			
+			// Play Slide!
+			$http.post('/settings/play', slide).success(function(data, status, headers, config){
+			});
+		}
 	}
 
 	var handlePhotoSelect = function(elem){
