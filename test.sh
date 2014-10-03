@@ -1,0 +1,2 @@
+#!/bin/bash
+echo "TESTING SCRIPT, PARAMETER ENTERED: $1"
