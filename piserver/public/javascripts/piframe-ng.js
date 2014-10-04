@@ -57,18 +57,28 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		return $.grep(photos, function(e){ return e._id === id;});
 	}
 
+	function fadeIn(elem){
+		this.animate({
+				"opacity": 100,
+				"filter": "alpha(opacity=100)"
+			}, 4000);
+	}
+
 	function initPhotos(){
 		
 		$('#photos').on("pageshow", function(event){
 			$('#photos_list_container').photosetGrid({gutter: '5px'});
+			fadeIn.call($('#photos_list_container'));
 		});
 
 		$('#slidenew').on("pageshow", function(event){
 			$('#photos_list_container_newslide').photosetGrid({gutter: '5px'});
+			fadeIn.call($('#photos_list_container_newslide'));
 		});
 
 		$('#slideedit').on("pageshow", function(event){
 			$('#slides_edit_list_container').photosetGrid({gutter: '5px'});
+			fadeIn.call($('#slides_edit_list_container'));
 		});
 
 		$('#slidedelete').on("pageshow", function(event){
@@ -282,35 +292,3 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		}
 	}
 });
-
-// $.mobile.ajaxFormsEnabled = false;
-// 		$('#sendfileform').on('submit', function(event){
-// 			event.stopPropagation();
-// 			event.preventDefault();
-
-// 			var data = new FormData();
-// 			$.each($('#file')[0].files, function(key, value){
-// 				data.append(key, value);
-// 			});
-
-// 		 	jQuery.ajax({
-// 		        type: 'POST',
-// 		        data: data,
-// 		        cache: false,
-// 		        processData: false, // Don't process the files
-// 		        contentType: false,
-// 		        success: function(data, textStatus, jqXHR)
-// 		        {
-// 		        	if(typeof data.error === 'undefined'){
-// 		        		// submitForm(event, data);
-// 		        		location.reload(true);
-// 		        	}
-// 		        	else{
-// 		        		console.log('ERRORS: ' + data.error);
-// 		        	}
-// 		        },
-// 		        error: function(jqXHR, textStatus, errorThrown){
-// 		        	console.log('ERRORS: ' + textStatus);
-// 		        }
-// 		   	});
-// 		});
