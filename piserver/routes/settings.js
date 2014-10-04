@@ -20,7 +20,7 @@ router.post('/play', function(req,res){
 
 	script_w_param = script_path + " " + slide.name;
 
-	exec(script_path, function(error, stdout, stderr){
+	exec(script_w_param, function(error, stdout, stderr){
 		console.log('stdout: ' + stdout);
 	    console.log('stderr: ' + stderr);
 	    if (error !== null) {
