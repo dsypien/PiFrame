@@ -35,7 +35,10 @@ header h1{
 	padding: 2px !important;
 }
 
-#photos_list_container, #photos_list_container_newslide{
+#photos_list_container, 
+#photos_list_container_newslide,
+#slides_edit_list_container,
+#slides_delete_list_container{
 	display: block;
 	width: 100%;
 	max-width: 800px;
