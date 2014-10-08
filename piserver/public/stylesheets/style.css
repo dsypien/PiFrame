@@ -47,6 +47,10 @@ header h1{
 	filter: alpha(opacity=0);
 }
 
+#slides_delete_list_container img{
+	width: 20%;
+}
+
 form{
 	width:100%;
 	max-width: 250px;
