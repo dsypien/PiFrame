@@ -82,6 +82,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		});
 
 		$('#slidedelete').on("pageshow", function(event){
+			fadeIn.call($('#slides_delete_list_container'));
 			//$('#slides_delete_list_container').photosetGrid({gutter: '5px'});
 		});
 
@@ -133,6 +134,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	function initSlideDelete(){
 		$('#select-slide-delete').change(function(){
 			$('#slides_delete_list_container').photosetGrid({gutter: '5px'});
+			fadeIn.call($('#slides_delete_list_container'));
 		});
 
 		$('#slide-delete-btn').on('click touchstart', deleteSlide);
