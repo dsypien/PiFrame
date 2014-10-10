@@ -162,10 +162,6 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	}
 
 	function initSlideEdit(){
-		function init(){
-			//getSlide();
-		}
-
 		$('#slide-edit-btn').on('click touchstart', saveSlideEdit);
 		$('.photo_edit_img').on('click touchstart', handlePhotoSelect);
 
@@ -173,6 +169,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			var id = $('#select-slide-edit').val();
 
 			$http.get('/slideshows/edit/slide' + id).success(function(data, status, headers, config){
+				location.reload();
 			});
 		}
 
@@ -187,7 +184,8 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			};
 
 			$http.put('/slideshows/edit', objData).success(function(data, status, headers, config){
-				getPiData();
+				//getPiData();
+				location.reload();
 			});
 		}
 
@@ -209,8 +207,6 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 				$('#' + curPic._id + "edit").parent().append(check_img);
 			}
 		});
-
-		init();
 	}
 
 	function initSettings(){
