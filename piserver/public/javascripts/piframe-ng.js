@@ -220,6 +220,10 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			$http.post('/settings/play', slide).success(function(data, status, headers, config){
 			});
 		}
+
+		$('#selectSlideToPlay').change(function(){
+			$('#slide-play-btn').removeClass('invisible');
+		});
 	}
 
 	var handlePhotoSelect = function(elem){

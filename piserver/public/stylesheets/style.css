@@ -47,7 +47,9 @@ header h1{
 	filter: alpha(opacity=0);
 }
 
-#slides_delete_list_container img{
+#slides_delete_list_container img,
+#settings_list_container img
+{
 	width: 20%;
 }
 
