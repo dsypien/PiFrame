@@ -28,6 +28,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		initSlideEdit();
 		initSlideDelete();
 		initSettings();
+		$('body').fadeIn(1000);
 	}
 
 	$(window).resize(function(){

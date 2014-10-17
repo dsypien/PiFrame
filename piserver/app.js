@@ -17,7 +17,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var photos = require('./routes/photos');
 var slideshows = require('./routes/slideshows');
-var settings = require('./routes/settings');
+var play = require('./routes/play');
 
 var app = express();
 
@@ -43,7 +43,7 @@ app.use(function(req,res,next){
 app.use('/', routes);
 app.use('/photos', photos);
 app.use('/slideshows', slideshows);
-app.use('/settings', settings);
+app.use('/play', play);
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {

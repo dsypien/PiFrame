@@ -8,9 +8,9 @@ block content
     div(data-role='content')
     img(src='images/jslogo.png', alt='J <3 D', id='logo')
     div(data-role='controlgroup', id='button-group', data-theme='b')
-      a(href='#photos', class='ui-btn ui-btn-icon-left ui-icon-camera') Photos
-      a(href='#slideshows', class='ui-btn ui-btn-icon-left ui-icon-grid') Slides
-      a(href='#settings', class='ui-btn ui-btn-icon-left ui-icon-gear') Settings
+      a(href='#photos', data-transition="slide", class='ui-btn ui-btn-icon-left ui-icon-camera') Photos
+      a(href='#slideshows', data-transition="slide", class='ui-btn ui-btn-icon-left ui-icon-grid') Slides
+      a(href='#play', data-transition="slide", class='ui-btn ui-btn-icon-left ui-icon-gear') Play
   
     div(data-theme='b',data-role='footer',data-position='fixed', data-tap-toggle="false")
 
@@ -21,7 +21,7 @@ block content
   //- PHOTOS PAGE
   div(data-role="page", data-theme='a', id="photos", data-add-back-btn="true")
     header(data-role='header', data-theme='b')
-      a(href="/#home", data-role="button", data-icon="back", data-iconpos="notext")
+      a(href="/#home", data-transition="slide", data-direction="reverse", data-role="button", data-icon="back", data-iconpos="notext")
       h1 Photos
     div(data-role='content')
        //- img(src='images/Image-icon.png',alt="Pictures",class="icons")
@@ -40,13 +40,13 @@ block content
       div(data-role='navbar',data-theme='b')
         ul 
           li
-            a(id='photosNav',href='#home', data-icon='home') Home 
+            a(id='photosNav',href='#home', data-direction="reverse", data-transition="slide", data-icon='home') Home 
           li
-            a(id='photosNav',href='#photos', data-icon='camera', class="ui-btn-active") Photos
+            a(id='photosNav',href='#photos', data-transition="slide", data-icon='camera', class="ui-btn-active") Photos
           li
-            a(id='slideshowNav',href='#slideshows', data-icon='grid') Slides
+            a(id='slideshowNav',href='#slideshows', data-transition="slide", data-icon='grid') Slides
           li
-            a(id='configureNav',href='#settings', data-icon='gear') Settings
+            a(id='configureNav',href='#play', data-transition="slide", data-icon='gear') Play
 
   //- END PHOTOS PAGE
 
@@ -55,28 +55,28 @@ block content
   //- SLIDESHOW PAGE
   div(data-role="page", data-theme='a', id="slideshows", data-add-back-btn="true")
     header(data-role='header', data-theme='b')
-      a(href="/#home", data-role="button", data-icon="back", data-iconpos="notext")
+      a(href="/#home", data-transition="slide", data-role="button", data-direction="reverse", data-icon="back", data-iconpos="notext")
       h1 Slides
 
     div(data-role='content')
      img(src='images/Slideshow-icon.png',alt="Slideshow",class="icons")
 
     div(data-role='controlgroup', id='button-group',data-theme='b')
-      a(href='#slidenew', class='ui-btn ui-btn-icon-left ui-icon-plus') New
-      a(href='#slideedit', class='ui-btn ui-btn-icon-left ui-icon-grid') Edit
-      a(href='#slidedelete', class='ui-btn ui-btn-icon-left ui-icon-delete') Delete
+      a(href='#slidenew', data-transition="slide", class='ui-btn ui-btn-icon-left ui-icon-plus') New
+      a(href='#slideedit', data-transition="slide", class='ui-btn ui-btn-icon-left ui-icon-grid') Edit
+      a(href='#slidedelete', data-transition="slide", class='ui-btn ui-btn-icon-left ui-icon-delete') Delete
 
     footer(data-role='footer', data-position='fixed', data-theme='b', data-tap-toggle="false")
       div(data-role='navbar')
         ul 
           li
-            a(id='photosNav',href='#home', data-icon='home') Home 
+            a(id='photosNav',href='#home', data-direction="reverse", data-transition="slide", data-icon='home') Home 
           li
-            a(id='photosNav',href='#photos', data-icon='camera') Photos
+            a(id='photosNav',href='#photos', data-transition="slide", data-direction="reverse", data-icon='camera') Photos
           li
-            a(id='slideshowNav',href='#slideshows', data-icon='grid', class="ui-btn-active") Slides
+            a(id='slideshowNav',href='#slideshows', data-transition="slide", data-icon='grid', class="ui-btn-active") Slides
           li
-            a(id='configureNav',href='#settings', data-icon='gear') Settings
+            a(id='configureNav',href='#play', data-transition="slide", data-icon='gear') Play
 
   //- END SLIDESHOW PAGE
 
@@ -85,7 +85,7 @@ block content
   //- NEW SLIDE PAGE
   div(data-role="page", data-theme='a', id="slidenew", data-add-back-btn="true")
     header(data-role='header', data-theme='b')
-      a(href="/#slideshows", data-role="button", data-icon="back", data-iconpos="notext")
+      a(href="/#slideshows", data-transition="slide", data-role="button", data-direction="reverse", data-icon="back", data-iconpos="notext")
       h1 New Slide
 
     input(id="slide-name", type="text", placeholder="Slide Name")
@@ -104,7 +104,7 @@ block content
   //- EDIT SLIDE PAGE
   div(data-role="page", data-theme='a', id="slideedit", data-add-back-btn="true")
     header(data-role='header', data-theme='b')
-      a(href="/#slideshows", data-role="button", data-icon="back", data-iconpos="notext")
+      a(href="/#slideshows", data-transition="slide", data-role="button", data-icon="back", data-direction="reverse", data-iconpos="notext")
       h1 Edit Slide
 
     div(data-role="controlgroup", data-theme='b')
@@ -126,7 +126,7 @@ block content
   //- DELETE SLIDE PAGE
   div(data-role="page", data-theme='a', id="slidedelete")
     header(data-role='header', data-theme='b')
-      a(href="/#slideshows", data-role="button", data-icon="back", data-iconpos="notext")
+      a(href="/#slideshows", data-transition="slide", data-role="button", data-icon="back", data-direction="reverse", data-iconpos="notext")
       h1 Delete Slide
 
     div(data-role="controlgroup", data-theme='b')
@@ -143,20 +143,20 @@ block content
 
   //--------------------------------------------------------------------------------------------
 
-  //- SETTINGS PAGE
-  div(data-role="page", data-theme='a', id="settings")
+  //- Play PAGE
+  div(data-role="page", data-theme='a', id="play")
     header(data-role='header', data-theme='b')
-      a(href="/#home", data-role="button", data-icon="back", data-iconpos="notext")
-      h1 Settings
+      a(href="/#home", data-transition="slide", data-role="button", data-icon="back", data-direction="reverse", data-iconpos="notext")
+      h1 Play
 
     div(data-role='content')
-      img(src='images/Gears-icon.png',alt="Settings",class="icons")
+      img(src='images/Gears-icon.png',alt="Play",class="icons")
 
     div(data-role="controlgroup", data-theme='b')
       select(id="selectSlideToPlay", ng-model="slideToPlay", ng-options="slide.name for slide in slides")
 
-    div(id="settings_list_container", data-layout="3333")
-      img(ng-model="slideToPlay", ng-repeat="photo in slideToPlay.pictures",src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}", class="photo_settings_img")
+    div(id="play_list_container", data-layout="3333")
+      img(ng-model="slideToPlay", ng-repeat="photo in slideToPlay.pictures",src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}", class="photo_play_img")
 
     div(data-role="controlgroup", data-theme='b')
       a(id="slide-play-btn", class='ui-btn ui-btn-icon-left ui-icon-video invisible input_60P') Play Slide
@@ -165,14 +165,14 @@ block content
       div(data-role='navbar')
         ul
           li
-            a(id='photosNav',href='#home', data-icon='home') Home 
+            a(id='photosNav',href='#home', data-direction="reverse", data-transition="slide", data-icon='home') Home 
           li
-            a(id='photosNav',href='#photos', data-icon='camera') Photos
+            a(id='photosNav',href='#photos', data-transition="slide", data-direction="reverse", data-icon='camera') Photos
           li
-            a(id='slideshowNav',href='#slideshows', data-icon='grid') Slides
+            a(id='slideshowNav',href='#slideshows', data-transition="slide", data-direction="reverse", data-icon='grid') Slides
           li
-            a(id='configureNav',href='#settings', data-icon='gear', class="ui-btn-active") Settings
+            a(id='configureNav',href='#play', data-transition="slide", data-icon='gear', class="ui-btn-active") Play
 
-  //- END SETTINGS PAGE
+  //- END Play PAGE
 
   //--------------------------------------------------------------------------------------------

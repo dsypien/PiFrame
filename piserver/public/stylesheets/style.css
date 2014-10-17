@@ -1,6 +1,7 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  display: none;
 }
 
 a {
@@ -28,7 +29,7 @@ header h1{
 .icons{
 	margin: 0 auto;
 	display: block;
-	padding:20px;
+	width:128px;
 }
 
 .ui-icon-back{
@@ -48,7 +49,7 @@ header h1{
 }
 
 #slides_delete_list_container img,
-#settings_list_container img
+#play_list_container img
 {
 	width: 20%;
 }
