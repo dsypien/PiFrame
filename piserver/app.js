@@ -10,7 +10,10 @@ var http = require('http');
 var mongo = require('mongodb');
 var monk = require('monk');
 var bodyParser = require('body-parser');
-var db= monk('localhost:27017/piFrameDB');
+var sqlite3 = require('sqlite3');
+var db;
+var db_file = ('./data/piframe.db');
+// var db= monk('localhost:27017/piFrameDB');
 
 
 var routes = require('./routes/index');
@@ -34,8 +37,29 @@ app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(busboy());
 
-//Make db available to our router
+// Create DB if one does not exist and 
+// make db available to our router
 app.use(function(req,res,next){
+    var exists = fs.existsSync(db_file);
+    if(!exists){
+        console.log("Creating db file");
+        fs.openSync(db_file, 'w');
+    }
+
+    db = new sqlite3.Database(db_file);
+
+    db.serialize(function(){
+        //DB SETUP
+        if(!exists){
+            db.run("CREATE TABLE PHOTOS (ID INT PRIMARY KEY NOT NULL, CHECKSUM TEXT NOT NULL, THUMB_NAME TEXT NOT NULL)");
+
+            db.run("CREATE TABLE SLIDESHOWS ( ID INT PRIMARY KEY  NOT NULL, NAME  TEXT  NOT NULL )");
+
+            db.run("CREATE TABLE PHOTOS_TO_SLIDE (ID          INT     PRIMARY KEY     NOT NULL,PHOTOS_ID   INT     NOT NULL,SLIDES_ID   INT     NOT NULL)");
+        }
+
+    });
+
     req.db = db;
     next();
 });

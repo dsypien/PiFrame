@@ -7,27 +7,27 @@ var thumbnail = require('node-thumbnail').thumb;
 var checksum = require('checksum');
 
 router.get('/', function(req, res){
-	var db = req.db;
-	var collection = db.get('photo_collection');
+	// var db = req.db;
+	// var collection = db.get('photo_collection');
 
-	collection.find({},{}, function(e, docs){
+	// collection.find({},{}, function(e, docs){
 		res.render('photos', {
-			title: 'Photos',
-			photolist: docs
+			title: 'Photos'//,
+			// photolist: docs
 		});
 
-		console.log(docs);
-	});
+	// 	console.log(docs);
+	// });
 });
 
 router.get('/json', function(req,res){
-	var db = req.db;
-	var collection = db.get('photo_collection');
+	// var db = req.db;
+	// var collection = db.get('photo_collection');
 
-	collection.find({}, {}, function(e, docs){
-		res.json(docs);
-	});
-
+	// collection.find({}, {}, function(e, docs){
+	// 	res.json(docs);
+	// });
+	res.json("{'status': 'OK'}");
 });
 
 router.post('/', function(req, res) {
