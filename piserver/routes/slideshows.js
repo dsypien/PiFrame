@@ -9,18 +9,19 @@ router.get('/', function(req, res){
 });
 
 router.get('/json', function(req,res){
-	var db = req.db;
-	var slides = db.get('slides_collection');
+	// var db = req.db;
+	// var slides = db.get('slides_collection');
 
-	slides.find({}, function(e, docs){
-		if(e){
-			console.log(e);
-			res.end();
-		}
-		else{
-			res.json(docs);
-		}
-	});
+	// slides.find({}, function(e, docs){
+	// 	if(e){
+	// 		console.log(e);
+	// 		res.end();
+	// 	}
+	// 	else{
+	// 		res.json(docs);
+	// 	}
+	// });
+	res.json("Under construction");
 });
 
 router.get('/edit/slide:id', function(req, res){

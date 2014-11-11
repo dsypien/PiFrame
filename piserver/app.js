@@ -41,24 +41,29 @@ app.use(busboy());
 // make db available to our router
 app.use(function(req,res,next){
     var exists = fs.existsSync(db_file);
-    if(!exists){
-        console.log("Creating db file");
-        fs.openSync(db_file, 'w');
-    }
 
-    db = new sqlite3.Database(db_file);
-
-    db.serialize(function(){
-        //DB SETUP
+    try{
         if(!exists){
-            db.run("CREATE TABLE PHOTOS (ID INT PRIMARY KEY NOT NULL, CHECKSUM TEXT NOT NULL, THUMB_NAME TEXT NOT NULL)");
-
-            db.run("CREATE TABLE SLIDESHOWS ( ID INT PRIMARY KEY  NOT NULL, NAME  TEXT  NOT NULL )");
-
-            db.run("CREATE TABLE PHOTOS_TO_SLIDE (ID          INT     PRIMARY KEY     NOT NULL,PHOTOS_ID   INT     NOT NULL,SLIDES_ID   INT     NOT NULL)");
+            console.log("Creating db file");
+            fs.openSync(db_file, 'w');
         }
 
-    });
+        db = new sqlite3.Database(db_file);
+
+        db.serialize(function(){
+            //DB SETUP
+            if(!exists){
+                db.run("CREATE TABLE PHOTOS (ID INT PRIMARY KEY NOT NULL, CHECKSUM TEXT NOT NULL, THUMB_NAME TEXT NOT NULL)");
+
+                db.run("CREATE TABLE SLIDESHOWS ( ID INT PRIMARY KEY  NOT NULL, NAME  TEXT  NOT NULL )");
+
+                db.run("CREATE TABLE PHOTOS_TO_SLIDE (ID INT PRIMARY KEY NOT NULL,PHOTOS_ID INT NOT NULL,SLIDES_ID INT NOT NULL)");
+            }
+
+        });
+    }catch(e){
+        console.log(e);
+    }
 
     req.db = db;
     next();

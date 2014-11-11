@@ -7,80 +7,106 @@ var thumbnail = require('node-thumbnail').thumb;
 var checksum = require('checksum');
 
 router.get('/', function(req, res){
+	var db = req.db;
+	
+	db.each("SELECT rowid AS id, checksum, thumb_name from PHOTOS", function(err, row){
+		console.log("data: ");
+		console.log(row.ID + " " + row.CHECKSUM + " " + row.THUMB_NAME);
+
+		res.render('photos', {
+			title: 'Photos',
+		    photolist: row
+		});
+	});
 	// var db = req.db;
 	// var collection = db.get('photo_collection');
 
 	// collection.find({},{}, function(e, docs){
-		res.render('photos', {
-			title: 'Photos'//,
-			// photolist: docs
-		});
+		// res.render('photos', {
+		// 	title: 'Photos'//,
+		//     photolist: row
+		// });
 
 	// 	console.log(docs);
 	// });
 });
 
 router.get('/json', function(req,res){
+	var db = req.db;
+	
+	try{
+		db.run("SELECT * from PHOTOS", function(err, rows){
+			console.log("data: ");
+			// console.log(row.ID + " " + row.CHECKSUM + " " + row.THUMB_NAME);
+
+			res.json(rows);
+		});
+	}
+	catch(e){
+		console.log(e);
+	}
 	// var db = req.db;
 	// var collection = db.get('photo_collection');
 
 	// collection.find({}, {}, function(e, docs){
 	// 	res.json(docs);
 	// });
-	res.json("{'status': 'OK'}");
+	//res.json("{'status': 'OK'}");
 });
 
 router.post('/', function(req, res) {
 	console.log(req.headers);
 	var fstream,
 		db = req.db,
-		collection = db.get('photo_collection');
+		photos,
+		insert_statement;
 
-	if(req.body._method === 'delete'){
-		console.log("Deleteing pic with id " + req.body.id);
+
+	// if(req.body._method === 'delete'){
+	// 	console.log("Deleteing pic with id " + req.body.id);
 		
-		//extract file data
-		collection.find({_id: req.body.id}, function(err, doc){
-			if(err){
-				res.json(500, error);
-			}
-			else{
-				console.log(doc);
-				//Remove from db
-				collection.remove({_id: req.body.id}, function(err){
-					if(err){
-						res.json(500, error);
-					}
-					else{
-						//Remove file
-						fs.unlink(path.join(__dirname, '../../pics/', doc[0].name), function(delErr){
-							if(delErr){
-								console.log(delErr);
-							}
-							else{
-								console.log("succesfully deleted " + doc[0].name );
-							}
-						});
-						//Remove thumbnail
-						fs.unlink(path.join(__dirname, '../public/thumbnails/', doc[0].thumb_name), function(delErr){
-							if(delErr){
-								console.log(delErr);
-								res.send(delErr);
-							}
-							else{
-								console.log("succesfully deleted" +  doc[0].thumb_name );
-								//res.redirect("/#photos");
-								collection.find({}, {}, function(e, docs){
-									res.json(docs);
-								});
-							}
-						});
-					}
-				});
-			}
-		});
-	}
-	else{
+	// 	//extract file data
+	// 	collection.find({_id: req.body.id}, function(err, doc){
+	// 		if(err){
+	// 			res.json(500, error);
+	// 		}
+	// 		else{
+	// 			console.log(doc);
+	// 			//Remove from db
+	// 			collection.remove({_id: req.body.id}, function(err){
+	// 				if(err){
+	// 					res.json(500, error);
+	// 				}
+	// 				else{
+	// 					//Remove file
+	// 					fs.unlink(path.join(__dirname, '../../pics/', doc[0].name), function(delErr){
+	// 						if(delErr){
+	// 							console.log(delErr);
+	// 						}
+	// 						else{
+	// 							console.log("succesfully deleted " + doc[0].name );
+	// 						}
+	// 					});
+	// 					//Remove thumbnail
+	// 					fs.unlink(path.join(__dirname, '../public/thumbnails/', doc[0].thumb_name), function(delErr){
+	// 						if(delErr){
+	// 							console.log(delErr);
+	// 							res.send(delErr);
+	// 						}
+	// 						else{
+	// 							console.log("succesfully deleted" +  doc[0].thumb_name );
+	// 							//res.redirect("/#photos");
+	// 							collection.find({}, {}, function(e, docs){
+	// 								res.json(docs);
+	// 							});
+	// 						}
+	// 					});
+	// 				}
+	// 			});
+	// 		}
+	// 	});
+	// }
+	// else{
         req.pipe(req.busboy);
         req.busboy.on('file', function (fieldname, file, filename) {
         	if(filename === undefined || filename === ''){
@@ -140,7 +166,7 @@ router.post('/', function(req, res) {
 
 		            	//Path where image will be uploaded
 			            var destPath = path.join(__dirname, '../../pics/');
-			            var thumb_name = checksumName.replace('.', '_thumb.');
+			            var thumb_name = checksumName.replace('.', 'thumb.');
 
 		            	// Create thumbnail;
 		            	thumbnail({
@@ -150,21 +176,31 @@ router.post('/', function(req, res) {
 		            		overwrite: true
 		            	});
 
-		            	// Store data in db
-		            	collection.insert({name: checksumName, thumb_name: thumb_name}, function(err, doc){
-		            		if(err){
-		            			console.log(err);
-		            		}
-		            		else{
-		            			// Added a little time so that thumbnail is accessible
-		            			res.redirect("/#photos");
-		            		}
+		            	insert_statement = db.prepare("INSERT INTO PHOTOS(CHECKSUM, THUMB_NAME) VALUES ('"+ checksumName +"','" + thumb_name +"')");
+
+		            	insert_statement.finalize();
+
+		            	console.log("selecting");
+		            	db.each("SELECT rowid AS id, checksum, thumb_name from PHOTOS", function(err, row){
+		            		console.log("data: ");
+		            		console.log(row.ID + " " + row.CHECKSUM + " " + row.THUMB_NAME);
 		            	});
+
+		            	// // Store data in db
+		            	// collection.insert({name: checksumName, thumb_name: thumb_name}, function(err, doc){
+		            	// 	if(err){
+		            	// 		console.log(err);
+		            	// 	}
+		            	// 	else{
+		            	// 		// Added a little time so that thumbnail is accessible
+		            	// 		res.redirect("/#photos");
+		            	// 	}
+		            	// });
             		}
             	});
             });
         });
-	}
+	// }
 });
 
 module.exports = router;
