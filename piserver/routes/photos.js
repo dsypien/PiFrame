@@ -32,14 +32,11 @@ router.get('/', function(req, res){
 });
 
 router.get('/json', function(req,res){
-	var db = req.db;
+	var provider = req.dbprovider;
 	
 	try{
-		db.run("SELECT * from PHOTOS", function(err, rows){
-			console.log("data: ");
-			// console.log(row.ID + " " + row.CHECKSUM + " " + row.THUMB_NAME);
-
-			res.json(rows);
+		provider.getPhotos(function(data){
+			res.json(data);			
 		});
 	}
 	catch(e){
