@@ -46,9 +46,19 @@ module.exports = function(filename){
 		});
 	}
 
+	function deletePhoto(id){
+
+	}
+
+	function addPhoto(id){
+		
+	}
+
 	// INTERFACE
 	return{
-		getPhotos: getPhotos
+		getPhotos: getPhotos,
+		addPhoto: addPhoto,
+		deletePhoto: deletePhoto
 	};
 };
 
