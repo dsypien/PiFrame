@@ -5,11 +5,6 @@ var checksum = require('checksum');
 
 module.exports = function(){
 
-	//INIT
-	(function(){
-
-	})();
-
 	function addPhoto(req, callback){
 		var fstream,
 			db = req.db,
@@ -19,7 +14,7 @@ module.exports = function(){
 
         req.busboy.on('file', function (fieldname, file, filename) {
         	if(filename === undefined || filename === ''){
-        		callback("Trying to upload empty file")
+        		callback("Trying to upload empty file");
         		return;
         	}
 
@@ -85,6 +80,7 @@ module.exports = function(){
 		            		overwrite: true
 		            	});
 
+		            	// Insert Photo into db
 		            	insert_statement = db.prepare("INSERT INTO PHOTOS(CHECKSUM, THUMB_NAME) VALUES ('"+ checksumName +"','" + thumb_name +"')");
 
 		            	insert_statement.finalize();
@@ -108,7 +104,42 @@ module.exports = function(){
 		});
 	}
 
-	function deletePhoto(provider, id){
+	function deletePhoto(req, callback){
+		var provider = req.dbprovider;
+
+		console.log("Deleteing pic with id " + req.body.id);
+		
+		//Remove from db
+		provider.deletePhoto(req.body.id, function(err){
+			if(err){
+				res.json(500, error);
+			}
+			else{
+				//Remove file
+				fs.unlink(path.join(__dirname, '../../pics/', doc[0].name), function(delErr){
+					if(delErr){
+						console.log(delErr);
+					}
+					else{
+						console.log("succesfully deleted " + doc[0].name );
+					}
+				});
+				//Remove thumbnail
+				fs.unlink(path.join(__dirname, '../public/thumbnails/', doc[0].thumb_name), function(delErr){
+					if(delErr){
+						console.log(delErr);
+						res.send(delErr);
+					}
+					else{
+						console.log("succesfully deleted" +  doc[0].thumb_name );
+						//res.redirect("/#photos");
+						collection.find({}, {}, function(e, docs){
+							res.json(docs);
+						});
+					}
+				});
+			}
+		});
 
 	}
 

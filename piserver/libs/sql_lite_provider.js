@@ -1,4 +1,4 @@
-var sqlite3 = require('sqlite3');
+var sqlite3 = require('sqlite3').verbose();
 var fs = require('fs');
 var file_name;
 var db;
@@ -46,11 +46,13 @@ module.exports = function(filename){
 		});
 	}
 
-	function deletePhoto(id){
-
+	function deletePhoto(id, callback){
+		db.run("DELETE FROM PHOTOS WHERE id = ?", [id], function(err){
+				callback(err);
+		});
 	}
 
-	function addPhoto(id){
+	function addPhoto(id, callback){
 		
 	}
 
