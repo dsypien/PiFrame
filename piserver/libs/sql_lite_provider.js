@@ -23,9 +23,9 @@ module.exports = function(filename){
 	            //DB SETUP
 	            if(!exists){
 	            	console.log("Creating Tables");
-	                db.run("CREATE TABLE PHOTOS (ID INT PRIMARY KEY NOT NULL, CHECKSUM TEXT NOT NULL, THUMB_NAME TEXT NOT NULL)");
-	                db.run("CREATE TABLE SLIDESHOWS ( ID INT PRIMARY KEY  NOT NULL, NAME  TEXT  NOT NULL )");
-	                db.run("CREATE TABLE PHOTOS_TO_SLIDE (ID INT PRIMARY KEY NOT NULL,PHOTOS_ID INT NOT NULL,SLIDES_ID INT NOT NULL)");
+	                db.run("CREATE TABLE PHOTOS (ID INT PRIMARY KEY NOT NULL, CHECKSUM TEXT NOT NULL, THUMB_NAME TEXT NOT NULL);");
+	                db.run("CREATE TABLE SLIDESHOWS ( ID INT PRIMARY KEY  NOT NULL, NAME  TEXT  NOT NULL );");
+	                db.run("CREATE TABLE PHOTOS_TO_SLIDE (ID INT PRIMARY KEY NOT NULL,PHOTOS_ID INT NOT NULL,SLIDES_ID INT NOT NULL);");
 	            }
 	        });
 	    }catch(e){
@@ -34,20 +34,21 @@ module.exports = function(filename){
 	})();
 
 	function getPhotos(callback){
-		db.run("SELECT * from PHOTOS", function(err, rows){
+		db.all("SELECT ID, CHECKSUM, THUMB_NAME from PHOTOS;", function(err, rows){
 			if(err){
-				console.log("ERROR getting photos: " + err);
+				callback("ERROR getting photos: " + err);
+				return;
 			}
 
-			console.log("data: ");
+			console.log("SQL GET PHOTOS data: ");
 			console.log(rows);
 
-			callback(rows);
+			callback({}, rows);
 		});
 	}
 
 	function deletePhoto(id, callback){
-		db.run("DELETE FROM PHOTOS WHERE id = ?", [id], function(err){
+		db.run("DELETE FROM PHOTOS WHERE id = ?;", [id], function(err){
 				callback(err);
 		});
 	}
