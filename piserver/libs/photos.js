@@ -7,8 +7,7 @@ module.exports = function(){
 
 	function addPhoto(req, callback){
 		var fstream,
-			db = req.db,
-			insert_statement;
+			provider = req.dbprovider;
 
 		req.pipe(req.busboy);
 
@@ -45,7 +44,7 @@ module.exports = function(){
             			checksumName = sum + path.extname(filename);
             			checkSumDestFile = path.join(__dirname, '../../pics/', checksumName) ;
 
-            			console.log(sum);
+            			console.log("checksum: " + sum);
 
             			//Ensure there are no duplicates
             			if(fs.existsSync(checkSumDestFile)){
@@ -80,18 +79,7 @@ module.exports = function(){
 		            		overwrite: true
 		            	});
 
-		            	// Insert Photo into db
-		            	insert_statement = db.prepare("INSERT INTO PHOTOS(CHECKSUM, THUMB_NAME) VALUES ('"+ checksumName +"','" + thumb_name +"')");
-
-		            	insert_statement.finalize();
-
-		            	console.log("selecting");
-		            	db.each("SELECT rowid AS id, checksum, thumb_name from PHOTOS", function(err, row){
-		            		console.log("data: ");
-		            		console.log(row.ID + " " + row.CHECKSUM + " " + row.THUMB_NAME);
-		            	});
-
-		            	callback();
+		            	getPhotos(provider, callback);
             		}
             	});
             });
@@ -99,8 +87,8 @@ module.exports = function(){
 	}
 
 	function getPhotos(provider, callback){
-		provider.getPhotos(function(data){
-			callback(data);
+		provider.getPhotos(function(err, data){
+			callback(err, data);
 		});
 	}
 
@@ -110,7 +98,7 @@ module.exports = function(){
 		console.log("Deleteing pic with id " + req.body.id);
 		
 		//Remove from db
-		provider.deletePhoto(req.body.id, function(err){
+		provider.deletePhoto(req.body.id, function(err, rows){
 			if(err){
 				res.json(500, error);
 			}
@@ -133,8 +121,8 @@ module.exports = function(){
 					else{
 						console.log("succesfully deleted" +  doc[0].thumb_name );
 						//res.redirect("/#photos");
-						collection.find({}, {}, function(e, docs){
-							res.json(docs);
+						provider.getPhotos(function(data){
+							callback({}, data);
 						});
 					}
 				});

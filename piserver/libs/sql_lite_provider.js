@@ -2,6 +2,7 @@ var sqlite3 = require('sqlite3').verbose();
 var fs = require('fs');
 var file_name;
 var db;
+var setupdb;
 
 module.exports = function(filename){
     // SETUP
@@ -17,17 +18,25 @@ module.exports = function(filename){
 	            fs.openSync(file_name, 'w');
 	        }
 
-	        db = new sqlite3.Database(file_name);
+	        setupdb = new sqlite3.Database(file_name);
 
-	        db.serialize(function(){
+	        setupdb.serialize(function(){
 	            //DB SETUP
 	            if(!exists){
 	            	console.log("Creating Tables");
-	                db.run("CREATE TABLE PHOTOS (ID INT PRIMARY KEY NOT NULL, CHECKSUM TEXT NOT NULL, THUMB_NAME TEXT NOT NULL);");
-	                db.run("CREATE TABLE SLIDESHOWS ( ID INT PRIMARY KEY  NOT NULL, NAME  TEXT  NOT NULL );");
-	                db.run("CREATE TABLE PHOTOS_TO_SLIDE (ID INT PRIMARY KEY NOT NULL,PHOTOS_ID INT NOT NULL,SLIDES_ID INT NOT NULL);");
+	                setupdb.run("CREATE TABLE PHOTOS (ID INT PRIMARY KEY NOT NULL, CHECKSUM TEXT NOT NULL, THUMB_NAME TEXT NOT NULL);");
+	                setupdb.run("CREATE TABLE SLIDESHOWS ( ID INT PRIMARY KEY  NOT NULL, NAME  TEXT  NOT NULL );");
+	                setupdb.run("CREATE TABLE PHOTOS_TO_SLIDE (ID INT PRIMARY KEY NOT NULL,PHOTOS_ID INT NOT NULL,SLIDES_ID INT NOT NULL);");
 	            }
 	        });
+
+	        setupdb.close( function(err){
+	        	if(err){
+	        		console.log("ERROR CLOSING DB: " + err);
+	        	}
+	        	db = new sqlite3.Database(file_name);
+	    	});
+	    	
 	    }catch(e){
 	        console.log(e);
 	    }

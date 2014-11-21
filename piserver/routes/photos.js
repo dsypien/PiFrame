@@ -1,17 +1,18 @@
 var express = require('express');
 var router = express.Router();
 var busboy = require('connect-busboy');
-var photoslib = require('./libs/photos');
-var fs = require('fs');
-var path = require("path");
-var thumbnail = require('node-thumbnail').thumb;
-var checksum = require('checksum');
+var photoslib = require('../libs/photos');
+// var fs = require('fs');
+// var path = require("path");
+// var thumbnail = require('node-thumbnail').thumb;
+// var checksum = require('checksum');
+
 
 var photos = photoslib();
 
 router.get('/json', function(req,res){
 	try{
-		photos.get( req.dbprovider, function(data){
+		photos.get( req.dbprovider, function(err, data){
 			res.json(data);
 		});
 	}
