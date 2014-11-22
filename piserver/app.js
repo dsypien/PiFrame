@@ -12,8 +12,7 @@ var monk = require('monk');
 var bodyParser = require('body-parser');
 var sqlite3 = require('sqlite3');
 var db;
-var db_file = ('./data/piframe.db');
-var dbprovider = require('./libs/sql_lite_provider');
+// var db_file = ('./data/piframe.db');
 
 
 // var db= monk('localhost:27017/piFrameDB');
@@ -39,22 +38,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(busboy());
-
-//Create DB Provider instance
-var db_provider_instance = dbprovider(db_file);
-
-// Create DB if one does not exist and 
-// make db available to our router
-app.use(function(req,res,next){
-    try{        
-        //req.db = db;
-        req.dbprovider = db_provider_instance;
-
-        next();
-    }catch(e){
-        console.log(e);
-    }
-});
 
 app.use('/', routes);
 app.use('/photos', photos);

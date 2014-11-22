@@ -12,7 +12,7 @@ var photos = photoslib();
 
 router.get('/json', function(req,res){
 	try{
-		photos.get( req.dbprovider, function(err, data){
+		photos.get( function(err, data){
 			res.json(data);
 		});
 	}
@@ -36,7 +36,7 @@ router.post('/', function(req, res) {
 		});
 	}
 	else{
-		photos.add(req, function(err){
+		photos.add(req, function(err, items){
 			if(err){
 				console.log(err);
 				res.redirect(req.get('referer'));

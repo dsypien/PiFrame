@@ -2,12 +2,12 @@ var fs = require('fs');
 var path = require("path");
 var thumbnail = require('node-thumbnail').thumb;
 var checksum = require('checksum');
+var db = require('./db')
 
 module.exports = function(){
 
 	function addPhoto(req, callback){
-		var fstream,
-			provider = req.dbprovider;
+		var fstream;
 
 		req.pipe(req.busboy);
 
@@ -79,56 +79,62 @@ module.exports = function(){
 		            		overwrite: true
 		            	});
 
-		            	getPhotos(provider, callback);
+		            	// getPhotos(provider, callback);
+		            	// TO DO: GET PHOTOS, CALL CALLBACK
+		            	db.Photos.create([{
+		            		checksum: checksumName,
+		            		thumb_name: thumb_name
+		            	}], function(err, items){
+		            		callback(err, items);
+		            	});
             		}
             	});
             });
         });
 	}
 
-	function getPhotos(provider, callback){
-		provider.getPhotos(function(err, data){
-			callback(err, data);
+	function getPhotos(callback){
+		db.Photos.find(function(err, items){
+			callback(err, items);
 		});
 	}
 
 	function deletePhoto(req, callback){
-		var provider = req.dbprovider;
+		// var provider = req.dbprovider;
 
-		console.log("Deleteing pic with id " + req.body.id);
+		// console.log("Deleteing pic with id " + req.body.id);
 		
-		//Remove from db
-		provider.deletePhoto(req.body.id, function(err, rows){
-			if(err){
-				res.json(500, error);
-			}
-			else{
-				//Remove file
-				fs.unlink(path.join(__dirname, '../../pics/', doc[0].name), function(delErr){
-					if(delErr){
-						console.log(delErr);
-					}
-					else{
-						console.log("succesfully deleted " + doc[0].name );
-					}
-				});
-				//Remove thumbnail
-				fs.unlink(path.join(__dirname, '../public/thumbnails/', doc[0].thumb_name), function(delErr){
-					if(delErr){
-						console.log(delErr);
-						res.send(delErr);
-					}
-					else{
-						console.log("succesfully deleted" +  doc[0].thumb_name );
-						//res.redirect("/#photos");
-						provider.getPhotos(function(data){
-							callback({}, data);
-						});
-					}
-				});
-			}
-		});
-
+		// //Remove from db
+		// provider.deletePhoto(req.body.id, function(err, rows){
+		// 	if(err){
+		// 		res.json(500, error);
+		// 	}
+		// 	else{
+		// 		//Remove file
+		// 		fs.unlink(path.join(__dirname, '../../pics/', doc[0].name), function(delErr){
+		// 			if(delErr){
+		// 				console.log(delErr);
+		// 			}
+		// 			else{
+		// 				console.log("succesfully deleted " + doc[0].name );
+		// 			}
+		// 		});
+		// 		//Remove thumbnail
+		// 		fs.unlink(path.join(__dirname, '../public/thumbnails/', doc[0].thumb_name), function(delErr){
+		// 			if(delErr){
+		// 				console.log(delErr);
+		// 				res.send(delErr);
+		// 			}
+		// 			else{
+		// 				console.log("succesfully deleted" +  doc[0].thumb_name );
+		// 				//res.redirect("/#photos");
+		// 				provider.getPhotos(function(data){
+		// 					callback({}, data);
+		// 				});
+		// 			}
+		// 		});
+		// 	}
+		// });
 	}
 
 	//Interface
