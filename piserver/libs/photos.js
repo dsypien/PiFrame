@@ -69,7 +69,7 @@ module.exports = function(){
 
 		            	//Path where image will be uploaded
 			            var destPath = path.join(__dirname, '../../pics/');
-			            var thumb_name = checksumName.replace('.', 'thumb.');
+			            var thumb_name = checksumName.replace('.', '_thumb.');
 
 		            	// Create thumbnail;
 		            	thumbnail({
@@ -79,8 +79,7 @@ module.exports = function(){
 		            		overwrite: true
 		            	});
 
-		            	// getPhotos(provider, callback);
-		            	// TO DO: GET PHOTOS, CALL CALLBACK
+		            	// Save photo data in db
 		            	db.Photos.create([{
 		            		checksum: checksumName,
 		            		thumb_name: thumb_name
@@ -100,41 +99,43 @@ module.exports = function(){
 	}
 
 	function deletePhoto(req, callback){
-		// var provider = req.dbprovider;
-
-		// console.log("Deleteing pic with id " + req.body.id);
-		
-		// //Remove from db
-		// provider.deletePhoto(req.body.id, function(err, rows){
-		// 	if(err){
-		// 		res.json(500, error);
-		// 	}
-		// 	else{
-		// 		//Remove file
-		// 		fs.unlink(path.join(__dirname, '../../pics/', doc[0].name), function(delErr){
-		// 			if(delErr){
-		// 				console.log(delErr);
-		// 			}
-		// 			else{
-		// 				console.log("succesfully deleted " + doc[0].name );
-		// 			}
-		// 		});
-		// 		//Remove thumbnail
-		// 		fs.unlink(path.join(__dirname, '../public/thumbnails/', doc[0].thumb_name), function(delErr){
-		// 			if(delErr){
-		// 				console.log(delErr);
-		// 				res.send(delErr);
-		// 			}
-		// 			else{
-		// 				console.log("succesfully deleted" +  doc[0].thumb_name );
-		// 				//res.redirect("/#photos");
-		// 				provider.getPhotos(function(data){
-		// 					callback({}, data);
-		// 				});
-		// 			}
-		// 		});
-		// 	}
-		// });
+		console.log("Deleteing pic with id " + req.body.id);
+		try{
+			db.Photos.get(req.body.id, function(err, targetPhoto){
+				if(err){
+					callback(err);
+				}
+				else{
+					console.log("Found pic to delete");
+					targetPhoto.remove(function(err){
+						//Remove file
+						fs.unlink(path.join(__dirname, '../../pics/', targetPhoto.checksum), function(delErr){
+							if(err){
+								console.log(err);
+							}
+							else{
+								console.log("succesfully deleted pic " + targetPhoto.checksum );
+							}
+						});
+						//Remove thumbnail
+						fs.unlink(path.join(__dirname, '../public/thumbnails/', targetPhoto.thumb_name), function(delErr){
+							if(delErr){
+								callback(delErr);
+							}
+							else{
+								console.log("succesfully deleted thumb" +  targetPhoto.thumb_name );
+								//res.redirect("/#photos");
+								provider.getPhotos(function(data){
+									callback({}, data);
+								});
+							}
+						});
+					});
+				}			
+			});
+		}catch(e){
+			console.log("Runtime exception caught: " + e);
+		}
 	}
 
 	//Interface
