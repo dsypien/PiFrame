@@ -1,12 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var ObjectID = require('mongodb').ObjectID;
-var fs =  require('fs');
-var path = require('path');
-
-router.get('/', function(req, res){
-	res.render('slideshows', {title: 'Slideshows'});
-});
 
 router.get('/json', function(req,res){
 	// var db = req.db;
