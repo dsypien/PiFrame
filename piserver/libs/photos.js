@@ -100,42 +100,39 @@ module.exports = function(){
 
 	function deletePhoto(req, callback){
 		console.log("Deleteing pic with id " + req.body.id);
-		try{
-			db.Photos.get(req.body.id, function(err, targetPhoto){
-				if(err){
-					callback(err);
-				}
-				else{
-					console.log("Found pic to delete");
-					targetPhoto.remove(function(err){
-						//Remove file
-						fs.unlink(path.join(__dirname, '../../pics/', targetPhoto.checksum), function(delErr){
-							if(err){
-								console.log(err);
-							}
-							else{
-								console.log("succesfully deleted pic " + targetPhoto.checksum );
-							}
-						});
-						//Remove thumbnail
-						fs.unlink(path.join(__dirname, '../public/thumbnails/', targetPhoto.thumb_name), function(delErr){
-							if(delErr){
-								callback(delErr);
-							}
-							else{
-								console.log("succesfully deleted thumb" +  targetPhoto.thumb_name );
-								//res.redirect("/#photos");
-								provider.getPhotos(function(data){
-									callback({}, data);
-								});
-							}
-						});
+		
+		db.Photos.get(req.body.id, function(err, targetPhoto){
+			if(err){
+				callback(err);
+			}
+			else{
+				console.log("Found pic to delete");
+				targetPhoto.remove(function(err){
+					//Remove file
+					fs.unlink(path.join(__dirname, '../../pics/', targetPhoto.checksum), function(delErr){
+						if(err){
+							console.log(err);
+						}
+						else{
+							console.log("succesfully deleted pic " + targetPhoto.checksum );
+						}
 					});
-				}			
-			});
-		}catch(e){
-			console.log("Runtime exception caught: " + e);
-		}
+					//Remove thumbnail
+					fs.unlink(path.join(__dirname, '../public/thumbnails/', targetPhoto.thumb_name), function(delErr){
+						if(delErr){
+							callback(delErr);
+						}
+						else{
+							console.log("succesfully deleted thumb" +  targetPhoto.thumb_name );
+							//res.redirect("/#photos");
+							provider.getPhotos(function(data){
+								callback({}, data);
+							});
+						}
+					});
+				});
+			}			
+		});
 	}
 
 	//Interface

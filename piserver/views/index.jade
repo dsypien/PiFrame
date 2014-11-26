@@ -28,7 +28,7 @@ block content
 
     //- PHOTOLIST
     div(id="photos_list_container", data-layout="3333")
-      img(ng-repeat="photo in photos",src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}", class="photo_pg_img", ng-click='deletePhoto')
+      img(ng-repeat="photo in photos",src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_pg_img", ng-click='deletePhoto')
     
     a(id='deletebtn', ng-click="deletePhoto()" data-role="button") Delete
 
@@ -92,7 +92,7 @@ block content
 
     //- PHOTOLIST
     div(id="photos_list_container_newslide", data-layout="3333")
-      img(ng-repeat="photo in photos", src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}", class="new_slide_pg_img")
+      img(ng-repeat="photo in photos", src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="new_slide_pg_img")
   
     div(data-role="controlgroup", data-theme='b')
       a(id="new-slide-save", class='ui-btn ui-btn-icon-left ui-icon-action input_60P') Save
