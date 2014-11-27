@@ -55,7 +55,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	}
 
 	function getPhotoById(id){
-		return $.grep(photos, function(e){ return e._id === id;});
+		return $.grep(photos, function(e){ return e.id === id;});
 	}
 
 	function fadeIn(elem){
@@ -150,7 +150,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 				console.log('No slide selected');
 				return;
 			}
-			slideId = slides[index]._id;
+			slideId = slides[index].id;
 			name = slides[index].name;
 
 
@@ -179,7 +179,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			var index = $('#select-slide-edit').val();
 			var pictures = getPhotosSelected('slideedit');
 			var objData ={
-				id: slides[index]._id,
+				id: slides[index].id,
 				name: name,
 				pictures: pictures
 			};
@@ -205,7 +205,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 				check_img.src = "/images/Check-icon.png";
 				check_img.className = "selected_check_img";
 
-				$('#' + curPic._id + "edit").parent().append(check_img);
+				$('#' + curPic.id + "edit").parent().append(check_img);
 			}
 		});
 	}

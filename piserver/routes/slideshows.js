@@ -22,10 +22,6 @@ router.get('/json', function(req,res){
 
 //uSED
 router.get('/edit/slide:id', function(req, res){
-	// var db = req.db;
-	// var photos = db.get('photo_collection');
-	// var slides = db.get('slides_collection');
-
 	console.log(req.params);
 
 	slides.getbyID(req.body.id, function(err, slide){
@@ -77,9 +73,6 @@ router.get('/edit/slide:id', function(req, res){
 
 //used
 router.post("/new", function(req, res){	
-	console.log	("Adding " + req.body.name);
-	console.log(req.body.pictures);
-
 	slides.create(req.body, function(err, data){
 		if(err){
 			console.log(err);
@@ -90,35 +83,6 @@ router.post("/new", function(req, res){
 			res.json(data);
 		}
 	});
-
-    //  Get Photo Collection
-	// photosCollection.find({},{},function(e1, photos){
-	// 	if(e1){
-	// 		console.log(e1);
-	// 	}
-
-	// 	// Look for duplicate slide in slide collection
-	// 	slideCollection.find({name: req.body.name}, {}, function(e, docs){
-	// 		//Bail if Slide with same name exists
-	// 		if(docs.length > 0){
-	// 			console.log("found doc with same name ... bailing");
-	// 			return;
-	// 		}
-
-	// 		// Create a directory for this slide in slides
-	// 		createSlideDirAmdSymlinks(photos, req.body);
-
-	// 		// Save Slide to DB
-	// 		slideCollection.insert(req.body, function(err, doc){
-	// 			if(err){
-	// 				console.log(err);
-	// 			}
-
-	// 			console.log(doc);
-	// 			res.send("OK");
-	// 		});
-	// 	});
-	// });
 });
 
 
@@ -164,24 +128,16 @@ router.put("/edit", function(req,res){
 
 //USED
 router.post("/delete", function(req,res){
-	var db = req.db;
-	var collection = db.get('slides_collection');
-
-	collection.remove({_id: req.body.id}, function(err,doc){
+	slides.remove(req, function(err, items){
 		if(err){
 			console.log(err);
+			res.status(500);
+			res.send(err);
 		}
-
-		if(doc){
-			console.log(doc);
+		else{
+			res.send("OK");
 		}
-
-		removeFilesInDir(req.body.name);
-		removeDir(req.body.name);
-
-		console.log(doc);
-		res.send('OK');
-	});
+	})
 });
 
 module.exports = router;

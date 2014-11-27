@@ -1,6 +1,7 @@
 var fs =  require('fs');
 var path = require('path');
 var db = require('./db');
+var _ = require('underscore');
 
 function removeFilesInDir(dirName){
 	var slidepath = path.join(__dirname, '../../slides/', dirName);
@@ -47,32 +48,32 @@ function removeDir(dir){
 }
 
 function createSlideDirAmdSymlinks(slide){
-	var curslide = slide;
-	var destSlideDir = path.join(__dirname, '../../slides/', curslide.name);
+	var destSlideDir = path.join(__dirname, '../../slides/', slide.name);
 
-
-	console.log("Making the directory : " +  destSlideDir + " length: " + curslide.pictures.length);
+	console.log("Making the directory : " +  destSlideDir );
 	
-		fs.mkdir(destSlideDir, 0777, function(err){
-			if(err){
-				console.log(err);
-			}
-
-			console.log("calling createsymlink " + curslide.length)
-			createSymLinks(curslide);
-		});
+	fs.mkdirSync(destSlideDir, 0777);
+	createSymLinks(slide);
 }
 
 function createSymLinks(slide){
-	console.log("Creating symlinks for slide :" + slide.name + " length: " + slide.pictures.length);
 	var destSlideDir = path.join(__dirname, '../../slides/', slide.name);
+	var i = 0;
+	var pictures_length = slide.pictures.length;
+	var curphoto;
+
+	console.log("Creating symlinks for slide :" + slide.name);	
+
+	console.log("THUMB NAME: " + slide.pictures[0].thumb_name);
+	console.log("THUMB NAME: " + slide.pictures[1].thumb_name);
 
 	// Create Symlinks for each photo in the photo array
-	for(curphoto in slide.pictures){
-		console.log(curphoto);
+	for(; i <  pictures_length; i++){
+		curphoto = slide.pictures[i];
+		console.log(curphoto.thumb_name);
 
-		var photoPath = path.join(__dirname, '../../pics/', curphoto.name);
-		var symPath = path.join(destSlideDir, curphoto.name);
+		var photoPath = path.join(__dirname, '../../pics/', curphoto.checksum);
+		var symPath = path.join(destSlideDir, curphoto.checksum);
 		fs.symlink(photoPath, symPath, 'file', function(symerr){
 			if(symerr){
 				console.log(symerr);
@@ -90,27 +91,78 @@ module.exports = function(){
 				return;
 			}
 
-			db.Photos.find(slide.photos, function(err, photos){
-				slide.pictures = photos;
+			db.Photos.find(function(err, photos){
+				slide.pictures = filterPhotosByIdAry(slide.pictures, photos);
 
 				console.log("photos: " + slide.pictures + " length : " + slide.pictures.length);
 				// Create a directory for this slide in slides
 				createSlideDirAmdSymlinks(slide);
 
 				// Save Slide to DB
-				db.Slides.create(slide, function(err, items){
+				db.Slides.create([slide], function(err, items){
+					if(items.length !==1){
+						callback("Items size: " + items.length);
+						return;
+					}
+
+					console.log("Setting photos association " + photos.length );
+
+					items[0].photos = photos;
+					items.save();
+
 					callback(err, items);
 				});
 			});
 		});
+
+		function filterPhotosByIdAry(aryIds, aryPhotos){
+			var filteredAry = [];
+			var i = 0;
+			
+			for(; i < aryIds.length; i++){
+				var photo = aryPhotos.filter(function(obj){
+					return obj.id == aryIds[i];
+				});
+
+				if(photo){
+					console.log("adding photo to filter [checksum] : " 
+						+ photo.checksum
+						+ " id : "
+						+ photo.id 
+						+ " thumb: "
+						+ photo.thumb_name 
+						+ " photo: " 
+						+ photo);
+
+					filteredAry.push(photo);
+				}
+			}
+
+			return filteredAry;
+		}
 	}
 
 	function edit(){
 
 	}
 
-	function remove(){
+	function remove(req, callback){
+		db.Slides.get(req.body.id, getSlidesCallback);
 
+		function getSlidesCallback(err, targetSlide){
+			if(err){
+				callback(err);
+			}
+			else{
+				targetSlide.remove(deleteSlideCallback);
+			}
+		};
+
+		function deleteSlideCallback(err){
+			removeFilesInDir(req.body.name);
+			removeDir(req.body.name);
+			callback(err);
+		}
 	}
 
 	function get(callback){
