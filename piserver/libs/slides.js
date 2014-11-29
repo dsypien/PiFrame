@@ -1,7 +1,7 @@
 var fs =  require('fs');
 var path = require('path');
 var db = require('./db');
-var _ = require('underscore');
+var photos = require('./photos')();
 
 function removeFilesInDir(dirName){
 	var slidepath = path.join(__dirname, '../../slides/', dirName);
@@ -91,8 +91,8 @@ module.exports = function(){
 				return;
 			}
 
-			db.Photos.find(function(err, photos){
-				slide.pictures = filterPhotosByIdAry(slide.pictures, photos);
+			photos.photo_cache(function(items){
+				slide.pictures = filterPhotosByIdAry(slide.pictures, items);
 
 				console.log("photos: " + slide.pictures + " length : " + slide.pictures.length);
 				// Create a directory for this slide in slides
@@ -105,9 +105,9 @@ module.exports = function(){
 						return;
 					}
 
-					console.log("Setting photos association " + photos.length );
+					console.log("Setting photos association " + items.length );
 
-					items[0].photos = photos;
+					items[0].photos = items;
 					items.save();
 
 					callback(err, items);
@@ -118,6 +118,10 @@ module.exports = function(){
 		function filterPhotosByIdAry(aryIds, aryPhotos){
 			var filteredAry = [];
 			var i = 0;
+
+			if(aryPhotos.length < 1){
+				return;
+			}
 			
 			for(; i < aryIds.length; i++){
 				var photo = aryPhotos.filter(function(obj){

@@ -4,6 +4,8 @@ var thumbnail = require('node-thumbnail').thumb;
 var checksum = require('checksum');
 var db = require('./db')
 
+var photos;
+
 module.exports = function(){
 
 	function addPhoto(req, callback){
@@ -94,6 +96,7 @@ module.exports = function(){
 
 	function getPhotos(callback){
 		db.Photos.find(function(err, items){
+			photos = items;
 			callback(err, items);
 		});
 	}
@@ -135,11 +138,23 @@ module.exports = function(){
 		});
 	}
 
+	function photo_cache(callback){
+		if(!photos){
+			photos = getPhotos( function(){
+				callback(photos);
+			});
+		}
+		else{
+			callback(photos);
+		}
+	}
+
 	//Interface
 	return{
 		add: addPhoto,
 		get: getPhotos,
-		remove: deletePhoto
+		remove: deletePhoto,
+		photo_cache : photo_cache
 	};
 };
 
