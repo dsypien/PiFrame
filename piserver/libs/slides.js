@@ -130,15 +130,15 @@ module.exports = function(){
 
 				if(photo){
 					console.log("adding photo to filter [checksum] : " 
-						+ photo.checksum
+						+ photo[0].checksum
 						+ " id : "
-						+ photo.id 
+						+ photo[0].id 
 						+ " thumb: "
-						+ photo.thumb_name 
+						+ photo[0].thumb_name 
 						+ " photo: " 
-						+ photo);
+						+ photo[0]);
 
-					filteredAry.push(photo);
+					filteredAry.push(photo[0]);
 				}
 			}
 
