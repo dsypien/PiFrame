@@ -2,7 +2,7 @@ var fs = require('fs');
 var path = require("path");
 var thumbnail = require('node-thumbnail').thumb;
 var checksum = require('checksum');
-var db = require('./db')
+var db = require('./db');
 
 var photos;
 
@@ -79,14 +79,14 @@ module.exports = function(){
 		            		destination: path.join(__dirname, '../public/thumbnails/'),
 		            		width: 250,
 		            		overwrite: true
-		            	});
-
-		            	// Save photo data in db
-		            	db.Photos.create([{
-		            		checksum: checksumName,
-		            		thumb_name: thumb_name
-		            	}], function(err, items){
-		            		callback(err, items);
+		            	}, function(err){
+		            		// Save photo data in db
+			            	db.Photos.create([{
+			            		checksum: checksumName,
+			            		thumb_name: thumb_name
+			            	}], function(err, items){
+			            		callback(err, items);
+			            	});
 		            	});
             		}
             	});
@@ -128,7 +128,7 @@ module.exports = function(){
 						else{
 							console.log("succesfully deleted thumb" +  targetPhoto.thumb_name );
 							//res.redirect("/#photos");
-							provider.getPhotos(function(data){
+							getPhotos(function(data){
 								callback({}, data);
 							});
 						}

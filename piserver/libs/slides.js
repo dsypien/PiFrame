@@ -78,7 +78,7 @@ function createSymLinks(slide){
 			if(symerr){
 				console.log(symerr);
 			}
-		})
+		});
 	}
 }
 
