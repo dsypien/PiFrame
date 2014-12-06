@@ -107,10 +107,10 @@ module.exports = function(){
 
 					console.log("Setting photos association " + items.length );
 
-					items[0].photos = items;
-					items.save();
-
-					callback(err, items);
+					items[0].photos = slide.pictures;
+					items[0].save(function(err){
+					 	callback(err, items);
+					 });
 				});
 			});
 		});
@@ -132,11 +132,7 @@ module.exports = function(){
 					console.log("adding photo to filter [checksum] : " 
 						+ photo[0].checksum
 						+ " id : "
-						+ photo[0].id 
-						+ " thumb: "
-						+ photo[0].thumb_name 
-						+ " photo: " 
-						+ photo[0]);
+						+ photo[0].id );
 
 					filteredAry.push(photo[0]);
 				}
@@ -171,6 +167,17 @@ module.exports = function(){
 
 	function get(callback){
 		db.Slides.find(function(err, items){
+			var i = 0;
+
+			for(; i < items.length; i++){
+				items[i].getPhotos(function(err, photos){
+					if(err){
+						consol.log(err);
+					}
+					items[i].photos = photos;
+				});
+			}
+
 			callback(err, items);
 		});
 	}
@@ -178,8 +185,11 @@ module.exports = function(){
 	function getByID(id, callback){
 		var i=0;
 
-		db.Slides.get(id, function(err, targetSlide){
-			callback(err, targetSlide);
+		db.Slides.get(id, function(err, Slide){
+			Slide.getPhotos(function(err, photos){
+				Slide.pictures = photos;
+				callback(err, Slide);
+			});
 		});
 	}
 
