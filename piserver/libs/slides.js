@@ -82,6 +82,13 @@ function createSymLinks(slide){
 	}
 }
 
+function Slide(data){
+	this.id = data.id;
+	this.name = data.name;
+	this.picture_ids = data.picture_ids;
+	this.pictures = data.picture_ids;
+}
+
 module.exports = function(){
 	
 	function create(slide, callback){
@@ -91,6 +98,12 @@ module.exports = function(){
 				return;
 			}
 
+			saveSlide(slide, callback);
+		});
+
+		function saveSlide(data, callback){
+			var slide = new Slide(data);
+
 			photos.photo_cache(function(items){
 				slide.pictures = filterPhotosByIdAry(slide.pictures, items);
 
@@ -99,21 +112,11 @@ module.exports = function(){
 				createSlideDirAmdSymlinks(slide);
 
 				// Save Slide to DB
-				db.Slides.create([slide], function(err, items){
-					if(items.length !==1){
-						callback("Items size: " + items.length);
-						return;
-					}
-
-					console.log("Setting photos association " + items.length );
-
-					items[0].photos = slide.pictures;
-					items[0].save(function(err){
-					 	callback(err, items);
-					 });
+				db.Slides.create([slide], function(err){
+					callback(err, slide);
 				});
 			});
-		});
+		}
 
 		function filterPhotosByIdAry(aryIds, aryPhotos){
 			var filteredAry = [];
@@ -167,16 +170,16 @@ module.exports = function(){
 
 	function get(callback){
 		db.Slides.find(function(err, items){
-			var i = 0;
+			// var i = 0;
 
-			for(; i < items.length; i++){
-				items[i].getPhotos(function(err, photos){
-					if(err){
-						consol.log(err);
-					}
-					items[i].photos = photos;
-				});
-			}
+			// for(; i < items.length; i++){
+			// 	items[i].getPhotos(function(err, photos){
+			// 		if(err){
+			// 			consol.log(err);
+			// 		}
+			// 		items[i].photos = photos;
+			// 	});
+			// }
 
 			callback(err, items);
 		});
@@ -186,10 +189,15 @@ module.exports = function(){
 		var i=0;
 
 		db.Slides.get(id, function(err, Slide){
-			Slide.getPhotos(function(err, photos){
-				Slide.pictures = photos;
-				callback(err, Slide);
-			});
+			if(err){
+				callback(err);
+			}
+			else{
+				Slide.getPhotos(function(err, photos){
+					Slide.pictures = photos;
+					callback(err, Slide);
+				});
+			}
 		});
 	}
 
