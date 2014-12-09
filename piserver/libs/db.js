@@ -4,7 +4,7 @@ module.exports.Photos = null;
 module.exports.Slides = null;
 
 module.exports.init = function(callback){
-	orm.connect("sqlite://piserver.db", function(err, db){
+	orm.connect("sqlite://piframe.db", function(err, db){
 		if(err){
 			throw err;
 		}
@@ -16,10 +16,9 @@ module.exports.init = function(callback){
 		Photos.sync(function(err){});
 
 		var Slides = db.define("slides", {
-			name: String
+			name: String,
+			picture_ids: Object
 		});
-
-		Slides.hasMany('photos', Photos, {}, { reverse: 'slides', key: true});
 
 		Slides.sync(function(err){});
 
