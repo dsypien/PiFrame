@@ -82,6 +82,32 @@ function createSymLinks(slide){
 	}
 }
 
+function filterPhotosByIdAry(aryIds, aryPhotos){
+	var filteredAry = [];
+	var i = 0;
+
+	if(aryPhotos.length < 1){
+		return;
+	}
+	
+	for(; i < aryIds.length; i++){
+		var photo = aryPhotos.filter(function(obj){
+			return obj.id == aryIds[i];
+		});
+
+		if(photo){
+			console.log("adding photo to filter [checksum] : " 
+				+ photo[0].checksum
+				+ " id : "
+				+ photo[0].id );
+
+			filteredAry.push(photo[0]);
+		}
+	}
+
+	return filteredAry;
+}
+
 function Slide(data){
 	this.id = data.id;
 	this.name = data.name;
@@ -117,36 +143,36 @@ module.exports = function(){
 				});
 			});
 		}
-
-		function filterPhotosByIdAry(aryIds, aryPhotos){
-			var filteredAry = [];
-			var i = 0;
-
-			if(aryPhotos.length < 1){
-				return;
-			}
-			
-			for(; i < aryIds.length; i++){
-				var photo = aryPhotos.filter(function(obj){
-					return obj.id == aryIds[i];
-				});
-
-				if(photo){
-					console.log("adding photo to filter [checksum] : " 
-						+ photo[0].checksum
-						+ " id : "
-						+ photo[0].id );
-
-					filteredAry.push(photo[0]);
-				}
-			}
-
-			return filteredAry;
-		}
 	}
 
-	function edit(){
+	function edit(slide, callback){
+		var pictures;
 
+		//remove symlinks
+		removeFilesInDir(slide.name);
+
+		db.Slides.get(slide.id, function(err, item){
+			if(err){
+				callback(err);
+			}
+			else{
+				console.log("Phtos: " + slide.pictures);
+				console.log("Slide: " + slide.name);
+
+				photos.photo_cache(function(items){
+					slide.pictures = filterPhotosByIdAry(slide.picture_ids, items);
+
+					//create new symlinks
+					createSymLinks(slide);
+
+					//update picture association
+					item.pictures = slide.pictures;
+					item.save();
+
+					callback({});
+				});
+			}
+		});	
 	}
 
 	function remove(req, callback){
@@ -170,17 +196,6 @@ module.exports = function(){
 
 	function get(callback){
 		db.Slides.find(function(err, items){
-			// var i = 0;
-
-			// for(; i < items.length; i++){
-			// 	items[i].getPhotos(function(err, photos){
-			// 		if(err){
-			// 			consol.log(err);
-			// 		}
-			// 		items[i].photos = photos;
-			// 	});
-			// }
-
 			callback(err, items);
 		});
 	}

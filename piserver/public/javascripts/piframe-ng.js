@@ -40,14 +40,14 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	 		var curSlide = slides[i];
 	 		var photos = [];
 
-	 		if(curSlide.pictures){
-		 		for(var j=0; j < curSlide.pictures.length; j++ ){
-		 			var picId = curSlide.pictures[j];
+	 		if(curSlide.picture_ids){
+		 		for(var j=0; j < curSlide.picture_ids.length; j++ ){
+		 			var picId = curSlide.picture_ids[j];
 		 			var curphoto = getPhotoById(picId)[0];
 
 		 			photos.push(curphoto);
 		 		}
-		 		curSlide.pictures = photos;
+		 		curSlide.picture_ids = photos;
 		 	}
 	 	}
 	 	console.log("Populated slides with pictures");
@@ -55,7 +55,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	}
 
 	function getPhotoById(id){
-		return $.grep(photos, function(e){ return e.id === id;});
+		return $.grep(photos, function(e){ return e.id == id;});
 	}
 
 	function fadeIn(elem){
@@ -181,7 +181,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			var objData ={
 				id: slides[index].id,
 				name: name,
-				pictures: pictures
+				picture_ids: pictures
 			};
 
 			$http.put('/slideshows/edit', objData).success(function(data, status, headers, config){
@@ -198,8 +198,8 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			var curSlide = $scope.slideToEdit;
 			$('.selected_check_img').remove();
 
-			for(var i=0; i < curSlide.pictures.length; i++){
-				var curPic = curSlide.pictures[i];
+			for(var i=0; i < curSlide.picture_ids.length; i++){
+				var curPic = curSlide.picture_ids[i];
 
 				var check_img = document.createElement('img');
 				check_img.src = "/images/Check-icon.png";
@@ -282,7 +282,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			photosAry = getPhotosSelected('slidenew');
 
 			slideObj.name = slideName;
-			slideObj.pictures = photosAry;
+			slideObj.picture_ids = photosAry;
 
 			saveNewSlide(slideObj);
 			console.log(slideObj);

@@ -109,10 +109,10 @@ block content
 
     div(data-role="controlgroup", data-theme='b')
       select(id='select-slide-edit', ng-model="slideToEdit", ng-options="slide.name for slide in slides") 
-      //- option(ng-repeat="slide in slides", value="{{slide._id}}", label="{{slide.name}}") {{slide.name}}
+      //- option(ng-repeat="slide in slides", value="{{slide.id}}", label="{{slide.name}}") {{slide.name}}
 
     div(id="slides_edit_list_container", data-layout="3333", class="invisible")
-      img( ng-model="slideToEdit", ng-repeat="photo in photos",src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}" + "edit", class="photo_edit_img")
+      img( ng-model="slideToEdit", ng-repeat="photo in photos",src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}" + "edit", class="photo_edit_img")
 
     div(id='photos-container')
 
@@ -131,10 +131,10 @@ block content
 
     div(data-role="controlgroup", data-theme='b')
       select(id="selectDelete", ng-model="slideToDelete", ng-options="slide.name for slide in slides")
-      //-option(ng-repeat="slide in slides", value="{{slide._id}}", label="{{slide.name}}") {{slide.name}}
+      //-option(ng-repeat="slide in slides", value="{{slide.id}}", label="{{slide.name}}") {{slide.name}}
 
     div(id="slides_delete_list_container", data-layout="3333")
-      img(ng-model="slideToDelete", ng-repeat="photo in slideToDelete.pictures",src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}", class="photo_delete_img")
+      img(ng-model="slideToDelete", ng-repeat="photo in slideToDelete.pictures",src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_delete_img")
 
     div(data-role="controlgroup", data-theme='b')
       a(id="slide-delete-btn", class='ui-btn ui-btn-icon-left ui-icon-delete input_60P') Delete
@@ -156,7 +156,7 @@ block content
       select(id="selectSlideToPlay", ng-model="slideToPlay", ng-options="slide.name for slide in slides")
 
     div(id="play_list_container", data-layout="3333")
-      img(ng-model="slideToPlay", ng-repeat="photo in slideToPlay.pictures",src="/thumbnails/{{photo.thumb_name}}", id="{{photo._id}}", class="photo_play_img")
+      img(ng-model="slideToPlay", ng-repeat="photo in slideToPlay.pictures",src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_play_img")
 
     div(data-role="controlgroup", data-theme='b')
       a(id="slide-play-btn", class='ui-btn ui-btn-icon-left ui-icon-video invisible input_60P') Play Slide
