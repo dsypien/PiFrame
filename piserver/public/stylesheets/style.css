@@ -88,8 +88,19 @@ form{
 	display: block !important;
 }
 
+.photoset-row{
+	margin-bottom: 0px !important;
+	height: auto !important;
+}
+
 .photoset-cell{
 	position: relative;
+	padding-right: 0px !important;
+	padding-left: 0px !important;
+}
+
+.photoset-cell img{
+	padding:2px;
 }
 
 .invisible{

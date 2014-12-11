@@ -290,7 +290,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 
 		function saveNewSlide(slide){
 			$http.post('/slideshows/new', slide).success(function(data, status, headers, config){
-				getPiData();
+				location.reload();
 			});
 		}
 	}
