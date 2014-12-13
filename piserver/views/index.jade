@@ -134,7 +134,7 @@ block content
       //-option(ng-repeat="slide in slides", value="{{slide.id}}", label="{{slide.name}}") {{slide.name}}
 
     div(id="slides_delete_list_container", data-layout="3333")
-      img(ng-model="slideToDelete", ng-repeat="photo in slideToDelete.pictures",src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_delete_img")
+      img(ng-model="slideToDelete", ng-repeat="photo in slideToDelete.picture_ids",src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_delete_img")
 
     div(data-role="controlgroup", data-theme='b')
       a(id="slide-delete-btn", class='ui-btn ui-btn-icon-left ui-icon-delete input_60P') Delete
