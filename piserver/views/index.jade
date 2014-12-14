@@ -27,7 +27,7 @@ block content
        //- img(src='images/Image-icon.png',alt="Pictures",class="icons")
 
     //- PHOTOLIST
-    div(id="photos_list_container", data-layout="3333")
+    div(id="photos_list_container", data-layout="4444")
       img(ng-repeat="photo in photos",src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_pg_img", ng-click='deletePhoto')
     
     a(id='deletebtn', ng-click="deletePhoto()" data-role="button") Delete
@@ -91,7 +91,7 @@ block content
     input(id="slide-name", type="text", placeholder="Slide Name")
 
     //- PHOTOLIST
-    div(id="photos_list_container_newslide", data-layout="3333")
+    div(id="photos_list_container_newslide", data-layout="4444")
       img(ng-repeat="photo in photos", src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="new_slide_pg_img")
   
     div(data-role="controlgroup", data-theme='b')
@@ -111,7 +111,7 @@ block content
       select(id='select-slide-edit', ng-model="slideToEdit", ng-options="slide.name for slide in slides") 
       //- option(ng-repeat="slide in slides", value="{{slide.id}}", label="{{slide.name}}") {{slide.name}}
 
-    div(id="slides_edit_list_container", data-layout="3333", class="invisible")
+    div(id="slides_edit_list_container", data-layout="4444", class="invisible")
       img( ng-model="slideToEdit", ng-repeat="photo in photos",src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}" + "edit", class="photo_edit_img")
 
     div(id='photos-container')
@@ -133,7 +133,7 @@ block content
       select(id="selectDelete", ng-model="slideToDelete", ng-options="slide.name for slide in slides")
       //-option(ng-repeat="slide in slides", value="{{slide.id}}", label="{{slide.name}}") {{slide.name}}
 
-    div(id="slides_delete_list_container", data-layout="3333")
+    div(id="slides_delete_list_container", data-layout="4444")
       img(ng-model="slideToDelete", ng-repeat="photo in slideToDelete.picture_ids",src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_delete_img")
 
     div(data-role="controlgroup", data-theme='b')
@@ -155,7 +155,7 @@ block content
     div(data-role="controlgroup", data-theme='b')
       select(id="selectSlideToPlay", ng-model="slideToPlay", ng-options="slide.name for slide in slides")
 
-    div(id="play_list_container", data-layout="3333")
+    div(id="play_list_container", data-layout="4444")
       img(ng-model="slideToPlay", ng-repeat="photo in slideToPlay.pictures",src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_play_img")
 
     div(data-role="controlgroup", data-theme='b')

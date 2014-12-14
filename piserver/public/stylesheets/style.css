@@ -42,7 +42,7 @@ header h1{
 #slides_delete_list_container{
 	display: block;
 	width: 100%;
-	/*max-width: 800px;*/
+	max-width: 1000px;
 	margin: 0 auto;
 	opacity: 0;
 	filter: alpha(opacity=0);
