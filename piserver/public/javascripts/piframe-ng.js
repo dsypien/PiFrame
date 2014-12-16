@@ -163,17 +163,6 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	}
 
 	function initSlideNew(){
-		$('.new_slide_pg_img').on('click touchstart', function(){
-			var $elem = $(this);
-
-			if($elem.hasClass('selected_photo')){
-				$elem.removeClass('selected_photo');
-			}
-			else{
-				$elem.addClass('selected_photo');
-			}
-		});
-
 		$('.new_slide_pg_img').on('click touchstart', handlePhotoSelect);
 
 		$('#new-slide-save').on('click touchstart', function(){
@@ -270,6 +259,15 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 
 	var handlePhotoSelect = function(elem){
 		var $elemParent = $(this).parent();
+		var $elem = $(this);
+
+ 		// remove green check mark if it is set for the element otherwise add a check mark
+		if($elem.hasClass('selected_photo')){
+			$elem.removeClass('selected_photo');
+		}
+		else{
+			$elem.addClass('selected_photo');
+		}
 
 		if( $elemParent.children('.selected_check_img').length !== 0 ){
 			$elemParent.children('.selected_check_img')[0].remove();
