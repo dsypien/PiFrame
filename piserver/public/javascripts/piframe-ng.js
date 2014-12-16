@@ -162,6 +162,46 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		}
 	}
 
+	function initSlideNew(){
+		$('.new_slide_pg_img').on('click touchstart', function(){
+			var $elem = $(this);
+
+			if($elem.hasClass('selected_photo')){
+				$elem.removeClass('selected_photo');
+			}
+			else{
+				$elem.addClass('selected_photo');
+			}
+		});
+
+		$('.new_slide_pg_img').on('click touchstart', handlePhotoSelect);
+
+		$('#new-slide-save').on('click touchstart', function(){
+			var photosAry = [];
+			var slideName = $('#slide-name').val();
+			var slideObj = {};
+
+			//validate
+			if( !slideName ){//|| !(/^\w+$/).test(slideName) 
+				alert("Please enter a name");
+			}
+
+			photosAry = getPhotosSelected('slidenew');
+
+			slideObj.name = slideName;
+			slideObj.picture_ids = photosAry;
+
+			saveNewSlide(slideObj);
+			console.log(slideObj);
+		});
+
+		function saveNewSlide(slide){
+			$http.post('/slideshows/new', slide).success(function(data, status, headers, config){
+				location.reload();
+			});
+		}
+	}
+
 	function initSlideEdit(){
 		$('#slide-edit-btn').on('click touchstart', saveSlideEdit);
 		$('.photo_edit_img').on('click touchstart', handlePhotoSelect);
@@ -195,9 +235,9 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 				$('#slides_edit_list_container').removeClass('invisible');
 				$('#slide-edit-btn').closest('.ui-controlgroup').removeClass('invisible');
 			}
-			var curSlide = $scope.slideToEdit;
-			$('.selected_check_img').remove();
+			$('#slideedit .selected_check_img').remove();
 
+			var curSlide = $scope.slideToEdit;
 			for(var i=0; i < curSlide.picture_ids.length; i++){
 				var curPic = curSlide.picture_ids[i];
 
@@ -205,6 +245,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 				check_img.src = "/images/Check-icon.png";
 				check_img.className = "selected_check_img";
 
+				$('#' + curPic.id + "edit").addClass('selected_photo');
 				$('#' + curPic.id + "edit").parent().append(check_img);
 			}
 		});
@@ -254,44 +295,4 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		}
 		return photosAry;
 	};
-
-	function initSlideNew(){
-		$('.new_slide_pg_img').on('click touchstart', function(){
-			var $elem = $(this);
-
-			if($elem.hasClass('selected_photo')){
-				$elem.removeClass('selected_photo');
-			}
-			else{
-				$elem.addClass('selected_photo');
-			}
-		});
-
-		$('.new_slide_pg_img').on('click touchstart', handlePhotoSelect);
-
-		$('#new-slide-save').on('click touchstart', function(){
-			var photosAry = [];
-			var slideName = $('#slide-name').val();
-			var slideObj = {};
-
-			//validate
-			if( !slideName ){//|| !(/^\w+$/).test(slideName) 
-				alert("Please enter a name");
-			}
-
-			photosAry = getPhotosSelected('slidenew');
-
-			slideObj.name = slideName;
-			slideObj.picture_ids = photosAry;
-
-			saveNewSlide(slideObj);
-			console.log(slideObj);
-		});
-
-		function saveNewSlide(slide){
-			$http.post('/slideshows/new', slide).success(function(data, status, headers, config){
-				location.reload();
-			});
-		}
-	}
 });
