@@ -248,7 +248,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 			var slide = slides[index];
 			
 			// Play Slide!
-			$http.post('/settings/play', slide).success(function(data, status, headers, config){
+			$http.post('/play', slide).success(function(data, status, headers, config){
 			});
 		}
 

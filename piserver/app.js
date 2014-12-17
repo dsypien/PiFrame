@@ -7,16 +7,9 @@ var fs = require('fs');
 var busboy = require('connect-busboy');
 var formidable = require('formidable');
 var http = require('http');
-var mongo = require('mongodb');
-var monk = require('monk');
 var bodyParser = require('body-parser');
 var sqlite3 = require('sqlite3');
 var db;
-// var db_file = ('./data/piframe.db');
-
-
-// var db= monk('localhost:27017/piFrameDB');
-
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

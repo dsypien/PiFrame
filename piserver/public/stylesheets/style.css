@@ -69,7 +69,6 @@ header h1{
 #slides_delete_list_container img{
 	width: 100% !important;
 	height: 100% !important;
-	margin-bottom:5px;
 	max-width: 100%;
 }
 
@@ -151,6 +150,8 @@ form{
 .photoset-cell img{
 	padding:2px;
 	margin:0px;
+	margin-bottom: 0px !important;
+	margin-top: 0px !important;
 }
 
 .invisible{

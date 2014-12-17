@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-// var ObjectID = require('mongodb').ObjectID;
 var slidesLib = require("../libs/slides");
 
 var slides = slidesLib();
@@ -77,7 +76,7 @@ router.post("/delete", function(req,res){
 		else{
 			res.send("OK");
 		}
-	})
+	});
 });
 
 module.exports = router;
