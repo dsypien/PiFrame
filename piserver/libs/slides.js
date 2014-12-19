@@ -166,7 +166,6 @@ module.exports = function(){
 					createSymLinks(slide);
 
 					//update picture association
-					// item.pictures = slide.pictures;
 					item.picture_ids = slide.picture_ids;
 					item.save(function(err){
 						callback(err);
