@@ -4,31 +4,37 @@ module.exports.Photos = null;
 module.exports.Slides = null;
 
 module.exports.init = function(callback){
-	orm.connect("sqlite://piframe.db", function(err, db){
-		if(err){
-			throw err;
-		}
+	try{
+		orm.connect("sqlite://piframe.db", function(err, db){
+			if(err){
+				console.log(err);
+				throw err;
+			}
 
-		var Photos = db.define("photos", {
-			checksum: String,
-			thumb_name: String
+			var Photos = db.define("photos", {
+				checksum: String,
+				thumb_name: String
+			});
+			Photos.sync(function(err){});
+
+			var Slides = db.define("slides", {
+				name: String,
+				picture_ids: Object
+			});
+
+			Slides.sync(function(err){});
+
+			if(err){
+				callback(err);
+			}
+			else{
+				module.exports.Photos = Photos;
+				module.exports.Slides = Slides;
+				callback(null);
+			}
 		});
-		Photos.sync(function(err){});
-
-		var Slides = db.define("slides", {
-			name: String,
-			picture_ids: Object
-		});
-
-		Slides.sync(function(err){});
-
-		if(err){
-			callback(err);
-		}
-		else{
-			module.exports.Photos = Photos;
-			module.exports.Slides = Slides;
-			callback(null);
-		}
-	});
+	}
+	catch(e){
+		console.log("error " + e);
+	}
 };
