@@ -48,55 +48,51 @@ module.exports = function(){
 
             			console.log("checksum: " + sum);
 
-            			try{
-	            			console.log("Checking for duplicates;");
-	            			//Ensure there are no duplicates
-	            			if(fs.existsSync(checkSumDestFile)){
-			        			console.log("This file aleady exists on the server");
+            			console.log("Checking for duplicates;");
+            			//Ensure there are no duplicates
+            			if(fs.existsSync(checkSumDestFile)){
+		        			console.log("This file aleady exists on the server");
 
-			        			//remove the file that was just uploaded
-			        			fs.unlink(destFile, function(err){
-			        				if(err){
-			        					console.log("ERROR deleting duplicate uploaded file: " + err);
-			        				}
-			        			});
-			        			callback("File already exists on server");
-			        			return;
-			        		}
+		        			//remove the file that was just uploaded
+		        			fs.unlink(destFile, function(err){
+		        				if(err){
+		        					console.log("ERROR deleting duplicate uploaded file: " + err);
+		        				}
+		        			});
+		        			callback("File already exists on server");
+		        			return;
+		        		}
 
 
-			        		console.log("Renaming file to have checksum name");
-							//Rename file to checksum name
-							fs.rename(destFile, checkSumDestFile, function(err){
-								if(err){
-									console.log(err);
-								}
-							});
+		        		console.log("Renaming file to have checksum name");
+						//Rename file to checksum name
+						fs.rename(destFile, checkSumDestFile, function(err){
+							if(err){
+								console.log(err);
+							}
+						});
 
-			            	//Path where image will be uploaded
-				            var destPath = path.join(__dirname, '../../pics/');
-				            var thumb_name = checksumName.replace('.', '_thumb.');
+		            	//Path where image will be uploaded
+			            var destPath = path.join(__dirname, '../../pics/');
+			            var thumb_name = checksumName.replace('.', '_thumb.');
 
-				            console.log("store photo data in db");
-			            	// Create thumbnail;
-			            	thumbnail({
-			            		source: destPath,
-			            		destination: path.join(__dirname, '../public/thumbnails/'),
-			            		width: 250,
-			            		overwrite: true
-			            	}, function(err){
-			            		// Save photo data in db
-				            	db.Photos.create([{
-				            		checksum: checksumName,
-				            		thumb_name: thumb_name
-				            	}], function(err, items){
-				            		callback(err, items);
-				            	});
+			            console.log("store photo data in db");
+
+		            	// Create thumbnail;
+		            	thumbnail({
+		            		source: destPath,
+		            		destination: path.join(__dirname, '../public/thumbnails/'),
+		            		width: 250,
+		            		overwrite: true
+		            	}, function(err){
+		            		// Save photo data in db
+			            	db.Photos.create([{
+			            		checksum: checksumName,
+			            		thumb_name: thumb_name
+			            	}], function(err, items){
+			            		callback(err, items);
 			            	});
-			            }
-			            catch(e){
-			            	console.log("pokemon exception: " + e);
-			            }
+		            	});
             		}
             	});
             });
