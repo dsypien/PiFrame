@@ -177,3 +177,8 @@ form{
 	width:32.3% !important;
 	padding:1% !important;
 }
+
+.ui-navbar {
+  margin: 0 auto;
+  max-width: 900px;
+}

@@ -4,16 +4,16 @@ html(ng-app="piFrameApp")
     title= title
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name="apple-mobile-web-app-capable", content="yes")
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/bower_components/jquery-mobile-bower/css/jquery.mobile-1.4.5.min.css')    
     link(rel='stylesheet', href='/stylesheets/photoset-grid/main.css')
-    link(rel='stylesheet', href='//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
   body(ng-controller="piController")
 
     block content
 
-    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+    script(src='/bower_components/jquery/dist/jquery.min.js')
+    script(src='/bower_components/angular/angular.min.js')
+    script(src='/bower_components/angular-touch/angular-touch.min.js')
     script(src='/javascripts/lib/jquery.photoset-grid.min.js')
-    script(src='//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.3/jquery.mobile.min.js')
-    script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js")
-    script(src="//code.angularjs.org/1.2.9/angular-touch.js")
+    script(src='/bower_components/jquery-mobile-bower/js/jquery.mobile-1.4.5.min.js')
     script(src="/javascripts/piframe-ng.js")

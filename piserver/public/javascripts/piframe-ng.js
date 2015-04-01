@@ -1,14 +1,11 @@
 var PIFRAME_APP = angular.module("piFrameApp", []);
 
 PIFRAME_APP.controller('piController', function($scope, $http){
-	var slides,
-		photos;
+	var slides;
 
 	var getPiData = function(){
 		 $http.get('/photos/json').success(function(data, status, headers, config){
-		 	photos = data;
-		 	$scope.photos = photos;
-		 	console.log(photos);
+		 	$scope.photos = data;
 		 	$scope.slideToEdit = $scope.photos[0];
 		 	
 		 	$http.get('/slideshows/json').success(function(data, status, headers, config){
@@ -38,16 +35,15 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	function updatePhotosInSlidesAry(){
 		for(var i = 0; i < slides.length; i++){
 	 		var curSlide = slides[i];
-	 		var photos = [];
 
 	 		if(curSlide.picture_ids){
 		 		for(var j=0; j < curSlide.picture_ids.length; j++ ){
 		 			var picId = curSlide.picture_ids[j];
 		 			var curphoto = getPhotoById(picId)[0];
 
-		 			photos.push(curphoto);
+		 			$scope.photos.push(curphoto);
 		 		}
-		 		curSlide.picture_ids = photos;
+		 		curSlide.picture_ids = $scope.photos;
 		 	}
 	 	}
 	 	console.log("Populated slides with pictures");
@@ -55,7 +51,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	}
 
 	function getPhotoById(id){
-		return $.grep(photos, function(e){ return e.id == id;});
+		return $.grep($scope.photos, function(e){ return e.id == id;});
 	}
 
 	function fadeIn(elem){
@@ -124,7 +120,7 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	        	
 	        	location.reload();
 
-	        	photos = data;
+	        	$scope.photos = data;
 	         	//$('#' + photoid).remove();
 			}).error(function(data, status, headers, config){
 				console.log('ERRORS: ' + data);

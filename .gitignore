@@ -1,2 +1,5 @@
-piserver/public/thumbnails/*
+piserver/public/thumbnails
+piserver/bower_components
+piserver/node_modules
 *.db
+*.log

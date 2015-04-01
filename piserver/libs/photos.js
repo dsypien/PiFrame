@@ -75,24 +75,31 @@ module.exports = function(){
 		            	//Path where image will be uploaded
 			            var destPath = path.join(__dirname, '../../pics/');
 			            var thumb_name = checksumName.replace('.', '_thumb.');
+			            var thumb_path = path.join(__dirname, '../public/thumbnails/');
 
-			            console.log("store photo data in db");
+			            console.log("create thumbnail destPath: " + destPath);
+			            console.log("thumb_path: " + thumb_path);
 
+			            try{
 		            	// Create thumbnail;
-		            	thumbnail({
-		            		source: destPath,
-		            		destination: path.join(__dirname, '../public/thumbnails/'),
-		            		width: 250,
-		            		overwrite: true
-		            	}, function(err){
-		            		// Save photo data in db
-			            	db.Photos.create([{
-			            		checksum: checksumName,
-			            		thumb_name: thumb_name
-			            	}], function(err, items){
-			            		callback(err, items);
+			            	thumbnail({
+			            		source: destPath,
+			            		destination: thumb_path,
+			            		width: 250,
+			            		overwrite: true
+			            	}, function(err){
+			            		console.log("store photo data in db");
+			            		// Save photo data in db
+				            	db.Photos.create([{
+				            		checksum: checksumName,
+				            		thumb_name: thumb_name
+				            	}], function(err, items){
+				            		callback(err, items);
+				            	});
 			            	});
-		            	});
+			            }catch(er){
+			            	console.log("Error creating thumbnail: " + er);
+			            }
             		}
             	});
             });

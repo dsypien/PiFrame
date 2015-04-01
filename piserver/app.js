@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var fs = require('fs');
 var busboy = require('connect-busboy');
-// var formidable = require('formidable');
 var http = require('http');
 var bodyParser = require('body-parser');
 var sqlite3 = require('sqlite3');
@@ -30,6 +29,7 @@ app.use(bodyParser({uploadDir:'./pics'}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 app.use(busboy());
 
 app.use('/', routes);
