@@ -2,16 +2,16 @@ PiFrame
 ============
 PiFrame is a picture frame service and webapp for the Raspberry Pi.  
 
-dependencies
+Dependencies
 ------------
-  npm
-  bower
-  brew
+-  npm
+-  bower
+-  brew
 
 depends on 
   imagemagick (brew install imagemagick)
 
-build 
+Build 
 -----
 
 ```bash
@@ -20,7 +20,7 @@ build
 ```
 
 Configure & run
-———————————————
+---------------
 
 ```bash
   chmod 777 pics
@@ -28,7 +28,7 @@ Configure & run
   chmod 777 piserver/public/thumbnails
 ```
 
-license
+License
 --------
 
 PiFrame a picture frame service and webapp for the Raspberry Pi.
