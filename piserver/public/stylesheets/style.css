@@ -1,7 +1,6 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif !important;
-  display: none;
 }
 
 a {
@@ -44,8 +43,6 @@ header h1{
 	width: 100%;
 	max-width: 1000px;
 	margin: 0 auto;
-	opacity: 0;
-	filter: alpha(opacity=0);
 }
 
 #slides_delete_list_container img,
@@ -159,16 +156,19 @@ form{
 	filter: alpha(opacity=0) !important;
 }
 
-#deletebtn{
-	display:none;
+.deletebtn{
+	text-align: center;
 	position: absolute;
-	top:0;
-	left:0;
-	width:100%;
-	background-color: red;
-	color: #fff;
+	padding: 5px;
+	bottom:10px;
+	background-color: red !important;
+	color: #fff !important;
+	left: 3%;
+  	width: 94%;
 	text-shadow:none !important;
-	margin: 0 !important;
+	margin: 0 auto !important;
+	border-color: #333 !important;
+	border-radius: 5px;
 }
 
 .ui-grid-b .ui-block-a,
@@ -181,4 +181,27 @@ form{
 .ui-navbar {
   margin: 0 auto;
   max-width: 900px;
+}
+
+.photo_container{
+	display: block;
+	width:25%;
+	padding:0px;
+	margin: 0px;
+	float:left;
+}
+
+.photo_container div{
+    padding:2px;
+    position:relative;
+}
+
+.photo_container div img{
+	width:100%;
+}
+
+
+
+#sendfileform{
+	clear:both;
 }

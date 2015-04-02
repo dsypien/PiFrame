@@ -64,9 +64,6 @@ function createSymLinks(slide){
 
 	console.log("Creating symlinks for slide :" + slide.name);	
 
-	console.log("THUMB NAME: " + slide.pictures[0].thumb_name);
-	console.log("THUMB NAME: " + slide.pictures[1].thumb_name);
-
 	// Create Symlinks for each photo in the photo array
 	for(; i <  pictures_length; i++){
 		curphoto = slide.pictures[i];

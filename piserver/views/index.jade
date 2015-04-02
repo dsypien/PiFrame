@@ -24,13 +24,13 @@ block content
       a(href="/#home", data-transition="slide", data-direction="reverse", data-role="button", data-icon="back", data-iconpos="notext")
       h1 Photos
     div(data-role='content')
-       //- img(ng-src='images/Image-icon.png',alt="Pictures",class="icons")
 
     //- PHOTOLIST
     div(id="photos_list_container", data-layout="4444")
-      img(ng-repeat="photo in photos",ng-src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_pg_img", ng-click='deletePhoto')
-    
-    a(id='deletebtn', ng-click="deletePhoto()" data-role="button") Delete
+      div(ng-repeat="photo in photos", class="photo_container")
+        div
+          img(ng-src="/thumbnails/{{photo.thumb_name}}", id="photo_{{photo.id}}")
+          a(class='deletebtn', ng-click="deletePhoto(photo.id)" data-role="button") Delete
 
     form(id='sendfileform', method='post',enctype='multipart/form-data', data-ajax="false", action="/photos/")
       input(type='file',name='file',id='file', accept="image/*", capture="camera", max-size=999999)
@@ -95,7 +95,7 @@ block content
       img(ng-repeat="photo in photos", ng-src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="new_slide_pg_img")
   
     div(data-role="controlgroup", data-theme='b')
-      a(id="new-slide-save", class='ui-btn ui-btn-icon-left ui-icon-action input_60P') Save
+      a(id="new-slide-save", class='ui-btn ui-btn-icon-left ui-icon-action input_60P' ng-click="saveSlide") Save
 
   //- END NEW SLIDE PAGE
 
@@ -111,12 +111,12 @@ block content
       select(id='select-slide-edit', ng-model="slideToEdit", ng-options="slide.name for slide in slides") 
       //- option(ng-repeat="slide in slides", value="{{slide.id}}", label="{{slide.name}}") {{slide.name}}
 
-    div(id="slides_edit_list_container", data-layout="4444", class="invisible")
+    div(id="slides_edit_list_container", data-layout="4444")
       img( ng-model="slideToEdit", ng-repeat="photo in photos",ng-src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}" + "edit", class="photo_edit_img")
 
     div(id='photos-container')
 
-    div(data-role="controlgroup", data-theme='b', class="invisible")
+    div(data-role="controlgroup", data-theme='b')
       a(id="slide-edit-btn", class='ui-btn ui-btn-icon-left ui-icon-action input_60P') Save
 
   //- END EDIT SLIDE PAGE
@@ -143,7 +143,7 @@ block content
 
   //--------------------------------------------------------------------------------------------
 
-  //- Play PAGE
+  //- PLAY PAGE
   div(data-role="page", data-theme='a', id="play")
     header(data-role='header', data-theme='b')
       a(href="/#home", data-transition="slide", data-role="button", data-icon="back", data-direction="reverse", data-iconpos="notext")
@@ -159,7 +159,7 @@ block content
       img(ng-model="slideToPlay", ng-repeat="photo in slideToPlay.pictures",ng-src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_play_img")
 
     div(data-role="controlgroup", data-theme='b')
-      a(id="slide-play-btn", class='ui-btn ui-btn-icon-left ui-icon-video invisible input_60P') Play Slide
+      a(id="slide-play-btn", class='ui-btn ui-btn-icon-left ui-icon-video input_60P') Play Slide
 
     footer(data-role='footer', data-position='fixed', data-theme='b', data-tap-toggle="false")
       div(data-role='navbar')
@@ -173,6 +173,6 @@ block content
           li
             a(id='configureNav',href='#play', data-transition="slide", data-icon='gear', class="ui-btn-active") Play
 
-  //- END Play PAGE
+  //- END PLAY PAGE
 
   //--------------------------------------------------------------------------------------------
