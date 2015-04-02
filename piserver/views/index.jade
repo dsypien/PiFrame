@@ -92,7 +92,9 @@ block content
 
     //- PHOTOLIST
     div(id="photos_list_container_newslide", data-layout="4444")
-      img(ng-repeat="photo in photos", ng-src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="new_slide_pg_img")
+      div(ng-repeat="photo in photos", class="photo_container")
+        div
+          img(ng-src="/thumbnails/{{photo.thumb_name}}", id="photo_{{photo.id}}")
   
     div(data-role="controlgroup", data-theme='b')
       a(id="new-slide-save", class='ui-btn ui-btn-icon-left ui-icon-action input_60P' ng-click="saveSlide") Save
@@ -109,10 +111,11 @@ block content
 
     div(data-role="controlgroup", data-theme='b')
       select(id='select-slide-edit', ng-model="slideToEdit", ng-options="slide.name for slide in slides") 
-      //- option(ng-repeat="slide in slides", value="{{slide.id}}", label="{{slide.name}}") {{slide.name}}
 
     div(id="slides_edit_list_container", data-layout="4444")
-      img( ng-model="slideToEdit", ng-repeat="photo in photos",ng-src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}" + "edit", class="photo_edit_img")
+      div(ng-repeat="photo in photos", class="photo_container")
+        div
+          img(ng-src="/thumbnails/{{photo.thumb_name}}", id="photo_{{photo.id}}" class="photo_edit_img")
 
     div(id='photos-container')
 
