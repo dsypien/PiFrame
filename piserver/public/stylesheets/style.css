@@ -35,16 +35,6 @@ header h1{
 	padding: 2px !important;
 }
 
-#photos_list_container, 
-#photos_list_container_newslide,
-#slides_edit_list_container,
-#slides_delete_list_container{
-	display: block;
-	width: 100%;
-	max-width: 1000px;
-	margin: 0 auto;
-}
-
 #slides_delete_list_container img,
 #play_list_container img
 {
@@ -183,6 +173,16 @@ form{
   max-width: 900px;
 }
 
+#photos_list_container, 
+#photos_list_container_newslide,
+#slides_edit_list_container,
+#slides_delete_list_container{
+	display: block;
+	width: 100%;
+	max-width: 1000px;
+	margin: 0 auto;
+}
+
 .photo_container{
 	display: block;
 	width:25%;
@@ -200,8 +200,18 @@ form{
 	width:100%;
 }
 
-
-
 #sendfileform{
 	clear:both;
+}
+
+@media(max-width: 750px){
+	.photo_container{
+		width:33%;
+	}
+}
+
+@media(max-width: 500px){
+	.photo_container{
+		width:50%;
+	}
 }
