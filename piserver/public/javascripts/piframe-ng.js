@@ -63,4 +63,14 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		$http.post('/play', slide).success(function(data, status, headers, config){
 		});
 	};
+
+	$scope.toggleSelect = function(photo){
+		if(photo.selected){
+			delete photo["selected"];
+			console.log("deselecting");
+		} else{
+			photo.selected = true;
+			console.log("selecting");
+		}
+	};
 });
