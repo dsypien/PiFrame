@@ -139,8 +139,8 @@ module.exports = function(){
 						}
 						else{
 							console.log("succesfully deleted thumb" +  targetPhoto.thumb_name );
-							getPhotos(function(data){
-								callback({}, data);
+							getPhotos(function(err, data){
+								callback(null, data);
 							});
 						}
 					});

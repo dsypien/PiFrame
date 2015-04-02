@@ -27,7 +27,7 @@ router.post('/', function(req, res) {
 				res.send(err);
 			}
 			else{
-				res.json(docs);
+				res.send(docs);
 			}
 		});
 	}
