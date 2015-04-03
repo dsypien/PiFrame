@@ -120,7 +120,7 @@ block content
     div(id='photos-container')
 
     div(data-role="controlgroup", data-theme='b')
-      a(id="slide-edit-btn", class='ui-btn ui-btn-icon-left ui-icon-action input_60P') Save
+      a(id="slide-edit-btn", class='ui-btn ui-btn-icon-left ui-icon-action input_60P', ng-click="saveSlide(slideToEdit)") Save
 
   //- END EDIT SLIDE PAGE
 
@@ -140,7 +140,7 @@ block content
       img(ng-model="slideToDelete", ng-repeat="photo in slideToDelete.picture_ids",ng-src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_delete_img")
 
     div(data-role="controlgroup", data-theme='b')
-      a(id="slide-delete-btn", class='ui-btn ui-btn-icon-left ui-icon-delete input_60P') Delete
+      a(id="slide-delete-btn", class='ui-btn ui-btn-icon-left ui-icon-delete input_60P', ng-click="deleteSlide(slideToDelete)") Delete
 
   //- END DELETE SLIDE PAGE
 
