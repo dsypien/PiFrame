@@ -79,19 +79,19 @@ function createSymLinks(slide){
 	}
 }
 
-function filterPhotosByIdAry(aryIds, aryPhotos){
+function getPhotosByPhotoIds(photoIdsObj, aryPhotos){
 	var filteredAry = [];
-	var i = 0;
-
 	if(aryPhotos.length < 1){
 		return;
 	}
-	
-	for(; i < aryIds.length; i++){
+
+	for(var id in photoIdsObj){
+		//retrieve phto from aryPhotos
 		var photo = aryPhotos.filter(function(obj){
-			return obj.id == aryIds[i];
+			return obj.id == id;
 		});
 
+		// if photo retrieved, push it onto filteredary
 		if(photo){
 			console.log("adding photo to filter [checksum] : " 
 				+ photo[0].checksum
@@ -128,7 +128,7 @@ module.exports = function(){
 			var slide = new Slide(data);
 
 			photos.photo_cache(function(items){
-				slide.pictures = filterPhotosByIdAry(slide.pictures, items);
+				slide.pictures = getPhotosByPhotoIds(slide.pictures, items);
 
 				console.log("photos: " + slide.pictures + " length : " + slide.pictures.length);
 				// Create a directory for this slide in slides
@@ -157,7 +157,7 @@ module.exports = function(){
 				console.log("Slide: " + slide.name);
 
 				photos.photo_cache(function(items){
-					slide.pictures = filterPhotosByIdAry(slide.picture_ids, items);
+					slide.pictures = getPhotosByPhotoIds(slide.picture_ids, items);
 
 					//create new symlinks
 					createSymLinks(slide);
