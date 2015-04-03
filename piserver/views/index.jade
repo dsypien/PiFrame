@@ -113,7 +113,7 @@ block content
       select(id='select-slide-edit', ng-model="slideToEdit", ng-options="slide.name for slide in slides") 
 
     div(id="slides_edit_list_container", data-layout="4444")
-      div(ng-repeat="photo in photos", class="photo_container", ng-click="toggleSelect(photo)", ng-class="{selected_photo: photo.selected}")
+      div(ng-repeat="photo in photos", class="photo_container", ng-click="toggleSelect(photo)", ng-class="{selected_photo: slideToEdit.picture_ids[photo.id]}")
         div
           img(ng-src="/thumbnails/{{photo.thumb_name}}", id="photo_{{photo.id}}" class="photo_edit_img")
 

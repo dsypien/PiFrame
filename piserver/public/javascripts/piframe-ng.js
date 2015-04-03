@@ -52,10 +52,10 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		var objData ={
 			id: slide.id,
 			name: slide.name,
-			// picture_ids: pictures
+			picture_ids: pictures
 		};
 
-		$http.put('/slideshows/edit', objData).success(function(data, status, headers, config){
+		$http.put('/slideshows/edit', slide).success(function(data, status, headers, config){
 		});
 	}
 
@@ -65,11 +65,18 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	};
 
 	$scope.toggleSelect = function(photo){
-		if(photo.selected){
-			delete photo["selected"];
+		if(!$scope.slideToEdit){
+			console.log("Cannot toggle photo selection, no slide selected");
+			return;
+		}
+
+		if($scope.slideToEdit.picture_ids[photo.id]){
+			delete $scope.slideToEdit.picture_ids[photo.id];
+			//delete photo["selected"];
 			console.log("deselecting");
 		} else{
-			photo.selected = true;
+			$scope.slideToEdit.picture_ids[photo.id] = true;
+			//photo.selected = true;
 			console.log("selecting");
 		}
 	};
