@@ -1,6 +1,8 @@
 var PIFRAME_APP = angular.module("piFrameApp", []);
 
 PIFRAME_APP.controller('piController', function($scope, $http){
+	$scope.slideNew = {picture_ids: {}};
+
 	// GET PHOTOS
 	$http.get('photos/json').
 		success(function(data, status, headers, config){
@@ -30,6 +32,11 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	};
 
 	$scope.newSlide = function(slide){
+		if(!slide.name){
+			alert("please enter name");
+			return;
+		}
+
 		$http.post('/slideshows/new', slide).success(function(data, status, headers, config){
 			location.reload();
 		});
@@ -66,18 +73,19 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		});
 	};
 
-	$scope.toggleSelect = function(photo){
-		if(!$scope.slideToEdit){
+	// Make toggle select work on both new slide & edit slide
+	$scope.toggleSelect = function(photo, targetSlide){
+		if(!targetSlide){
 			console.log("Cannot toggle photo selection, no slide selected");
 			return;
 		}
 
-		if($scope.slideToEdit.picture_ids[photo.id]){
-			delete $scope.slideToEdit.picture_ids[photo.id];
+		if(targetSlide.picture_ids[photo.id]){
+			delete targetSlide.picture_ids[photo.id];
 			//delete photo["selected"];
 			console.log("deselecting");
 		} else{
-			$scope.slideToEdit.picture_ids[photo.id] = true;
+			targetSlide.picture_ids[photo.id] = true;
 			//photo.selected = true;
 			console.log("selecting");
 		}
