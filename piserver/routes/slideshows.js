@@ -62,7 +62,6 @@ router.put("/edit", function(req,res){
 			res.send("OK");
 		}
 	});
-	
 });
 
 
@@ -74,7 +73,7 @@ router.post("/delete", function(req,res){
 			res.send(err);
 		}
 		else{
-			res.send("OK");
+			res.json(items);
 		}
 	});
 });

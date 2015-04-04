@@ -94,9 +94,7 @@ function getPhotosByPhotoIds(photoIdsObj, aryPhotos){
 		// if photo retrieved, push it onto filteredary
 		if(photo){
 			console.log("adding photo to filter [checksum] : " 
-				+ photo[0].checksum
-				+ " id : "
-				+ photo[0].id );
+				+ photo[0]);
 
 			filteredAry.push(photo[0]);
 		}
@@ -128,7 +126,7 @@ module.exports = function(){
 			var slide = new Slide(data);
 
 			photos.photo_cache(function(items){
-				slide.pictures = getPhotosByPhotoIds(slide.pictures, items);
+				slide.pictures = getPhotosByPhotoIds(slide.picture_ids, items);
 
 				console.log("photos: " + slide.pictures + " length : " + slide.pictures.length);
 				// Create a directory for this slide in slides
@@ -187,7 +185,15 @@ module.exports = function(){
 		function deleteSlideCallback(err){
 			removeFilesInDir(req.body.name);
 			removeDir(req.body.name);
-			callback(err);
+
+			if(err){
+				callback(err);
+			}
+			else{
+				get(function(getErr, slides){
+					callback(getErr, slides);
+				});
+			}
 		}
 	}
 
