@@ -38,30 +38,23 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		}
 
 		$http.post('/slideshows/new', slide).success(function(data, status, headers, config){
-			location.reload();
+			$scope.slides = data;
+			slide.name = '';
 		});
 	};
 
 	$scope.getSlide = function(id){
 		$http.get('/slideshows/edit/slide' + id).success(function(data, status, headers, config){
-			location.reload();
 		});
 	};
 
 	$scope.deleteSlide = function(slide){
-		//dataObj = {id: slide.slideId, name: slide.name};
-
 		$http.post('/slideshows/delete', slide).success(function(data, status, headers, config){
+			$scope.slides = data;
 		});
 	};
 
 	$scope.saveSlide = function(slide){
-		// var objData ={
-		// 	id: slide.id,
-		// 	name: slide.name,
-		// 	picture_ids: pictures
-		// };
-
 		if(slide){
 			$http.put('/slideshows/edit', slide).success(function(data, status, headers, config){
 			});
