@@ -106,21 +106,21 @@ form{
 
 .selected_photo{
 	background-color: #98ff98;
+	background: #98ff98 url(../../images/Check-icon.png) no-repeat 4px 4px;
+	background-size: 48px;
+	background-position: center center;
 }
 
-.selected_photo .selected_check_img{
-	display: block !important;
-}
-
-.selected_check_img{
-	width:36px !important;
-	position: absolute;
-	top:0;
-	right:0;
+.selected_photo div img{
+	opacity: .5;
 }
 
 .visible{
 	display: block !important;
+}
+
+.hidden{
+	display: none !important;
 }
 
 .photoset-row{
@@ -177,10 +177,12 @@ form{
 #photos_list_container_newslide,
 #slides_edit_list_container,
 #slides_delete_list_container{
+	line-height: 10px;
 	display: block;
 	width: 100%;
 	max-width: 1250px;
 	margin: 0 auto;
+	overflow: hidden;
 }
 
 .photo_container{
