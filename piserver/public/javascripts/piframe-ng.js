@@ -39,7 +39,9 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 
 		$http.post('/slideshows/new', slide).success(function(data, status, headers, config){
 			$scope.slides = data;
+
 			slide.name = '';
+			$scope.slideNew = {picture_ids: {}};
 		});
 	};
 
@@ -49,9 +51,12 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 	};
 
 	$scope.deleteSlide = function(slide){
-		$http.post('/slideshows/delete', slide).success(function(data, status, headers, config){
-			$scope.slides = data;
-		});
+		if(slide){
+			$http.post('/slideshows/delete', slide).success(function(data, status, headers, config){
+				// Reload page, we need to reset controls
+				location.reload();
+			});
+		}
 	};
 
 	$scope.saveSlide = function(slide){

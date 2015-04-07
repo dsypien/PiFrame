@@ -134,7 +134,13 @@ module.exports = function(){
 
 				// Save Slide to DB
 				db.Slides.create([slide], function(err){
-					callback(err, slide);
+					if(err){
+						callback(err);
+					}else{
+						get(function(getErr, slides){
+							callback(getErr, slides);
+						});
+					}
 				});
 			});
 		}
