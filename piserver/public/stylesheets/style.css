@@ -206,6 +206,22 @@ form{
 	clear:both;
 }
 
+.notifyMsg {
+  left: 50%;
+  position: absolute;
+  width: auto;
+}
+
+.notifyMsg div {
+  text-shadow: none;
+  padding: 10px 20px;
+  width: 100%;
+  position: relative;
+  left: -50%;
+  background-color: red;
+  color: white;
+}
+
 @media(max-width: 1000px){
 	.photo_container{
 		width:25%;

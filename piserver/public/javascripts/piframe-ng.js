@@ -1,6 +1,7 @@
 var PIFRAME_APP = angular.module("piFrameApp", []);
+$('#notifyMsg').popup();
 
-PIFRAME_APP.controller('piController', function($scope, $http){
+PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 	$scope.slideNew = {picture_ids: {}};
 
 	// GET PHOTOS
@@ -24,7 +25,14 @@ PIFRAME_APP.controller('piController', function($scope, $http){
         		console.log('ERRORS: ' + data.error);
         		return;
         	}
-        	
+
+        	$scope.notificationText = "Photo deleted";
+        	$('#notifyMsg').popup("open");
+
+        	setTimeout(function(){
+        		$('#notifyMsg').popup("close");
+        	}, 3000);
+
         	$scope.photos = data;
 		}).error(function(data, status, headers, config){
 			console.log('ERRORS: ' + data);
@@ -89,3 +97,17 @@ PIFRAME_APP.controller('piController', function($scope, $http){
 		}
 	};
 });
+
+PIFRAME_APP.directive('notifyMsg', ['$timeout', function($timeout){
+	return{
+		restrict: "A",
+		template: 	'<div class="notifyMsg">' +
+  						'<div>Saving</div>' +
+					'</div>',
+		link: function(scope, elem, attrs){
+			$timeout(function(){
+				elem.remove();
+			}, 3000);
+		}
+	};
+}]);
