@@ -64,7 +64,6 @@ block content
     div(data-role='controlgroup', id='button-group',data-theme='b')
       a(href='#slidenew', data-transition="slide", class='ui-btn ui-btn-icon-left ui-icon-plus') New
       a(href='#slideedit', data-transition="slide", class='ui-btn ui-btn-icon-left ui-icon-grid') Edit
-      a(href='#slidedelete', data-transition="slide", class='ui-btn ui-btn-icon-left ui-icon-delete') Delete
 
     footer(data-role='footer', data-position='fixed', data-theme='b', data-tap-toggle="false")
       div(data-role='navbar')
@@ -116,35 +115,17 @@ block content
       div(ng-repeat="photo in photos", class="photo_container", ng-click="toggleSelect(photo, slideToEdit)", ng-class="{selected_photo: slideToEdit.picture_ids[photo.id]}")
         div
           img(ng-src="/thumbnails/{{photo.thumb_name}}", id="photo_{{photo.id}}" class="photo_edit_img")
+  a(href="#positionWindow", data-rel="popup", data-position-to="window")
 
+  div(data-role="popup" id="notifyMsg")
+    p {{notificationText}}
     div(id='photos-container')
 
-    div(data-role="controlgroup", data-theme='b')
-      a(id="slide-edit-btn", class='ui-btn ui-btn-icon-left ui-icon-action input_60P', ng-click="saveSlide(slideToEdit)", ng-class="{hidden : !slideToEdit}") Save
+    div(data-role="controlgroup", data-theme='b', ng-class="{hidden : !slideToEdit}")
+      a(id="slide-edit-btn", class='ui-btn ui-btn-icon-left ui-icon-action input_60P', ng-click="saveSlide(slideToEdit)") Save
+      a(id="slide-delete-btn", class='ui-btn ui-btn-icon-left ui-icon-delete input_60P', ng-click="deleteSlide(slideToEdit)") Delete
 
   //- END EDIT SLIDE PAGE
-
-  //--------------------------------------------------------------------------------------------
-
-  //- DELETE SLIDE PAGE
-  div(data-role="page", data-theme='a', id="slidedelete")
-    header(data-role='header', data-theme='b')
-      a(href="/#slideshows", data-transition="slide", data-role="button", data-icon="back", data-direction="reverse", data-iconpos="notext")
-      h1 Delete Slide
-
-    div(data-role="controlgroup", data-theme='b')
-      select(id="selectDelete", ng-model="slideToDelete", ng-options="slide.name for slide in slides")
-
-    div(id="slides_delete_list_container", ng-class="{hidden : !slideToDelete}")
-      div(ng-repeat="photo in slideToDelete", class="photo_container")
-        img(ng-src="/thumbnails/{{photo.thumb_name}}", id="photo_{{photo.id}}" class="photo_edit_img")
-
-    div(data-role="controlgroup", data-theme='b')
-      a(id="slide-delete-btn", class='ui-btn ui-btn-icon-left ui-icon-delete input_60P', ng-click="deleteSlide(slideToDelete)") Delete
-
-  //- END DELETE SLIDE PAGE
-
-  //--------------------------------------------------------------------------------------------
 
   //- PLAY PAGE
   div(data-role="page", data-theme='a', id="play")
@@ -179,3 +160,6 @@ block content
   //- END PLAY PAGE
 
   //--------------------------------------------------------------------------------------------
+
+
+
