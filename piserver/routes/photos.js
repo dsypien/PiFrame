@@ -2,10 +2,12 @@ var express = require('express');
 var router = express.Router();
 var busboy = require('connect-busboy');
 var photoslib = require('../libs/photos');
-
+var slidesLib = require("../libs/slides");
 
 var photos = photoslib();
+var slides = slidesLib();
 
+// GET JSON PHOTOS ARRAY
 router.get('/json', function(req,res){
 	try{
 		photos.get( function(err, data){
@@ -17,6 +19,7 @@ router.get('/json', function(req,res){
 	}
 });
 
+// ADD/REMOVE PHOTOS
 router.post('/', function(req, res) {
 	console.log(req.body);
 
@@ -27,7 +30,10 @@ router.post('/', function(req, res) {
 				res.send(err);
 			}
 			else{
-				res.send(docs);
+				// Remove the pic from any slides that have it
+				slides.removePicFromSlides(req.body.id, function(err){
+					res.send(docs);	
+				});
 			}
 		});
 	}

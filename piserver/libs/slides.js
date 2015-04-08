@@ -203,6 +203,43 @@ module.exports = function(){
 		}
 	}
 
+	function removePicFromSlides(id, callback){
+		var slidesToUpdate = [];
+		var numUpdated = 0;
+
+		get(function(err, slides){
+			for(i=0; i < slides.length; i++){
+				var curslidePicIds = slides[i].picture_ids;
+
+				//If you find picture in slide, remove from slide and push slide onto slidesToUpdate array
+				if(curslidePicIds[id]){
+					console.log("Removing pic from slide: " + slides[i].name)
+
+					// Remove id from picture_ids array of current slide
+					delete curslidePicIds[id];
+					slidesToUpdate.push(slides[i]);
+				}
+			}
+
+			// If nothing to update call callback and return ;)
+			if(slidesToUpdate.length == 0){
+				callback();
+				return;
+			}
+
+			// Update each slide in the slidesToUpdate Array
+			for(j=0; j < slidesToUpdate.length; j++){
+				var curslide = slidesToUpdate[j];
+				edit(curslide, function(){
+					if(numUpdated = slidesToUpdate.length){
+						callback();
+						return;
+					}
+				});
+			}
+		});
+	}		
+
 	function get(callback){
 		db.Slides.find(function(err, items){
 			callback(err, items);
@@ -230,6 +267,7 @@ module.exports = function(){
 		create: create,
 		edit: edit,
 		remove: remove,
+		removePicFromSlides: removePicFromSlides,
 		get: get,
 		getByID : getByID
 	}
