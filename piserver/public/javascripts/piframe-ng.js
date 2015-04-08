@@ -16,6 +16,14 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 			$scope.slides = data;
 		});
 
+	function showNotification(msg){
+		$scope.notificationText = msg;
+    	$('#notifyMsg').popup("open");
+
+    	setTimeout(function(){
+    		$('#notifyMsg').popup("close");
+    	}, 3000);
+	}
 	
 	$scope.deletePhoto = function(id){
 		var data = {_method: 'delete', id : id};
@@ -26,12 +34,7 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
         		return;
         	}
 
-        	$scope.notificationText = "Photo deleted";
-        	$('#notifyMsg').popup("open");
-
-        	setTimeout(function(){
-        		$('#notifyMsg').popup("close");
-        	}, 3000);
+        	showNotification("Photo deleted.");
 
         	$scope.photos = data;
 		}).error(function(data, status, headers, config){
@@ -48,6 +51,8 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 		$http.post('/slideshows/new', slide).success(function(data, status, headers, config){
 			$scope.slides = data;
 
+			showNotification("Slide created.");
+
 			slide.name = '';
 			$scope.slideNew = {picture_ids: {}};
 		});
@@ -63,6 +68,7 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 			$http.post('/slideshows/delete', slide).success(function(data, status, headers, config){
 				// Reload page, we need to reset controls
 				location.reload();
+				showNotification("Slide deleted.");
 			});
 		}
 	};
@@ -70,6 +76,7 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 	$scope.saveSlide = function(slide){
 		if(slide){
 			$http.put('/slideshows/edit', slide).success(function(data, status, headers, config){
+				showNotification("Slide saved.")
 			});
 		}
 	}
@@ -97,17 +104,3 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 		}
 	};
 });
-
-PIFRAME_APP.directive('notifyMsg', ['$timeout', function($timeout){
-	return{
-		restrict: "A",
-		template: 	'<div class="notifyMsg">' +
-  						'<div>Saving</div>' +
-					'</div>',
-		link: function(scope, elem, attrs){
-			$timeout(function(){
-				elem.remove();
-			}, 3000);
-		}
-	};
-}]);
