@@ -4,17 +4,19 @@ $('#notifyMsg').popup();
 PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 	$scope.slideNew = {picture_ids: {}};
 
-	// GET PHOTOS
-	$http.get('photos/json').
-		success(function(data, status, headers, config){
-			$scope.photos = data;
-		});
+	function getPhotos(){
+		$http.get('photos/json').
+			success(function(data, status, headers, config){
+				$scope.photos = data;
+			});
+	}
 
-	// GET SLIDES
-	$http.get('slideshows/json').
-		success(function(data, status, headers, config){
-			$scope.slides = data;
-		});
+	function getSlides(){
+		$http.get('slideshows/json').
+			success(function(data, status, headers, config){
+				$scope.slides = data;
+			});
+	};
 
 	function showNotification(msg){
 		$scope.notificationText = msg;
@@ -37,6 +39,7 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
         	showNotification("Photo deleted.");
 
         	$scope.photos = data;
+        	getSlides();
 		}).error(function(data, status, headers, config){
 			console.log('ERRORS: ' + data);
 		});
@@ -103,4 +106,11 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 			console.log("selecting");
 		}
 	};
+
+	var init = function(){
+		getPhotos();
+		getSlides();
+	};
+
+	init();
 });
