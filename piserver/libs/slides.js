@@ -57,25 +57,30 @@ function createSlideDirAmdSymlinks(slide){
 }
 
 function createSymLinks(slide){
-	var destSlideDir = path.join(__dirname, '../../slides/', slide.name);
-	var i = 0;
-	var pictures_length = slide.pictures.length;
-	var curphoto;
+	if(slide.pictures){
+		var destSlideDir = path.join(__dirname, '../../slides/', slide.name);
+		var i = 0;
+		var pictures_length = slide.pictures.length;
+		var curphoto;
 
-	console.log("Creating symlinks for slide :" + slide.name);	
+		console.log("Creating symlinks for slide :" + slide.name);	
 
-	// Create Symlinks for each photo in the photo array
-	for(; i <  pictures_length; i++){
-		curphoto = slide.pictures[i];
-		console.log(curphoto.thumb_name);
+		// Create Symlinks for each photo in the photo array
+		for(; i <  pictures_length; i++){
+			curphoto = slide.pictures[i];
+			console.log(curphoto.id);
 
-		var photoPath = path.join(__dirname, '../../pics/', curphoto.checksum);
-		var symPath = path.join(destSlideDir, curphoto.checksum);
-		fs.symlink(photoPath, symPath, 'file', function(symerr){
-			if(symerr){
-				console.log(symerr);
-			}
-		});
+			var photoPath = path.join(__dirname, '../../pics/', curphoto.checksum);
+			var symPath = path.join(destSlideDir, curphoto.checksum);
+			fs.symlink(photoPath, symPath, 'file', function(symerr){
+				if(symerr){
+					console.log(symerr);
+				}
+			});
+		}
+	}
+	else{
+		console.log("Cannot create symlinks for " + slide.name + "   because there are no pictures");
 	}
 }
 
@@ -157,7 +162,7 @@ module.exports = function(){
 				callback(err);
 			}
 			else{
-				console.log("Phtos: " + slide.pictures);
+				console.log("Phtos: " + slide.picture_ids);
 				console.log("Slide: " + slide.name);
 
 				photos.photo_cache(function(items){
@@ -218,6 +223,10 @@ module.exports = function(){
 					// Remove id from picture_ids array of current slide
 					delete curslidePicIds[id];
 					slidesToUpdate.push(slides[i]);
+
+					for(j=0; j < curslidePicIds.picture_ids; j++){
+						console.log("PICS LEFT IN THE SLIDE: " + curslidePicIds.picture_ids[j]);
+					}
 				}
 			}
 
