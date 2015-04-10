@@ -32,9 +32,7 @@ block content
           img(ng-src="/thumbnails/{{photo.thumb_name}}", id="photo_{{photo.id}}")
           a(class='deletebtn', ng-click="deletePhoto(photo.id)" data-role="button") Delete
 
-    form(id='sendfileform', method='post',enctype='multipart/form-data', data-ajax="false", action="/photos/")
-      input(type='file',name='file',id='file', accept="image/*", capture="camera", max-size=999999)
-      input(type='submit', name='mysubmit',value='Add Photo', id='submit')
+    input(type='file',name='file',id='file', accept="image/*", capture="camera", max-size=999999, onchange="angular.element(this).scope().uploadFile(this.files)")
 
     footer(data-role='footer', data-position='fixed', data-theme='b', data-tap-toggle="false")
       div(data-role='navbar',data-theme='b')
