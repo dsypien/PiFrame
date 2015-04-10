@@ -89,7 +89,20 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 		});
 	};
 
-	// Make toggle select work on both new slide & edit slide
+	$scope.uploadFile = function(files){
+		var fData = new FormData();
+		fData.append("file", files[0]);
+
+		$http.post('/photos/', fData, {
+			withCredentials: true,
+			headers: {'Content-Type': undefined},
+			transformRequest: angular.identity
+		}).success(function(data,status,headers){
+			$scope.photos = data;
+		});
+
+	}
+
 	$scope.toggleSelect = function(photo, targetSlide){
 		if(!targetSlide){
 			console.log("Cannot toggle photo selection, no slide selected");

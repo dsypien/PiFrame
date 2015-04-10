@@ -44,7 +44,9 @@ router.post('/', function(req, res) {
 				res.redirect(req.get('referer'));
 			}
 			else{
-				res.redirect("/#photos");
+				photos.get( function(err, data){
+					res.json(data);
+				});
 			}
 		});
 	}
