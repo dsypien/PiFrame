@@ -3,11 +3,10 @@
   "description": "PiFrame client dependencies",
   "version": "0.0.1",
   "dependencies": {
-    "jQuery": "~2.1.3",
     "angular": "~1.3.15",
     "angular-touch": "~1.3.15",
+    "jquery": "1.10.2",
     "jquery-ui": "~1.11.4",
-    "jquery-mobile-bower": "~1.4.5",
-    "photoset-grid": "~1.0.1"
+    "jquery-mobile-bower": "~1.4.5"
   }
 }
