@@ -108,7 +108,6 @@ block content
 
     div(data-role="controlgroup", data-theme='b')
       select(name='slideEditSelect', ng-model="slideToEdit", ng-model-options="{ updateOn: 'default blur'}", ng-options="slide.name for slide in slides") 
-        option(style="display:none", value="") Select a slide
 
     div(id="slides_edit_list_container", ng-class="{hidden : !slideToEdit}")
       div(ng-repeat="photo in photos", class="photo_container", ng-click="toggleSelect(photo, slideToEdit)", ng-class="{selected_photo: slideToEdit.picture_ids[photo.id]}")
@@ -137,7 +136,7 @@ block content
       img(ng-model="slideToPlay", ng-repeat="photo in slideToPlay.pictures",ng-src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_play_img")
 
     div(data-role="controlgroup", data-theme='b')
-      a(id="slide-play-btn", class='ui-btn ui-btn-icon-left ui-icon-video input_60P') Play Slide
+      a(id="slide-play-btn", class='ui-btn ui-btn-icon-left ui-icon-video input_60P', ng-click='playSlide(slideToPlay)') Play Slide
 
     footer(data-role='footer', data-position='fixed', data-theme='b', data-tap-toggle="false")
       div(data-role='navbar')
