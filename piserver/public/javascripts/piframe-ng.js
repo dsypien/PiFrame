@@ -39,7 +39,7 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
         	showNotification("Photo deleted.");
 
         	$scope.photos = data;
-        	getSlides();
+			getSlides();	
 		}).error(function(data, status, headers, config){
 			console.log('ERRORS: ' + data);
 		});
@@ -69,8 +69,8 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 	$scope.deleteSlide = function(slide){
 		if(slide){
 			$http.post('/slideshows/delete', slide).success(function(data, status, headers, config){
-				// Reload page, we need to reset controls
-				location.reload();
+				getSlides();
+				$scope.slideToEdit = 0;
 				showNotification("Slide deleted.");
 			});
 		}
@@ -85,6 +85,11 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 	}
 
 	$scope.playSlide = function(slide){
+		if(!slide){
+			showNotification("Please select slide.");
+			return;
+		}
+		
 		$http.post('/play', slide).success(function(data, status, headers, config){
 		});
 	};
@@ -119,6 +124,17 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 			console.log("selecting");
 		}
 	};
+
+	$scope.$watch(
+		"slideToEdit",
+		function(newValue, oldValue){
+			if(newValue === oldValue){
+				return;
+			}
+
+			console.log("Updating Slide to edit with " + newValue);
+			$scope.slideToEdit = newValue;
+		});
 
 	var init = function(){
 		getPhotos();
