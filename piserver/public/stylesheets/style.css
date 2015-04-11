@@ -35,12 +35,6 @@ header h1{
 	padding: 2px !important;
 }
 
-#slides_delete_list_container img,
-#play_list_container img
-{
-	/*width: 20%;*/
-}
-
 #slides_delete_list_container{
 	line-height: 0;
 	-webkit-column-count: 4;
@@ -123,29 +117,6 @@ form{
 	display: none !important;
 }
 
-.photoset-row{
-	margin-bottom: 0px !important;
-	height: auto !important;
-}
-
-.photoset-cell{
-	position: relative;
-	padding-right: 0px !important;
-	padding-left: 0px !important;
-}
-
-.photoset-cell img{
-	padding:2px;
-	margin:0px;
-	margin-bottom: 0px !important;
-	margin-top: 0px !important;
-}
-
-.invisible{
-	opacity: 0 !important;
-	filter: alpha(opacity=0) !important;
-}
-
 .deletebtn{
 	text-align: center;
 	position: absolute;
@@ -159,13 +130,6 @@ form{
 	margin: 0 auto !important;
 	border-color: #333 !important;
 	border-radius: 5px;
-}
-
-.ui-grid-b .ui-block-a,
-.ui-grid-b .ui-block-b,
-.ui-grid-b .ui-block-c{
-	width:32.3% !important;
-	padding:1% !important;
 }
 
 .ui-navbar {
@@ -200,10 +164,6 @@ form{
 
 .photo_container div img{
 	width:100%;
-}
-
-#sendfileform{
-	clear:both;
 }
 
 .notifyMsg {
