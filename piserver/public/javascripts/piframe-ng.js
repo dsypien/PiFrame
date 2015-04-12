@@ -3,6 +3,7 @@ $('#notifyMsg').popup();
 
 PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 	$scope.slideNew = {picture_ids: {}};
+	$scope.clickedPhotoId = null;
 
 	function getPhotos(){
 		$http.get('photos/json').
@@ -105,7 +106,6 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 		}).success(function(data,status,headers){
 			$scope.photos = data;
 		});
-
 	}
 
 	$scope.toggleSelect = function(photo, targetSlide){
@@ -116,14 +116,18 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 
 		if(targetSlide.picture_ids[photo.id]){
 			delete targetSlide.picture_ids[photo.id];
-			//delete photo["selected"];
-			console.log("deselecting");
 		} else{
 			targetSlide.picture_ids[photo.id] = true;
-			//photo.selected = true;
-			console.log("selecting");
 		}
 	};
+
+	$scope.photoClick = function(id){
+		if($scope.clickedPhotoId == id){
+			$scope.clickedPhotoId = null;
+		}else{
+			$scope.clickedPhotoId = id;
+		}
+	}
 
 	$scope.$watch(
 		"slideToEdit",
