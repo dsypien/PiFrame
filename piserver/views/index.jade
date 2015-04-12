@@ -27,10 +27,10 @@ block content
 
     //- PHOTOLIST
     div(id="photos_list_container")
-      div(ng-repeat="photo in photos", class="photo_container")
+      div(ng-repeat="photo in photos", class="photo_container", ng-click="photoClick(photo.id)")
         div
           img(ng-src="/thumbnails/{{photo.thumb_name}}", id="photo_{{photo.id}}")
-          a(class='deletebtn', ng-click="deletePhoto(photo.id)" data-role="button") Delete
+          a(class='deletebtn', ng-click="deletePhoto(photo.id)" data-role="button", ng-class="{hidden: clickedPhotoId != photo.id }") Delete
 
     input(type='file',name='file',id='file', accept="image/*", capture="camera", max-size=999999, onchange="angular.element(this).scope().uploadFile(this.files)")
 
@@ -114,6 +114,7 @@ block content
         div
           img(ng-src="/thumbnails/{{photo.thumb_name}}", id="photo_{{photo.id}}" class="photo_edit_img")
 
+    input(ng-model="slideToEdit.name")
     div(data-role="controlgroup", data-theme='b')
       a(id="slide-edit-btn", class='ui-btn ui-btn-icon-left ui-icon-action input_60P', ng-click="saveSlide(slideToEdit)",  ng-class="{hidden : !slideToEdit}") Save
       a(id="slide-delete-btn", class='ui-btn ui-btn-icon-left ui-icon-delete input_60P', ng-click="deleteSlide(slideToEdit)",  ng-class="{hidden : !slideToEdit}") Delete
