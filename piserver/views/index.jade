@@ -21,7 +21,7 @@ block content
   //- PHOTOS PAGE
   div(data-role="page", data-theme='a', id="photos", data-add-back-btn="true")
     header(data-role='header', data-theme='b')
-      a(href="/#home", data-transition="slide", data-direction="reverse", data-role="button", data-icon="back", data-iconpos="notext")
+      a(href="/#home", data-transition="slide", data-direction="reverse", data-role="button", data-icon="back", data-iconpos="notext", class="back_btn")
       h1 Photos
     div(data-role='content')
 
@@ -40,7 +40,7 @@ block content
           li
             a(id='photosNav',href='#home', data-direction="reverse", data-transition="slide", data-icon='home') Home 
           li
-            a(id='photosNav',href='#photos', data-transition="slide", data-icon='camera', class="ui-btn-active") Photos
+            a(id='photosNav',href='#photos', data-transition="slide", data-icon='camera', class="ui-btn-active active") Photos
           li
             a(id='slideshowNav',href='#slideshows', data-transition="slide", data-icon='grid') Slides
           li
@@ -53,7 +53,7 @@ block content
   //- SLIDESHOW PAGE
   div(data-role="page", data-theme='a', id="slideshows", data-add-back-btn="true")
     header(data-role='header', data-theme='b')
-      a(href="/#home", data-transition="slide", data-role="button", data-direction="reverse", data-icon="back", data-iconpos="notext")
+      a(href="/#home", data-transition="slide", data-role="button", data-direction="reverse", data-icon="back", data-iconpos="notext", class="back_btn")
       h1 Slides
 
     div(data-role='content')
@@ -71,7 +71,7 @@ block content
           li
             a(id='photosNav',href='#photos', data-transition="slide", data-direction="reverse", data-icon='camera') Photos
           li
-            a(id='slideshowNav',href='#slideshows', data-transition="slide", data-icon='grid', class="ui-btn-active") Slides
+            a(id='slideshowNav',href='#slideshows', data-transition="slide", data-icon='grid', class="ui-btn-active active") Slides
           li
             a(id='configureNav',href='#play', data-transition="slide", data-icon='gear') Play
 
@@ -82,10 +82,10 @@ block content
   //- NEW SLIDE PAGE
   div(data-role="page", data-theme='a', id="slidenew", data-add-back-btn="true", ng-model="slideNew")
     header(data-role='header', data-theme='b')
-      a(href="/#slideshows", data-transition="slide", data-role="button", data-direction="reverse", data-icon="back", data-iconpos="notext")
+      a(href="/#slideshows", data-transition="slide", data-role="button", data-direction="reverse", data-icon="back", data-iconpos="notext", class="back_btn")
       h1 New Slide
 
-    input(id="slide-name", type="text", placeholder="Slide Name", ng-model="slideNew.name")
+    input(id="slide-name", type="text", placeholder="Enter a slide name", ng-model="slideNew.name")
 
     //- PHOTOLIST
     div(id="photos_list_container_newslide")
@@ -103,7 +103,7 @@ block content
   //- EDIT SLIDE PAGE
   div(data-role="page", data-theme='a', id="slideedit", data-add-back-btn="true")
     header(data-role='header', data-theme='b')
-      a(href="/#slideshows", data-transition="slide", data-role="button", data-icon="back", data-direction="reverse", data-iconpos="notext")
+      a(href="/#slideshows", data-transition="slide", data-role="button", data-icon="back", data-direction="reverse", data-iconpos="notext", class="back_btn")
       h1 Edit Slide
 
     div(data-role="controlgroup", data-theme='b')
@@ -124,7 +124,7 @@ block content
   //- PLAY PAGE
   div(data-role="page", data-theme='a', id="play")
     header(data-role='header', data-theme='b')
-      a(href="/#home", data-transition="slide", data-role="button", data-icon="back", data-direction="reverse", data-iconpos="notext")
+      a(href="/#home", data-transition="slide", data-role="button", data-icon="back", data-direction="reverse", data-iconpos="notext", class="back_btn")
       h1 Play
 
     div(data-role='content')
@@ -149,7 +149,7 @@ block content
           li
             a(id='slideshowNav',href='#slideshows', data-transition="slide", data-direction="reverse", data-icon='grid') Slides
           li
-            a(id='configureNav',href='#play', data-transition="slide", data-icon='gear', class="ui-btn-active") Play
+            a(id='configureNav',href='#play', data-transition="slide", data-icon='gear', class="ui-btn-active active") Play
 
   //- END PLAY PAGE
 
