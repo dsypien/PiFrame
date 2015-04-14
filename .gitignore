@@ -5,3 +5,7 @@ pics/*
 slides/*
 *.db
 *.log
+
+# Do not ignore these files:
+!.gitkeep
+!.gitignore
