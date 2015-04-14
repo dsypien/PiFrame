@@ -23,7 +23,8 @@ block content
     header(data-role='header', data-theme='b')
       a(href="/#home", data-transition="slide", data-direction="reverse", data-role="button", data-icon="back", data-iconpos="notext", class="back_btn")
       h1 Photos
-    div(data-role='content')
+
+    input(type='file',name='file',id='file', accept="image/*", capture="camera", max-size=999999, onchange="angular.element(this).scope().uploadFile(this.files)")
 
     //- PHOTOLIST
     div(id="photos_list_container")
@@ -31,8 +32,6 @@ block content
         div
           img(ng-src="/thumbnails/{{photo.thumb_name}}", id="photo_{{photo.id}}")
           a(class='deletebtn', ng-click="deletePhoto(photo.id)" data-role="button", ng-class="{hidden: clickedPhotoId != photo.id }") Delete
-
-    input(type='file',name='file',id='file', accept="image/*", capture="camera", max-size=999999, onchange="angular.element(this).scope().uploadFile(this.files)")
 
     footer(data-role='footer', data-position='fixed', data-theme='b', data-tap-toggle="false")
       div(data-role='navbar',data-theme='b')

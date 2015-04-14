@@ -99,12 +99,19 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 		var fData = new FormData();
 		fData.append("file", files[0]);
 
+		$scope.notificationText = 'Uploading photo';
+    	$('#notifyMsg').popup("open");
+
 		$http.post('/photos/', fData, {
 			withCredentials: true,
 			headers: {'Content-Type': undefined},
 			transformRequest: angular.identity
-		}).success(function(data,status,headers){
+		}).success(function(data, status, headers){
 			$scope.photos = data;
+			showNotification("Photo saved.");
+		}).error(function(data, status, headers){
+			showNotification("Upload failed.");
+			console.log("ERROR: Upload failed: " + data);
 		});
 	}
 
