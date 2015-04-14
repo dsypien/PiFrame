@@ -1,7 +1,7 @@
 var PIFRAME_APP = angular.module("piFrameApp", []);
 $('#notifyMsg').popup();
 
-PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
+var piController = function($scope, $http, $timeout, $filter){
 	$scope.slideNew = {picture_ids: {}};
 	$scope.clickedPhotoId = null;
 
@@ -147,10 +147,33 @@ PIFRAME_APP.controller('piController', function($scope, $http, $timeout){
 			$scope.slideToEdit = newValue;
 		});
 
+	$scope.$watch(
+		"slideToPlay",
+		function(){
+			var thumbnails = [];
+			
+			if(!$scope.slideToPlay){
+				return;
+			}
+
+			for(id in $scope.slideToPlay.picture_ids){
+				var photo = $filter('filter')($scope.photos, function(p){ 
+					return p.id === id;
+				})[0];
+
+   				console.log(photo);
+				thumbnails.push(photo);
+			}
+			$scope.slideToPlay.thumbnails = thumbnails;
+		});
+
 	var init = function(){
 		getPhotos();
 		getSlides();
 	};
 
 	init();
-});
+};
+
+piController.$inject = ['$scope', '$http', '$timeout', '$filter'];
+PIFRAME_APP.controller('piController', piController);
