@@ -218,14 +218,14 @@ module.exports = function(){
 
 				//If you find picture in slide, remove from slide and push slide onto slidesToUpdate array
 				if(curslidePicIds[id]){
-					console.log("Removing pic from slide: " + slides[i].name)
+					console.log("Removing pic " + id + " from slide: " + slides[i].name)
 
 					// Remove id from picture_ids array of current slide
 					delete curslidePicIds[id];
 					slidesToUpdate.push(slides[i]);
 
-					for(j=0; j < curslidePicIds.picture_ids; j++){
-						console.log("PICS LEFT IN THE SLIDE: " + curslidePicIds.picture_ids[j]);
+					for( pic in curslidePicIds){
+						console.log("PICS LEFT IN THE SLIDE " + slides[i].name + " : " + pic );
 					}
 				}
 			}
