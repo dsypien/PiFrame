@@ -1,7 +1,7 @@
 var PIFRAME_APP = angular.module("piFrameApp", []);
 $('#notifyMsg').popup();
 
-var piController = function($scope, $http, $timeout, $filter){
+var piController = function($scope, $http, $timeout){
 	$scope.slideNew = {picture_ids: {}};
 	$scope.clickedPhotoId = null;
 
@@ -40,6 +40,8 @@ var piController = function($scope, $http, $timeout, $filter){
         	showNotification("Photo deleted.");
 
         	$scope.photos = data;
+        	$scope.slideToEdit = null;
+        	$scope.slideToPlay = null;
 			getSlides();	
 		}).error(function(data, status, headers, config){
 			console.log('ERRORS: ' + data);
@@ -71,7 +73,7 @@ var piController = function($scope, $http, $timeout, $filter){
 		if(slide){
 			$http.post('/slideshows/delete', slide).success(function(data, status, headers, config){
 				getSlides();
-				$scope.slideToEdit = 0;
+				$scope.slideToEdit = null;
 				showNotification("Slide deleted.");
 			});
 		}
@@ -157,13 +159,15 @@ var piController = function($scope, $http, $timeout, $filter){
 			}
 
 			for(id in $scope.slideToPlay.picture_ids){
-				var photo = $filter('filter')($scope.photos, function(p){ 
-					return p.id === id;
-				})[0];
-
-   				console.log(photo);
-				thumbnails.push(photo);
+				for(i=0 ;i < $scope.photos.length; i++){
+					if (id == $scope.photos[i].id){
+						console.log($scope.photos[i]);
+						thumbnails.push($scope.photos[i]);
+						continue;
+					}
+				}
 			}
+
 			$scope.slideToPlay.thumbnails = thumbnails;
 		});
 
@@ -175,5 +179,5 @@ var piController = function($scope, $http, $timeout, $filter){
 	init();
 };
 
-piController.$inject = ['$scope', '$http', '$timeout', '$filter'];
+piController.$inject = ['$scope', '$http', '$timeout'];
 PIFRAME_APP.controller('piController', piController);
