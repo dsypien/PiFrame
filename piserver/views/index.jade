@@ -24,6 +24,7 @@ block content
       a(href="/#home", data-transition="slide", data-direction="reverse", data-role="button", data-icon="back", data-iconpos="notext", class="back_btn")
       h1 Photos
 
+
     input(type='file',name='file',id='file', accept="image/*", capture="camera", max-size=999999, onchange="angular.element(this).scope().uploadFile(this.files)")
 
     //- PHOTOLIST
@@ -106,7 +107,8 @@ block content
       h1 Edit Slide
 
     div(data-role="controlgroup", data-theme='b')
-      select(name='slideEditSelect', ng-model="slideToEdit", ng-model-options="{ updateOn: 'default blur'}", ng-options="slide.name for slide in slides") 
+      select(name='slideEditSelect', ng-model="slideToEdit", ng-options="slide.name for slide in slides", ng-init="slideToEdit=0") 
+        option(value="", style="display:none;") Select slide.
 
     div(id="slides_edit_list_container", ng-class="{hidden : !slideToEdit}")
       div(ng-repeat="photo in photos", class="photo_container", ng-click="toggleSelect(photo, slideToEdit)", ng-class="{selected_photo: slideToEdit.picture_ids[photo.id]}")
@@ -130,10 +132,13 @@ block content
       img(ng-src='images/Gears-icon.png',alt="Play",class="icons")
 
     div(data-role="controlgroup", data-theme='b')
-      select(id="selectSlideToPlay", ng-model="slideToPlay", ng-options="slide.name for slide in slides")
+      select(ng-model="slideToPlay", ng-options="slide.name for slide in slides")
+        option(value="", style="display:none;") Select slide.
 
     div(id="play_list_container")
-      img(ng-model="slideToPlay", ng-repeat="photo in slideToPlay.pictures",ng-src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_play_img")
+      div(ng-repeat="photo in slideToPlay.thumbnails", class="photo_container slide")
+        div
+          img(ng-src="/thumbnails/{{photo.thumb_name}}", id="{{photo.id}}", class="photo_container")
 
     div(data-role="controlgroup", data-theme='b')
       a(id="slide-play-btn", class='ui-btn ui-btn-icon-left ui-icon-video input_60P', ng-click='playSlide(slideToPlay)') Play Slide

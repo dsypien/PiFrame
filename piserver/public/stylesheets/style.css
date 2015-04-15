@@ -1,5 +1,7 @@
 body {
   padding: 50px;
+  background-image: url('../images/whitediamond.png');
+  background-repeat: repeat;
 }
 
 body, input, select, textarea, button, .ui-btn{
@@ -44,11 +46,11 @@ header h1{
  }
 
  .ui-controlgroup-controls a:not(:last-child){
- 	border-bottom: 1px solid #222 !important;
+ 	border-bottom: 1px solid #444 !important;
  }
 
  footer.ui-footer.ui-bar-b.ui-footer-fixed.slideup a{
-  border-right: 1px solid #222 !important;
+  border-right: 1px solid #444 !important;
 }
 
  .ui-page-theme-b .ui-btn:active, html .ui-bar-b .ui-btn:active, html .ui-body-b .ui-btn:active, html body .ui-group-theme-b .ui-btn:active, html head+body .ui-btn.ui-btn-b:active {
@@ -70,7 +72,7 @@ header h1{
 
 .ui-controlgroup-controls, 
 input{
-	box-shadow: 0px 3px 4px #888888;	
+	box-shadow: 0px 6px 4px #888888;	
 }
 
 footer{
@@ -104,7 +106,7 @@ select{
 	width:60% !important;
 	max-width: 350px !important;
 	min-width:250px !important;
-	margin: 20px auto !important;
+	margin: 15px auto !important;
 	display:block;
 }
 
@@ -172,11 +174,6 @@ form{
 	margin: 0 auto !important;
 }
 
-.ui-page{
-	background-image: url('../images/whitediamond.png');
-	background-repeat: repeat;
-}
-
 .selected{
 	opacity: .8;
 }
@@ -220,22 +217,14 @@ form{
 #photos_list_container, 
 #photos_list_container_newslide,
 #slides_edit_list_container,
-#slides_delete_list_container{
+#slides_delete_list_container,
+#play_list_container{
 	line-height: 10px;
 	display: block;
 	width: 100%;
 	max-width: 1250px;
 	margin: 0 auto;
 	overflow: hidden;
-}
-
-.photo_container{
-	display: block;
-	width:20%;
-	padding:0px;
-	margin: 0px;
-	float:left;
-	box-shadow: 0px 1px 0px #ddd;
 }
 
 .photo_container div{
@@ -263,20 +252,45 @@ form{
   color: white;
 }
 
+.photo_container{
+	display: block;
+	width:20%;
+	padding:0px;
+	margin: 0px;
+	float:left;
+	box-shadow: 0px 1px 0px #ddd;
+}
+
+.photo_container.slide{
+	width: 12.5%;
+}
+
 @media(max-width: 1000px){
 	.photo_container{
 		width:25%;
+	}
+
+	.photo_container.slide{
+		width: 16.66666666%;
 	}
 }
 
 @media(max-width: 750px){
 	.photo_container{
-		width:33%;
+		width:33.33333%;
+	}
+
+	.photo_container.slide{
+		width: 20%;
 	}
 }
 
 @media(max-width: 500px){
 	.photo_container{
 		width:50%;
+	}
+
+	.photo_container.slide{
+		width:33.333333%;
 	}
 }
