@@ -97,7 +97,7 @@ function getPhotosByPhotoIds(photoIdsObj, aryPhotos){
 		});
 
 		// if photo retrieved, push it onto filteredary
-		if(photo){
+		if(photo && photo[0]){
 			console.log("adding photo to filter [checksum] : " 
 				+ photo[0]);
 
