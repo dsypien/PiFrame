@@ -27,7 +27,6 @@ router.post('/', function(req, res) {
 		photos.remove(req, function(err, docs){
 			if(err){
 				console.log(err);
-				res.send(err);
 			}
 			else{
 				// Remove the pic from any slides that have it
@@ -41,7 +40,8 @@ router.post('/', function(req, res) {
 		photos.add(req, function(err, items){
 			if(err){
 				console.log(err);
-				res.redirect(req.get('referer'));
+				var jsonError = {error: err};
+				res.json(jsonError);
 			}
 			else{
 				photos.get( function(err, data){

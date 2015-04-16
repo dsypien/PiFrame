@@ -24,8 +24,9 @@ block content
       a(href="/#home", data-transition="slide", data-direction="reverse", data-role="button", data-icon="back", data-iconpos="notext", class="back_btn")
       h1 Photos
 
-
-    input(type='file',name='file',id='file', accept="image/*", capture="camera", max-size=999999, onchange="angular.element(this).scope().uploadFile(this.files)")
+    div(class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset input-w-title-container")
+      label Upload photo:
+      input(type='file',name='file',id='file', accept="image/*", capture="camera", max-size=999999, onchange="angular.element(this).scope().uploadFile(this.files)")
 
     //- PHOTOLIST
     div(id="photos_list_container")
@@ -115,7 +116,10 @@ block content
         div
           img(ng-src="/thumbnails/{{photo.thumb_name}}", id="photo_{{photo.id}}" class="photo_edit_img")
 
-    input(ng-model="slideToEdit.name")
+    div(class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset input-w-title-container" ng-class="{hidden : !slideToEdit}")
+      label Edit Name:
+      input(ng-model="slideToEdit.name")
+
     div(data-role="controlgroup", data-theme='b')
       a(id="slide-edit-btn", class='ui-btn ui-btn-icon-left ui-icon-action input_60P', ng-click="saveSlide(slideToEdit)",  ng-class="{hidden : !slideToEdit}") Save
       a(id="slide-delete-btn", class='ui-btn ui-btn-icon-left ui-icon-delete input_60P', ng-click="deleteSlide(slideToEdit)",  ng-class="{hidden : !slideToEdit}") Delete
