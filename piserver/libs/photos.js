@@ -94,7 +94,6 @@ module.exports = function(){
 				            		checksum: checksumName,
 				            		thumb_name: thumb_name
 				            	}], function(err, items){
-				            		console.log("ERROR storing photo in db" + err);
 				            		callback(err, items);
 				            	});
 			            	});
