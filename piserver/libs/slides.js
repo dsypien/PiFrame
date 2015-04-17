@@ -34,17 +34,16 @@ function removeFilesInDir(dirName){
 	}
 }
 
-function removeDir(dir){
+function removeDirSync(dir){
 	var slidepath = path.join(__dirname, '../../slides/', dir);
 
-	fs.rmdir(slidepath, function(remErr){
-		if(remErr){
-			console.log(remErr);
-		}
-		else{
-			console.log("File successfully deleted");
-		}
-	});
+    try{
+    	fs.rmdirSync(slidepath);	
+    }
+    catch(err){
+		console.log("Error deleting directory " + slidepath + " " + err);
+	}
+	
 }
 
 function createSlideDirAmdSymlinks(slide){
@@ -151,28 +150,33 @@ module.exports = function(){
 		}
 	}
 
+
 	function edit(slide, callback){
 		var pictures;
-
-		//remove symlinks
-		removeFilesInDir(slide.name);
 
 		db.Slides.get(slide.id, function(err, item){
 			if(err){
 				callback(err);
 			}
 			else{
-				console.log("Phtos: " + slide.picture_ids);
-				console.log("Slide: " + slide.name);
-
 				photos.photo_cache(function(items){
-					slide.pictures = getPhotosByPhotoIds(slide.picture_ids, items);
-
-					//create new symlinks
-					createSymLinks(slide);
-
-					//update picture association
+					item.pictures = getPhotosByPhotoIds(slide.picture_ids, items);
 					item.picture_ids = slide.picture_ids;
+
+					// if new name entered, update slide name and create directory
+					// otherwise just create the symlinks
+					if(slide.newName){
+						removeFilesInDir(slide.name);	
+						removeDirSync(slide.name);
+						item.name = slide.newName;
+						createSlideDirAmdSymlinks(item);
+					}
+					else{
+						removeFilesInDir(slide.name);	
+						createSymLinks(item);
+					}
+
+					console.log("Slide: " + item.name);
 					item.save(function(err){
 						callback(err);
 					});
@@ -195,7 +199,7 @@ module.exports = function(){
 
 		function deleteSlideCallback(err){
 			removeFilesInDir(req.body.name);
-			removeDir(req.body.name);
+			removeDirSync(req.body.name);
 
 			if(err){
 				callback(err);
