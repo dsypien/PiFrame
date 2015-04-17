@@ -90,8 +90,13 @@
 
 		$scope.saveSlide = function(slide){
 			if(slide){
+				if(slide.newName == ''){
+					slide.newName = null;
+				}
+
 				$http.put('/slideshows/edit', slide).success(function(data, status, headers, config){
 					showNotification("Slide saved.");
+					slide.newName = '';
 				});
 			}
 		};
