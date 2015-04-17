@@ -52,14 +52,14 @@ router.post("/new", function(req, res){
 
 //uSED
 router.put("/edit", function(req,res){
-	slides.edit(req.body, function(err){
+	slides.edit(req.body, function(err, slides){
 		if(err){
 			console.log(err);
 			res.status(500);
 			res.send(err);
 		}
 		else{
-			res.send("OK");
+			res.json(slides);
 		}
 	});
 });

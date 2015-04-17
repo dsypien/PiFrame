@@ -178,7 +178,14 @@ module.exports = function(){
 
 					console.log("Slide: " + item.name);
 					item.save(function(err){
-						callback(err);
+						if(err){
+							callback(err);
+						}
+						else{
+							get(function(getErr, slides){
+								callback(getErr, slides);
+							});
+						}
 					});
 				});
 			}
