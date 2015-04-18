@@ -49,8 +49,8 @@
 	        	showNotification("Photo deleted.");
 
 	        	$scope.photos = data;
-	        	$scope.slideToEdit = null;
-	        	$scope.slideToPlay = null;
+	        	$scope.slideToEdit = 0;
+	        	$scope.slideToPlay = 0;
 				getSlides();	
 			}).error(function(data, status, headers, config){
 				console.log('ERRORS: ' + data);
@@ -89,6 +89,8 @@
 		};
 
 		$scope.saveSlide = function(slide){
+			var thatSlide = slide;
+
 			if(slide){
 				if(slide.newName == ''){
 					slide.newName = null;
@@ -96,7 +98,10 @@
 
 				$http.put('/slideshows/edit', slide).success(function(data, status, headers, config){
 					showNotification("Slide saved.");
+					$scope.slides = data;
 					slide.newName = '';
+
+					$scope.slideToEdit = thatSlide;
 				});
 			}
 		};
@@ -179,7 +184,7 @@
 				}
 
 				for(var id in $scope.slideToPlay.picture_ids){
-					for(i=0 ;i < $scope.photos.length; i++){
+					for(var i=0 ;i < $scope.photos.length; i++){
 						if (id == $scope.photos[i].id){
 							console.log($scope.photos[i]);
 							thumbnails.push($scope.photos[i]);
