@@ -21,10 +21,16 @@
 				});
 		}
 
+		function updateSlidesModel(data){
+			$scope.slides = data;
+
+			//Update selects ;)
+		}
+
 		function getSlides(){
 			$http.get('slideshows/json').
 				success(function(data, status, headers, config){
-					$scope.slides = data;
+					updateSlidesModel(data);
 				});
 		}
 
@@ -49,8 +55,8 @@
 	        	showNotification("Photo deleted.");
 
 	        	$scope.photos = data;
-	        	$scope.slideToEdit = 0;
-	        	$scope.slideToPlay = 0;
+	        	// $scope.slideToEdit = 0;
+	        	// $scope.slideToPlay = 0;
 				getSlides();	
 			}).error(function(data, status, headers, config){
 				console.log('ERRORS: ' + data);
@@ -64,7 +70,7 @@
 			}
 
 			$http.post('/slideshows/new', slide).success(function(data, status, headers, config){
-				$scope.slides = data;
+				updateSlidesModel(data);
 
 				showNotification("Slide created.");
 
@@ -98,7 +104,7 @@
 
 				$http.put('/slideshows/edit', slide).success(function(data, status, headers, config){
 					showNotification("Slide saved.");
-					$scope.slides = data;
+					updateSlidesModel(data);
 					slide.newName = '';
 
 					$scope.slideToEdit = thatSlide;
@@ -174,6 +180,7 @@
 				$scope.slideToEdit = newValue;
 			});
 
+		// Update thumbnails on slideToPlay
 		$scope.$watch(
 			"slideToPlay",
 			function(){

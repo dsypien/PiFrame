@@ -10,3 +10,5 @@ public/build/*
 # Do not ignore these files:
 !.gitkeep
 !.gitignore
+
+div.cfs-thermometer__bar[style] {   width: 99.2% !important;}div.cfs-thermometer__current.is-right[style]{   left: 99.5% !important;   border-right: 1px solid #FF0000;}div.cfs-thermometer__bar {background-color: #FF0000;}
