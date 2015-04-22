@@ -1,12 +1,6 @@
 (function(){
 	'use strict';
 
-	//Dependencies
-	// require('./bower_components/jquery');
-	// require('./bower_components/angular');
-	// require('./bower_components/angular-touch');
-	// require('./bower_components/jquery-mobile-bower');
-
 	var PIFRAME_APP = angular.module("piFrameApp", []);
 	$('#notifyMsg').popup();
 
@@ -22,9 +16,40 @@
 		}
 
 		function updateSlidesModel(data){
+			var slideToEditID,
+				slideToPlayID;
+			
+			// Store id's of selected values
+			if($scope.slideToEdit){
+				slideToEditID = $scope.slideToEdit.id;
+			}
+			if($scope.slideToPlay){
+				slideToPlayID = $scope.slideToPlay.id;
+			}
+			
+			// Update Slide Model
 			$scope.slides = data;
 
-			//Update selects ;)
+			//Update selects
+			updateSlideSelect($scope.slideToEdit, slideToEditID);
+			updateSlideSelect($scope.slideToPlay, slideToPlayID);
+		}
+
+		// Called whenever the $scope.slides object is upddated
+		function updateSlideSelect(targetSlide, slideId){
+			// Make sure the target was selected
+			if(targetSlide && slideId){
+				// find the slide in $scope.slides
+				for(var i = 0; i < $scope.slides.length; i++){
+					if(slideId === $scope.slides[i].id){
+						targetSlide = $scope.slides[i].name;
+						return;
+					}
+				}
+
+				// if not found set to 0
+				targetSlide = 0;
+			}
 		}
 
 		function getSlides(){

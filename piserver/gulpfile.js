@@ -26,8 +26,6 @@ gulp.task('lint', function(){
 gulp.task('compile', function(){
 	var browserify = require('gulp-browserify'),
         concat = require('gulp-concat');
-
-    
 });
 
 gulp.task('compile-dist', function(){

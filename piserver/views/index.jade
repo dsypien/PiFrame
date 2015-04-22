@@ -109,6 +109,7 @@ block content
 
     div(data-role="controlgroup", data-theme='b')
       select(name='slideEditSelect', ng-model="slideToEdit", ng-options="slide.name for slide in slides", ng-init="slideToEdit=0") 
+        option(value="") Choose slide...
 
     div(id="slides_edit_list_container", ng-class="{hidden : !slideToEdit}")
       div(ng-repeat="photo in photos", class="photo_container", ng-click="toggleSelect(photo, slideToEdit)", ng-class="{selected_photo: slideToEdit.picture_ids[photo.id]}")
@@ -133,6 +134,7 @@ block content
 
     div(data-role="controlgroup", data-theme='b')
       select(ng-model="slideToPlay", ng-options="slide.name for slide in slides")
+        option(value="") Choose slide...
 
     div(id="play_list_container")
       div(ng-repeat="photo in slideToPlay.thumbnails", class="photo_container slide")
