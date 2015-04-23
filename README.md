@@ -1,6 +1,6 @@
 PiFrame
 ============
-PiFrame is a picture frame service and webapp for the Raspberry Pi that turns your tv/monitor into a picture frame.  It allows users to upload photos, create slideshows and choose which slideshow to play.
+PiFrame is a picture frame service and webapp for the Raspberry Pi that turns your tv/monitor into a picture frame.  It allows users to upload photos, and then create and play slideshows.
 
 Dependencies
 ------------
