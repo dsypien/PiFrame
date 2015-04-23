@@ -1,6 +1,6 @@
 var exec = require('child_process').exec;
 var path = require('path');
-var script_path = path.join(__dirname, "../../test.sh");
+var script_path = path.join(__dirname, "../../startslides.sh");//path.join(__dirname, "../../test.sh");
 
 module.exports = function(){
 	function play(slide, callback){

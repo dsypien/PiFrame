@@ -9,7 +9,7 @@ db.init(function(err){
 		console.log("Error creating db :" + err);
 	}
 	else{
-		app.set('port', process.env.PORT || 3000);
+		app.set('port', process.env.PORT || 10239);
 
 		server = app.listen(app.get('port'), function() {
 		  debug('Express server listening on port ' + server.address().port);
