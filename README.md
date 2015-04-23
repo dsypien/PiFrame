@@ -1,31 +1,44 @@
 PiFrame
 ============
-PiFrame is a picture frame service and webapp for the Raspberry Pi.  
+PiFrame is a picture frame service and webapp for the Raspberry Pi that turns your tv/monitor into a picture frame.  It allows users to upload photos, create slideshows and choose which slideshow to play.
 
 Dependencies
 ------------
--  npm
--  bower
--  brew
+-  Node.js
+-  Bower
+-  SQLite
+-  ImageMagick
+-  QIV
 
-depends on 
-  imagemagick (brew install imagemagick)
+Raspbian Setup
+--------------
+Install the ARM version of Node
+```bash
+  $ wget http://node-arm.herokuapp.com/node_latest_armhf.deb 
+  $ sudo dpkg -i node_latest_armhf.deb
+```
+
+Install other dependencies
+```bash
+  $ sudo apt-get install sqlite3
+  $ sudo apt-get install imagemagick
+  $ sudo apt-get install qiv
+  $ sudo npm install -g bower
+```
 
 Build 
 -----
 
 ```bash
-  npm update
-  bower update
+  $ npm update
+  $ bower update
 ```
-
-Configure & run
+ 
+Start server
 ---------------
 
 ```bash
-  chmod 777 pics
-  chmod 777 slides
-  chmod 777 piserver/public/thumbnails
+  $ npm start
 ```
 
 License
