@@ -1,4 +1,4 @@
-PiFrame
+![](https://github.com/dsypien/PiFrame/blob/master/piserver/public/images/piframe.ico) PiFrame 
 ============
 PiFrame is a picture frame service and webapp for the Raspberry Pi that turns your tv/monitor into a picture frame.  It allows users to upload photos, and then create and play slideshows.
 
