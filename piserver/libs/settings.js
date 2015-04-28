@@ -1,4 +1,6 @@
 var exec = require('child_process').exec;
+var execFile = require('child_process').execFile;
+var spawn = require('child_process').spawn;
 var path = require('path');
 var script_path = path.join(__dirname, "../../startslides.sh");//path.join(__dirname, "../../test.sh");
 
@@ -14,7 +16,9 @@ module.exports = function(){
 
 		script_w_param = script_path + " " + slide.name;
 
-		exec(script_w_param, function(error, stdout, stderr){
+		var spwan(script_path, slide.name);
+
+		, function(error, stdout, stderr){
 			console.log('stdout: ' + stdout);
 		    console.log('stderr: ' + stderr);
 		    if (error !== null) {
