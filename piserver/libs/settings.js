@@ -16,35 +16,37 @@ module.exports = function(){
 			callback(errMsg);
 		}
 
-		var qiv = spawn('script_path', [slides_path + slide.name]);
+		// var qiv = spawn('script_path', [slides_path + slide.name]);
 
-		qiv.stdout.on('data', function (data) {
-		  console.log('stdout: ' + data);
-		});
-
-		qiv.stderr.on('data', function (data) {
-		  console.log('stderr: ' + data);
-		});
-
-		qiv.on('close', function (code) {
-		  console.log('child process exited with code ' + code);
-		});
-
-		// script_w_param = script_path + " " + slide.name;
-		//
-		// exec(script_w_param, function(error, stdout, stderr){
-		// 	console.log('stdout: ' + stdout);
-		//     console.log('stderr: ' + stderr);
-		//     if (error !== null) {
-		//     	errMsg = 'exec error: ' + error;
-		// 	    console.log(errMsg);
-		// 	    callback(errMsg);
-		// 	    return;
-		//     }
-
-		//     console.log("Playing slide: " + slide.name);
-		// 	callback();
+		// qiv.stdout.on('data', function (data) {
+		//   console.log('stdout: ' + data);
 		// });
+
+		// qiv.stderr.on('data', function (data) {
+		//   console.log('stderr: ' + data);
+		// });
+
+		// qiv.on('close', function (code) {
+		//   console.log('child process exited with code ' + code);
+		// });
+
+		script_w_param = script_path + " " + slides_path + slide.name;
+
+		console.log("Running script: '" script_w_param + "'");
+		
+		exec(script_w_param, function(error, stdout, stderr){
+			console.log('stdout: ' + stdout);
+		    console.log('stderr: ' + stderr);
+		    if (error !== null) {
+		    	errMsg = 'exec error: ' + error;
+			    console.log(errMsg);
+			    callback(errMsg);
+			    return;
+		    }
+
+		    console.log("Playing slide: " + slide.name);
+			callback();
+		});
 	}
 
 	return{
