@@ -30,7 +30,7 @@ module.exports = function(){
 		//   console.log('child process exited with code ' + code);
 		// });
 
-		script_w_param = script_path + " " + slides_path + slide.name;
+		script_w_param = script_path + " '" + slides_path + slide.name + "'";
 
 		console.log("Running script: '"  + script_w_param + "'");
 		
