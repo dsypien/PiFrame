@@ -1,6 +1,9 @@
 piserver/public/thumbnails
 piserver/bower_components
 piserver/node_modules
+piserver/public/css/*
+piserver/public/js/*
+piserver/public/images/*
 pics/*
 slides/*
 *.db
