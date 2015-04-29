@@ -4,6 +4,7 @@ var execFile = require('child_process').execFile;
 var spawn = require('child_process').spawn;
 var path = require('path');
 var script_path = path.join(__dirname, "../../startslides.sh");
+var slides_path = path.join(__dirname, "../../slides/");
 
 module.exports = function(){
 	function play(slide, callback){
@@ -15,7 +16,7 @@ module.exports = function(){
 			callback(errMsg);
 		}
 
-		var qiv = spawn('script_path', [slide.name]);
+		var qiv = spawn('script_path', [slides_path + slide.name]);
 
 		qiv.stdout.on('data', function (data) {
 		  console.log('stdout: ' + data);
