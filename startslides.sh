@@ -8,4 +8,4 @@ killall qiv
 # -s  Start slideshow immediately
 # -t  Scale larger images down to fit
 # -i  Disable statusbar
-(qiv -fsti PiFrame/slides/"$1"/*.jpg) &
+(qiv -fsti "$1"/*.jpg) &
