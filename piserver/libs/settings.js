@@ -32,7 +32,7 @@ module.exports = function(){
 
 		script_w_param = script_path + " " + slides_path + slide.name;
 
-		console.log("Running script: '" script_w_param + "'");
+		console.log("Running script: '"  + script_w_param + "'");
 		
 		exec(script_w_param, function(error, stdout, stderr){
 			console.log('stdout: ' + stdout);
