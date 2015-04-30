@@ -1,3 +1,5 @@
+/* global __dirname */
+
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
 var execFile = require('child_process').execFile;
@@ -15,20 +17,6 @@ module.exports = function(){
 			console.log(errMsg);
 			callback(errMsg);
 		}
-
-		// var qiv = spawn('script_path', [slides_path + slide.name]);
-
-		// qiv.stdout.on('data', function (data) {
-		//   console.log('stdout: ' + data);
-		// });
-
-		// qiv.stderr.on('data', function (data) {
-		//   console.log('stderr: ' + data);
-		// });
-
-		// qiv.on('close', function (code) {
-		//   console.log('child process exited with code ' + code);
-		// });
 
 		script_w_param = script_path + " " + slides_path + slide.name ;
 

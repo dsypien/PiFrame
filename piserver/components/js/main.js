@@ -80,8 +80,6 @@
 	        	showNotification("Photo deleted.");
 
 	        	$scope.photos = data;
-	        	// $scope.slideToEdit = 0;
-	        	// $scope.slideToPlay = 0;
 				getSlides();	
 			}).error(function(data, status, headers, config){
 				console.log('ERRORS: ' + data);
