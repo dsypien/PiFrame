@@ -6,6 +6,7 @@ Dependencies
 ------------
 -  Node.js
 -  Bower
+-  Gulp
 -  SQLite
 -  ImageMagick
 -  QIV
