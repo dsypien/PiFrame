@@ -1,4 +1,4 @@
-![](https://github.com/dsypien/PiFrame/blob/master/piserver/public/images/piframe.ico) PiFrame 
+![](https://github.com/dsypien/PiFrame/blob/master/piserver/components/images/piframe.ico) PiFrame 
 ============
 PiFrame is a picture frame service and webapp for the Raspberry Pi that turns your tv/monitor into a digital picture frame.  It allows users to upload photos, and then create and play slideshows.
 
@@ -12,23 +12,32 @@ Dependencies
 
 Raspbian Setup
 --------------
-Install the ARM version of Node
+Install the ARM version of Node:
 ```bash
   $ wget http://node-arm.herokuapp.com/node_latest_armhf.deb 
   $ sudo dpkg -i node_latest_armhf.deb
 ```
 
-Install other dependencies
+Install other dependencies:
 ```bash
   $ sudo apt-get install sqlite3
   $ sudo apt-get install imagemagick
   $ sudo apt-get install qiv
   $ sudo npm install -g bower
 ```
+Get PiFrame
+-------------
+```bash
+  $ git clone https://github.com/dsypien/PiFrame.git
+```
 
 Build 
 -----
-
+Make sure to change directories so that you are in the PiFrame/piserver directory.  
+```bash
+  $ cd PiFrame/piserver
+```
+Then run:
 ```bash
   $ npm update
   $ bower update
@@ -36,10 +45,12 @@ Build
  
 Start server
 ---------------
+In the PiFrame/piserver directory, run:
 
 ```bash
   $ npm start
 ```
+The server will start and run on port 10239.
 
 License
 --------
