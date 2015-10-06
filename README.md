@@ -25,6 +25,7 @@ Install other dependencies:
   $ sudo apt-get install imagemagick
   $ sudo apt-get install qiv
   $ sudo npm install -g bower
+  $ sudo npm install -g gulp
 ```
 Get PiFrame
 -------------
@@ -40,8 +41,7 @@ Make sure to change directories so that you are in the PiFrame/piserver director
 ```
 Then run:
 ```bash
-  $ npm update
-  $ bower update
+  $ npm update && bower update && gulp
 ```
  
 Start server
