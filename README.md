@@ -53,6 +53,20 @@ In the PiFrame/piserver directory, run:
 ```
 The server will start and run on port 10239.
 
+Extras
+---------------
+Some extra things that are nice to setup :
+
+Assign the .local domain to the raspberry pi. More information on this at : http://www.howtogeek.com/167190/how-and-why-to-assign-the-.local-domain-to-your-raspberry-pi/ . 
+
+The .local domain will allow you to access your raspberry pi by typing in the raspberypi.local or if you updated the hostname in /etc/hosts it would be whateveryourhostnameis.local.
+
+All that is needed for the .local domain to work is to install the avahi daemon :
+
+```bash
+  $ sudo apt-get install avahi-daemon
+```
+
 License
 --------
 
