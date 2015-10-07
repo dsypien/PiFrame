@@ -57,15 +57,27 @@ Extras
 ---------------
 Some extra things that are nice to setup :
 
-Assign the .local domain to the raspberry pi. More information on this at : http://www.howtogeek.com/167190/how-and-why-to-assign-the-.local-domain-to-your-raspberry-pi/ . 
+### Assign the .local domain
 
 The .local domain will allow you to access your raspberry pi by typing in the raspberypi.local or if you updated the hostname in /etc/hosts it would be whateveryourhostnameis.local.
+
+More information [here](http://www.howtogeek.com/167190/how-and-why-to-assign-the-.local-domain-to-your-raspberry-pi/). 
 
 All that is needed for the .local domain to work is to install the avahi daemon :
 
 ```bash
   $ sudo apt-get install avahi-daemon
 ```
+
+### Set up port forwarding
+
+Set up forwarding so that you can access the PiFrame site by typing in the hostname without the port.  To do this we will have to add the following line to the /etc/rc.local file:
+
+```bash
+  iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+```
+
+After this line is added, reboot your pi.
 
 License
 --------
