@@ -74,7 +74,7 @@ All that is needed for the .local domain to work is to install the avahi daemon 
 Set up forwarding so that you can access the PiFrame site by typing in the hostname without the port.  To do this we will have to add the following line to the /etc/rc.local file:
 
 ```bash
-  iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
+  iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 10239
 ```
 
 After this line is added, reboot your pi.
