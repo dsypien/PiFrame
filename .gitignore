@@ -1,4 +1,5 @@
-piserver/public/thumbnails
+piserver/public/thumbnails/*.jpg
+piserver/public/thumbnails/*.png
 piserver/bower_components
 piserver/node_modules
 piserver/public/css/*
