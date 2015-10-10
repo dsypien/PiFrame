@@ -1,11 +1,11 @@
 #!/bin/sh
 
-# Kill all instances of qiv first
-killall qiv
+# Kill all instances of sxiv first
+killall sxiv
 
 # Start the slide with the following options:
 # -f  Fullscren
-# -s  Start slideshow immediately
-# -t  Scale larger images down to fit
-# -i  Disable statusbar
-(qiv -fsti "$1"/) &
+# -S  Slideshow each n minutes
+# -r  Recursively find next image in directory
+# -b  Disable statusbar
+(sxiv -fbr  -S 15 "$1"/) &
