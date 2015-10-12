@@ -140,6 +140,8 @@
 				showNotification("Please select slide.");
 				return;
 			}
+
+			slide.delay = $scope.delay;
 			
 			$http.post('/play', slide).success(function(data, status, headers, config){
 			});
