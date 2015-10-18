@@ -38,6 +38,9 @@ gulp.task('compile', function(){
 
 	gulp.src(['./components/images/*'])
 		.pipe(gulp.dest('./public/images/'));
+
+	gulp.src(['./components/*'])
+		.pipe(gulp.dest('./public/'));
 });
 
 gulp.task('compile-dist', function(){
