@@ -1,14 +1,14 @@
 CACHE MANIFEST
 # 10-13-15
 
-/bower_components/jquery-mobile-bower/css/jquery.mobile-1.4.5.min.css
+/js/main.js
 /css/style.css
+/bower_components/jquery-mobile-bower/css/jquery.mobile-1.4.5.min.css
 http://fonts.googleapis.com/css?family=Josefin+Sans
 /bower_components/jquery/jquery.min.js
 /bower_components/angular/angular.min.js
 /bower_components/angular-touch/angular-touch.min.js
 /bower_components/jquery-mobile-bower/js/jquery.mobile-1.4.5.min.js
-/js/main.js
 http://fonts.gstatic.com/s/josefinsans/v9/xgzbb53t8j-Mo-vYa23n5hampu5_7CjHW5spxoeN3Vs.woff2
 /images/whitediamond.png
 /images/Slideshow-icon.png
