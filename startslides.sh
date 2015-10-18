@@ -8,4 +8,4 @@ killall sxiv
 # -S  Slideshow each n minutes
 # -r  Recursively find next image in directory
 # -b  Disable statusbar
-(sxiv -fbr  -S "$2" "$1"/) &
+(sxiv -fbr  -S "$2" "$1"/ &) 
