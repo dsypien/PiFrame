@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require("path");
-var thumbnail = require('node-thumbnail').thumb;
+//var thumbnail = require('node-thumbnail').thumb;
+var imagemagick = require('node-imagemagick');
 var checksum = require('checksum');
 var db = require('./db');
 
@@ -73,30 +74,31 @@ module.exports = function(){
 						});
 
 		            	//Path where image will be uploaded
-			            var destPath = path.join(__dirname, '../../pics/');
+			            var image_path = path.join(__dirname, '../../pics/' + sum + ".JPG");
 			            var thumb_name = checksumName.replace('.', '_thumb.');
-			            var thumb_path = path.join(__dirname, '../public/thumbnails/');
+			            var thumb_path = path.join(__dirname, '../public/thumbnails/' + sum + '_thumb.JPG');
 
-			            console.log("create thumbnail destPath: " + destPath);
+			            console.log("create thumbnail image_path: " + image_path);
 			            console.log("thumb_path: " + thumb_path);
 
 			            try{
-		            	// Create thumbnail;
-			            	thumbnail({
-			            		source: destPath,
-			            		destination: thumb_path,
-			            		width: 250,
-			            		overwrite: true
-			            	}, function(err){
-			            		console.log("store photo data in db");
-			            		// Save photo data in db
-				            	db.Photos.create([{
-				            		checksum: checksumName,
-				            		thumb_name: thumb_name
-				            	}], function(err, items){
-				            		callback(err, items);
-				            	});
-			            	});
+			            	imagemagick
+			            		.resize({
+			            			srcPath: image_path,
+								  	dstPath: thumb_path,
+								  	width:   250
+								}, function(err, stdout, stderr){
+								  	if (err) throw err;
+									
+									// Store photo data in db
+									db.Photos.create([{
+					            		checksum: checksumName,
+					            		thumb_name: thumb_name
+					            	}], function(err, items){
+					            		callback(err, items);
+					            	});  	
+								});
+
 			            }catch(er){
 			            	console.log("Error creating thumbnail: " + er);
 			            }
