@@ -9,9 +9,12 @@
 		$scope.clickedPhotoId = null;
 
 		function getPhotos(){
-			$http.get('photos/json').
-				success(function(data, status, headers, config){
+			$http.get('photos/json')
+				.success(function(data, status, headers, config){
 					$scope.photos = data;
+				})
+				.error(function(data,status,headers,config){
+					console.log(data);
 				});
 		}
 
