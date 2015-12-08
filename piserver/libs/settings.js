@@ -23,7 +23,7 @@ module.exports = function(){
 			slide.delay = 20;
 		}
 
-		script_w_param = script_path + " " + slides_path + slide.name + " " + slide.delay;
+		script_w_param = "\"" + script_path + " " + slides_path + slide.name + "\" " + slide.delay;
 
 		console.log("Running script: '"  + script_w_param + "'");
 		
