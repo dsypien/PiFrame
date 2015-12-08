@@ -9,9 +9,8 @@ var photos;
 
 module.exports = function(){
 
-	function addPhoto(req, callback){
-		var fstream;
-
+	function add(req, callback){
+		var fstream
 		req.pipe(req.busboy);
 
         req.busboy.on('file', function (fieldname, file, filename) {
@@ -96,6 +95,7 @@ module.exports = function(){
 					            		thumb_name: thumb_name
 					            	}], function(err, items){
 					            		callback(err, items);
+					            		console.log("file " + image_path + " finished uploading");
 					            	});  	
 								});
 
@@ -106,16 +106,23 @@ module.exports = function(){
             	});
             });
         });
+
+		// busboy.on('finish', function() {
+	 //      get(function(err, items){
+	 //      	console.log("Files finished uploading");
+	 //      	callback(err, items);
+	 //      });
+  //   	});
 	}
 
-	function getPhotos(callback){
+	function get(callback){
 		db.Photos.find(function(err, items){
 			photos = items;
 			callback(err, items);
 		});
 	}
 
-	function deletePhoto(req, callback){
+	function remove(req, callback){
 		console.log("Deleteing pic with id " + req.body.id);
 		
 		db.Photos.get(req.body.id, function(err, targetPhoto){
@@ -141,7 +148,7 @@ module.exports = function(){
 						}
 						else{
 							console.log("succesfully deleted thumb" +  targetPhoto.thumb_name );
-							getPhotos(function(err, data){
+							get(function(err, data){
 								callback(null, data);
 							});
 						}
@@ -153,7 +160,7 @@ module.exports = function(){
 
 	function photo_cache(callback){
 		if(!photos){
-			photos = getPhotos( function(){
+			photos = get( function(){
 				callback(photos);
 			});
 		}
@@ -164,9 +171,9 @@ module.exports = function(){
 
 	//Interface
 	return{
-		add: addPhoto,
-		get: getPhotos,
-		remove: deletePhoto,
+		add: add,
+		get: get,
+		remove: remove,
 		photo_cache : photo_cache
 	};
 };
