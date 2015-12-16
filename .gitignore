@@ -1,5 +1,6 @@
 piserver/bower_components
 piserver/node_modules
+piserver/public/*.JPG
 piserver/public/css/*
 piserver/public/js/*
 piserver/public/images/*

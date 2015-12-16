@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require("path");
-var thumbnail = require('node-thumbnail').thumb;
+//var thumbnail = require('node-thumbnail').thumb;
+var imagemagick = require('node-imagemagick');
 var checksum = require('checksum');
 var db = require('./db');
 
@@ -8,9 +9,8 @@ var photos;
 
 module.exports = function(){
 
-	function addPhoto(req, callback){
-		var fstream;
-
+	function add(req, callback){
+		var fstream
 		req.pipe(req.busboy);
 
         req.busboy.on('file', function (fieldname, file, filename) {
@@ -73,30 +73,32 @@ module.exports = function(){
 						});
 
 		            	//Path where image will be uploaded
-			            var destPath = path.join(__dirname, '../../pics/');
+			            var image_path = path.join(__dirname, '../../pics/' + sum + ".JPG");
 			            var thumb_name = checksumName.replace('.', '_thumb.');
-			            var thumb_path = path.join(__dirname, '../public/thumbnails/');
+			            var thumb_path = path.join(__dirname, '../public/thumbnails/' + sum + '_thumb.JPG');
 
-			            console.log("create thumbnail destPath: " + destPath);
+			            console.log("create thumbnail image_path: " + image_path);
 			            console.log("thumb_path: " + thumb_path);
 
 			            try{
-		            	// Create thumbnail;
-			            	thumbnail({
-			            		source: destPath,
-			            		destination: thumb_path,
-			            		width: 250,
-			            		overwrite: true
-			            	}, function(err){
-			            		console.log("store photo data in db");
-			            		// Save photo data in db
-				            	db.Photos.create([{
-				            		checksum: checksumName,
-				            		thumb_name: thumb_name
-				            	}], function(err, items){
-				            		callback(err, items);
-				            	});
-			            	});
+			            	imagemagick
+			            		.resize({
+			            			srcPath: image_path,
+								  	dstPath: thumb_path,
+								  	width:   250
+								}, function(err, stdout, stderr){
+								  	if (err) throw err;
+									
+									// Store photo data in db
+									db.Photos.create([{
+					            		checksum: checksumName,
+					            		thumb_name: thumb_name
+					            	}], function(err, items){
+					            		callback(err, items);
+					            		console.log("file " + image_path + " finished uploading");
+					            	});  	
+								});
+
 			            }catch(er){
 			            	console.log("Error creating thumbnail: " + er);
 			            }
@@ -104,16 +106,23 @@ module.exports = function(){
             	});
             });
         });
+
+		// busboy.on('finish', function() {
+	 //      get(function(err, items){
+	 //      	console.log("Files finished uploading");
+	 //      	callback(err, items);
+	 //      });
+  //   	});
 	}
 
-	function getPhotos(callback){
+	function get(callback){
 		db.Photos.find(function(err, items){
 			photos = items;
 			callback(err, items);
 		});
 	}
 
-	function deletePhoto(req, callback){
+	function remove(req, callback){
 		console.log("Deleteing pic with id " + req.body.id);
 		
 		db.Photos.get(req.body.id, function(err, targetPhoto){
@@ -139,7 +148,7 @@ module.exports = function(){
 						}
 						else{
 							console.log("succesfully deleted thumb" +  targetPhoto.thumb_name );
-							getPhotos(function(err, data){
+							get(function(err, data){
 								callback(null, data);
 							});
 						}
@@ -151,7 +160,7 @@ module.exports = function(){
 
 	function photo_cache(callback){
 		if(!photos){
-			photos = getPhotos( function(){
+			photos = get( function(){
 				callback(photos);
 			});
 		}
@@ -162,9 +171,9 @@ module.exports = function(){
 
 	//Interface
 	return{
-		add: addPhoto,
-		get: getPhotos,
-		remove: deletePhoto,
+		add: add,
+		get: get,
+		remove: remove,
 		photo_cache : photo_cache
 	};
 };
