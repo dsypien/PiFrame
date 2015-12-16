@@ -23,7 +23,7 @@ module.exports = function(){
 			slide.delay = "20";
 		}
 
-		slide.name = slide.name.replace(/\s/g, '\ ');
+		slide.name = slide.name.replace(/\s/g, '\\ ');
 
 		script_w_param = script_path + " " + slides_path + slide.name + " " + slide.delay;
 
