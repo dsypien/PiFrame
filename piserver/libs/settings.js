@@ -20,12 +20,14 @@ module.exports = function(){
 
 		//Default slide delay to 20 if one is not entered
 		if(!slide.delay){
-			slide.delay = 20;
+			slide.delay = "20";
 		}
 
-		script_w_param = "\"" + script_path + " " + slides_path + slide.name + "\" " + slide.delay;
+		slide.name = slide.name.replace(/\s/g, '\ ');
 
-		console.log("Running script: '"  + script_w_param + "'");
+		script_w_param = script_path + " " + slides_path + slide.name + " " + slide.delay;
+
+		console.log("Running script: "  + script_w_param );
 		
 		exec(script_w_param, function(error, stdout, stderr){
 			console.log('stdout: ' + stdout);
