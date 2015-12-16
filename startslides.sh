@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# Kill all instances of sxiv first
-#killall sxiv
+# Kill all instances of sxiv first 
+killall sxiv || true
 
 # Start the slide with the following options:
 # -f  Fullscren
