@@ -70,49 +70,43 @@ module.exports = function(){
 							if(err){
 								console.log(err);
 							}
-						});
+							else{
+								//Path where image will be uploaded
+					            var image_path = path.join(__dirname, '../../pics/' + sum + ".JPG");
+					            var thumb_name = checksumName.replace('.', '_thumb.');
+					            var thumb_path = path.join(__dirname, '../public/thumbnails/' + sum + '_thumb.JPG');
 
-		            	//Path where image will be uploaded
-			            var image_path = path.join(__dirname, '../../pics/' + sum + ".JPG");
-			            var thumb_name = checksumName.replace('.', '_thumb.');
-			            var thumb_path = path.join(__dirname, '../public/thumbnails/' + sum + '_thumb.JPG');
+					            console.log("create thumbnail image_path: " + image_path);
+					            console.log("thumb_path: " + thumb_path);
 
-			            console.log("create thumbnail image_path: " + image_path);
-			            console.log("thumb_path: " + thumb_path);
+					            try{
+					            	imagemagick
+					            		.resize({
+					            			srcPath: image_path,
+										  	dstPath: thumb_path,
+										  	width:   250
+										}, function(err, stdout, stderr){
+										  	if (err) throw err;
+											
+											// Store photo data in db
+											db.Photos.create([{
+							            		checksum: checksumName,
+							            		thumb_name: thumb_name
+							            	}], function(err, items){
+							            		callback(err, items);
+							            		console.log("file " + image_path + " finished uploading");
+							            	});  	
+										});
 
-			            try{
-			            	imagemagick
-			            		.resize({
-			            			srcPath: image_path,
-								  	dstPath: thumb_path,
-								  	width:   250
-								}, function(err, stdout, stderr){
-								  	if (err) throw err;
-									
-									// Store photo data in db
-									db.Photos.create([{
-					            		checksum: checksumName,
-					            		thumb_name: thumb_name
-					            	}], function(err, items){
-					            		callback(err, items);
-					            		console.log("file " + image_path + " finished uploading");
-					            	});  	
-								});
-
-			            }catch(er){
-			            	console.log("Error creating thumbnail: " + er);
-			            }
+					            }catch(er){
+					            	console.log("Error creating thumbnail: " + er);
+					            }
+							}
+						});		            	
             		}
             	});
             });
         });
-
-		// busboy.on('finish', function() {
-	 //      get(function(err, items){
-	 //      	console.log("Files finished uploading");
-	 //      	callback(err, items);
-	 //      });
-  //   	});
 	}
 
 	function get(callback){
