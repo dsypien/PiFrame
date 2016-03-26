@@ -32,12 +32,12 @@ module.exports = function(){
 
 			// On upload complete
 			fstream.on('close', function () {  
-				onUploadComplete(destFile, callback)
+				onUploadComplete(destFile, callback, filename)
 			});
 		});
 	}
 
-	function onUploadComplete(destFile, callback){
+	function onUploadComplete(destFile, callback, filename){
 		//Create a checksum of the file
 		var checksumName, checkSumDestFile;
 
