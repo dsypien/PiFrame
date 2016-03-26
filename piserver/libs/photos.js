@@ -1,6 +1,5 @@
 var fs = require('fs');
 var path = require("path");
-//var thumbnail = require('node-thumbnail').thumb;
 var imagemagick = require('node-imagemagick');
 var checksum = require('checksum');
 var db = require('./db');
@@ -13,100 +12,111 @@ module.exports = function(){
 		var fstream
 		req.pipe(req.busboy);
 
-        req.busboy.on('file', function (fieldname, file, filename) {
-        	if(filename === undefined || filename === ''){
-        		callback("Trying to upload empty file");
-        		return;
-        	}
+		req.busboy.on('file', function (fieldname, file, filename) {
+			if(filename === undefined || filename === ''){
+				callback("Trying to upload empty file");
+				return;
+			}
 
-        	//Upload File
-        	var destFile = path.join(__dirname, '../../pics/', filename);
-            fstream = fs.createWriteStream(destFile);
-            
-            fstream.on('error', function(e){
-            	if(e){
-            		console.log(e);
-            	}
-            });
+			//Upload File
+			var destFile = path.join(__dirname, '../../pics/', filename);
+			fstream = fs.createWriteStream(destFile);
 
-            file.pipe(fstream);
-            
+			fstream.on('error', function(e){
+				if(e){
+					console.log(e);
+				}
+			});
 
-            // On upload complete
-            fstream.on('close', function () {  
-            	//Create a checksum of the file
-            	var checksumName, checkSumDestFile;
+			file.pipe(fstream);
 
-            	checksum.file(destFile, function(err, sum){
-            		if(err){
-            			console.log(err);
-            			res.json({message: err});
-            		}
-            		else{
-            			checksumName = sum + path.extname(filename);
-            			checkSumDestFile = path.join(__dirname, '../../pics/', checksumName) ;
+			// On upload complete
+			fstream.on('close', function () {  
+				onUploadComplete(destFile, callback)
+			});
+		});
+	}
 
-            			console.log("checksum: " + sum);
+	function onUploadComplete(destFile, callback){
+		//Create a checksum of the file
+		var checksumName, checkSumDestFile;
 
-            			console.log("Checking for duplicates;");
-            			//Ensure there are no duplicates
-            			if(fs.existsSync(checkSumDestFile)){
-		        			console.log("This file aleady exists on the server");
+		checksum.file(destFile, function(err, sum){
+			if(err){
+				console.log(err);
+				res.json({message: err});
+			}
+			else{
+				checksumName = sum + path.extname(filename);
+				checkSumDestFile = path.join(__dirname, '../../pics/', checksumName) ;
 
-		        			//remove the file that was just uploaded
-		        			fs.unlink(destFile, function(err){
-		        				if(err){
-		        					console.log("ERROR deleting duplicate uploaded file: " + err);
-		        				}
-		        			});
-		        			callback("File already exists on server");
-		        			return;
-		        		}
+				console.log("checksum: " + sum);
+				console.log("Checking for duplicates;");
 
+				//Ensure there are no duplicates
+				if(fs.existsSync(checkSumDestFile)){
+					console.log("This file aleady exists on the server");
 
-		        		console.log("Renaming file to have checksum name");
-						//Rename file to checksum name
-						fs.rename(destFile, checkSumDestFile, function(err){
-							if(err){
-								console.log(err);
-							}
-							else{
-								//Path where image will be uploaded
-					            var image_path = path.join(__dirname, '../../pics/' + sum + ".JPG");
-					            var thumb_name = checksumName.replace('.', '_thumb.');
-					            var thumb_path = path.join(__dirname, '../public/thumbnails/' + sum + '_thumb.JPG');
+					//remove the file that was just uploaded
+					fs.unlink(destFile, function(err){
+						if(err){
+							console.log("ERROR deleting duplicate uploaded file: " + err);
+						}
+					});
 
-					            console.log("create thumbnail image_path: " + image_path);
-					            console.log("thumb_path: " + thumb_path);
+					callback("File already exists on server");
+					return;
+				}
 
-					            try{
-					            	imagemagick
-					            		.resize({
-					            			srcPath: image_path,
-										  	dstPath: thumb_path,
-										  	width:   250
-										}, function(err, stdout, stderr){
-										  	if (err) throw err;
-											
-											// Store photo data in db
-											db.Photos.create([{
-							            		checksum: checksumName,
-							            		thumb_name: thumb_name
-							            	}], function(err, items){
-							            		callback(err, items);
-							            		console.log("file " + image_path + " finished uploading");
-							            	});  	
-										});
+				console.log("Renaming name of the file to the checksum");
 
-					            }catch(er){
-					            	console.log("Error creating thumbnail: " + er);
-					            }
-							}
-						});		            	
-            		}
-            	});
-            });
-        });
+				fs.rename(destFile, checkSumDestFile, function(err){
+					onUploadedFileRename(err, checksumName, sum, callback);
+				});
+			}
+		});
+	}
+
+	function onUploadedFileRename(err, checksumName, sum, callback){
+		if(err){
+			console.log(err);
+		}
+		else{
+			//Path where image will be uploaded
+			var image_path = path.join(__dirname, '../../pics/' + sum + ".JPG");
+			var thumb_name = checksumName.replace('.', '_thumb.');
+			var thumb_path = path.join(__dirname, '../public/thumbnails/' + sum + '_thumb.JPG');
+
+			console.log("create thumbnail image_path: " + image_path);
+			console.log("thumb_path: " + thumb_path);
+
+			createThumbnail(srcPath, dstPath, checksumName, thumb_name, callback)
+		}
+	}
+
+	function createThumbnail(srcPath, dstPath, checksumName, thumb_name, callback){
+		try{
+			imagemagick
+				.resize({
+					srcPath: srcPath,
+					dstPath: dstPath,
+					width:   250
+				}, function(err, stdout, stderr){
+					if (err) throw err;
+					
+					// Store photo data in db
+					db.Photos.create([{
+						checksum: checksumName,
+						thumb_name: thumb_name
+					}], function(err, items){
+						callback(err, items);
+						console.log("file " + srcPath + " finished uploading");
+					});
+				});
+		}
+		catch(er){
+			console.log("Error creating thumbnail: " + er);
+		}
 	}
 
 	function get(callback){
@@ -117,7 +127,7 @@ module.exports = function(){
 	}
 
 	function remove(req, callback){
-		console.log("Deleteing pic with id " + req.body.id);
+		console.log("Deleting pic with id " + req.body.id);
 		
 		db.Photos.get(req.body.id, function(err, targetPhoto){
 			if(err){
@@ -148,7 +158,7 @@ module.exports = function(){
 						}
 					});
 				});
-			}			
+			}
 		});
 	}
 
@@ -163,7 +173,6 @@ module.exports = function(){
 		}
 	}
 
-	//Interface
 	return{
 		add: add,
 		get: get,
