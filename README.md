@@ -13,7 +13,13 @@ Dependencies
 
 Raspbian Setup
 --------------
-Install the ARM version of Node:
+Check If Node is installed
+```bash
+  node -v
+```
+If a version is displayed on the console, node is already installed.  If it isn't you need to install node.
+
+To install the ARM version of Node:
 ```bash
   $ wget http://node-arm.herokuapp.com/node_latest_armhf.deb 
   $ sudo dpkg -i node_latest_armhf.deb
